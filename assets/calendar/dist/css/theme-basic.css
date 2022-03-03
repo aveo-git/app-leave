@@ -129,9 +129,9 @@
   transition: opacity 0.3s ease-out;
   will-change: opacity;
 }
-.color-calendar .calendar__days .calendar__day-event {
-  /* Event Bullet */
-}
+/* .color-calendar .calendar__days .calendar__day-event {
+  /* Event Bullet *
+} */
 .color-calendar .calendar__days .calendar__day-event .calendar__day-bullet {
   position: absolute;
   top: 80%;
