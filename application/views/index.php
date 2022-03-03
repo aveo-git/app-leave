@@ -39,10 +39,15 @@
                 </div>
                 <div class="col-lg-4">
                     <div class="segment">
-                        <h1>Lorem ipsum dolor sit amet consectetur adipisicing elit. Esse facere libero fugit ad sapiente aliquid hic numquam vel molestiae</h1>
+                        <div id="color-calendar"></div>
                     </div>
                     <div class="segment">
-                        <h2>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Et tempora repellendus qui</h2>
+                        <h6 class="py-2">Jours fériés de l'année :</h6>
+                        <ul>
+                            <li>01 Janvier : Jour de l'an</li>
+                            <li>10 Juin : Jour férié 1</li>
+                            <li>11 Juin : Jour férié 2</li>
+                        </ul>
                     </div>
                 </div>
             </div>
@@ -50,5 +55,11 @@
         <?php else: ?>
             <?= isset($content) ? $content : '' ?>
         <?php endif ?>
+        <script>
+            new Calendar({
+                id: '#color-calendar',
+                customWeekdayValues: ["Lun", "Mar", "Mer", "Jeu", "Ven", "Sam", "Dim"]
+            })
+        </script>
 </body>
 </html>
