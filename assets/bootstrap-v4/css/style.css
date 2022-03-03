@@ -28,3 +28,11 @@ ion-icon.disabled {
   border-radius: 5px;
   font-size: 20px;
 }
+.leaves .year ion-icon {
+  font-size: 20px;
+  color: #9eb6be;
+  position: relative;
+  top: 3px;
+  margin: 0 10px;
+  cursor: pointer;
+}
