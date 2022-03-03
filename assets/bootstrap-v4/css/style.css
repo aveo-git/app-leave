@@ -8,3 +8,23 @@
 ion-icon.disabled {
   pointer-events: none;
 }
+.lv-login {
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.segment.login {
+  width: 400px;
+}
+.lv-droits div {
+  margin-right: 20px;
+}
+.lv-droits div .totals {
+  background-color: #f7f7f7;
+  width: 100px;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 20px;
+}
