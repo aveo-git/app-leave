@@ -26,6 +26,7 @@ class Main extends MX_Controller {
         $html['script'] = $this->load->view('elements/header_script', NULL, TRUE);
         $html['title'] = $title; // Titre de la page
         $html['isNeedNav'] = $isNeedNav; // Pour le nav : true or false
+        $html['model'] = 'home';
         
         if (!is_null($content) && $content != '') {
             $html['content'] = $content;

@@ -36,3 +36,37 @@ ion-icon.disabled {
   margin: 0 10px;
   cursor: pointer;
 }
+.leaves ion-icon {
+  font-size: 20px;
+  color: #9eb6be;
+  cursor: pointer;
+}
+.leaves ion-icon[name="checkmark-circle"] {
+  color: #71cf87;
+}
+#accordion .mounth {
+  color: #ee5644;
+  font-weight: 700;
+  text-transform: uppercase;
+  border-right: 1px solid #d1d1d1;
+  padding: 0 20px;
+  width: 140px;
+  display: inline-block;
+}
+#accordion .value {
+  color: #ee5644;
+  font-weight: 700;
+  text-transform: uppercase;
+  padding: 0 20px;
+  width: 140px;
+  display: inline-block;
+}
+#accordion .indication {
+  padding: 0 20px;
+}
+#accordion ul > li {
+  margin-bottom: 10px;
+}
+img.profil {
+  width: 100px;
+}

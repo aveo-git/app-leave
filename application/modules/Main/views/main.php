@@ -1,7 +1,7 @@
 <div class="segment">
    <br>
    <h6 class="py-2">Veuillez remplir les formulaires ci-dessous :</h6>
-   <form action="">
+   <form id="form-addleave">
       <div class="row">
          <div class="col">
             <div class="form-group">
@@ -116,7 +116,7 @@
                   <div>
                      <select class="form-control" id="lv-dateFin-option" name="l_dateFin-option" aria-describedby="lv-dateFin-option" style="width: 150px" required="required">
                         <option data-value="0">Matin</option>
-                        <option data-value="1">Après midi</option>
+                        <option data-value="1" selected>Après midi</option>
                      </select>
                   </div>
                </div>
@@ -155,3 +155,21 @@
    </form>
    <br>
 </div>
+
+<script>
+   let insert_all_data = () => {
+      $('#lv-nom').val('RASOLONIRINA');
+      $('#lv-prenom').val('Dimby');
+      $('#lv-reference').val('001-AVEO-2019');
+      $('#lv-service').val('Dev Web et Graphiste');
+      $('#lv-responsable').val('Patrick Hervier');
+      $('#lv-conge').prop('checked', true);
+   }
+   insert_all_data();
+
+   $('#form-addleave').on('submit', function(e) {
+      e.preventDefault();
+      let data = $(this).serializeArray();
+      console.log(data);
+   })
+</script>

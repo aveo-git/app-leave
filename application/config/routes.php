@@ -7,7 +7,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 */
 
 // $route['default_controller'] = 'Security/authenticate';
-$route['default_controller'] = 'List/leaves';
-// $route['default_controller'] = 'main';
+// $route['default_controller'] = 'List/leaves';
+$route['default_controller'] = 'main';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;

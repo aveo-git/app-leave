@@ -20,6 +20,10 @@
     border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
 
+.btn-link {
+  padding: 0.2rem 0.5em;
+}
+
 .btn-primary {
   color: #fff;
   background-color: #ee5644;
@@ -161,6 +165,7 @@ label {
   margin: 0px 0px 20px 0px;
 }
 .segment .item {
+  padding-top: 10px;
   width: 75px;
   height: 60px;
   display: flex;

@@ -10,24 +10,51 @@
 </head>
 <body>
     <?php if($isNeedNav): ?>
+        <?php
+            $active_h = "";
+            $active_l = "";
+            if(isset($model) != NULL) {
+                switch ($model) {
+                    case 'home':
+                        $active_h = "active";
+                        break;
+                    case 'leaves':
+                        $active_l = "active";
+                        break;
+                    
+                    default:
+                        # code...
+                        break;
+                }
+            }
+        ?>
+
         <div style="margin: 2rem">
             <div class="row justify-content-center w-75 m-auto">
                 <div class="col">
                     <div class="segment" style="display: flex; justify-content: space-between; padding: 0px 40px">
                         <div style="display: flex">
-                            <div class="item active">
-                            <ion-icon name="home-sharp"></ion-icon>
+                            <div class="item <?= $active_h ?>">
+                                <a href="<?= site_url('/main') ?>">
+                                    <ion-icon name="home-sharp"></ion-icon>
+                                </a>
                             </div>
-                            <div class="item">
-                            <ion-icon name="newspaper"></ion-icon>
+                            <div class="item <?= $active_l ?>">
+                                <a href="<?= site_url('/leaves') ?>">
+                                    <ion-icon name="newspaper"></ion-icon>
+                                </a>
                             </div>
                         </div>
                         <div style="display: flex">
                             <div class="item">
-                            <ion-icon name="information-circle"></ion-icon>
+                                <a href="<?= site_url('/profil') ?>">
+                                    <ion-icon name="information-circle"></ion-icon>
+                                </a>
                             </div>
                             <div class="item">
-                            <ion-icon name="person-circle"></ion-icon>
+                                <a href="<?= site_url('/profil') ?>">
+                                    <ion-icon name="person-circle"></ion-icon>
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -44,9 +71,9 @@
                     <div class="segment">
                         <h6 class="py-2">Jours fériés de l'année :</h6>
                         <ul>
-                            <li>01 Janvier : Jour de l'an</li>
-                            <li>10 Juin : Jour férié 1</li>
-                            <li>11 Juin : Jour férié 2</li>
+                            <li>Mardi 01 Janvier : Jour de l'an</li>
+                            <li>Lundi 10 Juin : Jour férié 1</li>
+                            <li>Mardi 26 Juin : Fête de l'independance</li>
                         </ul>
                     </div>
                 </div>

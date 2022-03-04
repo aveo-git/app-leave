@@ -2,15 +2,15 @@
 
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Leaves extends MX_Controller {
+class Profil extends MX_Controller {
 
     function __construct() {
         parent::__construct();
     }
 
     public function index() {
-        $title = "Liste de congés";
-        $content = $this->load->view('list', array(), TRUE);
+        $title = "Profil";
+        $content = $this->load->view('profil', array(), TRUE);
         $this->display($content, TRUE, $title);
     }
     
@@ -26,14 +26,6 @@ class Leaves extends MX_Controller {
             $html['content'] = $content;
         }
         $this->load->view('index', $html);
-    }
-
-    private function get_entire_date($date) {
-        $mois = array("", "Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre");
-        $d = explode("-", explode("T", $date)[0]);
-        $heure = explode("T", $date)[1];
-        $date_arrived = $d[2]." ".$mois[intval($d[1])]." ".$d[0];
-        return $date_arrived." à ".$heure;
     }
 
 }
