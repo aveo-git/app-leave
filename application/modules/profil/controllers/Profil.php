@@ -6,6 +6,7 @@ class Profil extends MX_Controller {
 
     function __construct() {
         parent::__construct();
+        $this->load->module('security/authenticate');
     }
 
     public function index() {
@@ -26,6 +27,14 @@ class Profil extends MX_Controller {
             $html['content'] = $content;
         }
         $this->load->view('index', $html);
+    }
+
+    public function _remap($method) {
+        if ($this->authenticate->is_authenticate()) {
+            $this->$method();
+        } else {
+            $this->authenticate->login();
+        }
     }
 
 }

@@ -42,4 +42,12 @@ class Main extends MX_Controller {
         return $date_arrived." à ".$heure;
     }
 
+    public function _remap($method) {
+        if ($this->authenticate->is_authenticate()) {
+            $this->$method();
+        } else {
+            $this->authenticate->login();
+        }
+    }
+
 }

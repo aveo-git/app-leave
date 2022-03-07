@@ -3,6 +3,8 @@
    <h6 class="py-2">Veuillez remplir les formulaires ci-dessous :</h6>
    <form id="form-addleave">
       <div class="row">
+         <input type="hidden" value="1" name="id_user">
+         <input type="hidden" value="24" name="u_dispo">
          <div class="col">
             <div class="form-group">
                <label class="" for="lv-nom">Nom</label>
@@ -48,41 +50,41 @@
             <div class="row m-0">
                <div class="col">
                   <div class="form-check">
-                     <input type="radio" class="form-check-input" name="lv-type" id="lv-maladie">
+                     <input type="radio" class="form-check-input" value="Maladie" name="l_type" id="lv-maladie">
                      <label class="form-check-label" for="lv-maladie">Maladie</label>
                   </div>
                   <div class="form-check">
-                     <input type="radio" class="form-check-input" name="lv-type" id="lv-militaire">
+                     <input type="radio" class="form-check-input" value="Obligations militaires" name="l_type" id="lv-militaire">
                      <label class="form-check-label" for="lv-militaire">Obligations militaires</label>
                   </div>
                </div>
                <div class="col">
                   <div class="form-check">
-                     <input type="radio" class="form-check-input" name="lv-type" id="lv-conge">
+                     <input type="radio" class="form-check-input" value="Congé" name="l_type" id="lv-conge">
                      <label class="form-check-label" for="lv-conge">Congé</label>
                   </div>
                   <div class="form-check">
-                     <input type="radio" class="form-check-input" name="lv-type" id="lv-judiciaire">
+                     <input type="radio" class="form-check-input" value="Activités judiciaires" name="l_type" id="lv-judiciaire">
                      <label class="form-check-label" for="lv-judiciaire">Activités judiciaires</label>
                   </div>
                </div>
                <div class="col">
                   <div class="form-check">
-                     <input type="radio" class="form-check-input" name="lv-type" id="lv-deces">
+                     <input type="radio" class="form-check-input" value="Décès" name="l_type" id="lv-deces">
                      <label class="form-check-label" for="lv-deces">Décès</label>
                   </div>
                   <div class="form-check">
-                     <input type="radio" class="form-check-input" name="lv-type" id="lv-parental">
+                     <input type="radio" class="form-check-input" value="Congé parental" name="l_type" id="lv-parental">
                      <label class="form-check-label" for="lv-parental">Congé parental</label>
                   </div>
                </div>
                <div class="col">
                   <div class="form-check">
-                     <input type="radio" class="form-check-input" name="lv-type" id="lv-sanssolde">
+                     <input type="radio" class="form-check-input" value="Congé sans solde" name="l_type" id="lv-sanssolde">
                      <label class="form-check-label" for="lv-sanssolde">Congé sans solde</label>
                   </div>
                   <div class="form-check">
-                     <input type="radio" class="form-check-input" name="lv-type" id="lv-autre">
+                     <input type="radio" class="form-check-input" value="Autre" name="l_type" id="lv-autre">
                      <label class="form-check-label" for="lv-autre">Autre</label>
                   </div>
                </div>
@@ -99,8 +101,8 @@
                   </div>
                   <div>
                      <select class="form-control" id="lv-dateDepart-option" name="l_dateDepart-option" aria-describedby="lv-dateDepart-option" style="width: 150px" required="required">
-                        <option data-value="0">Matin</option>
-                        <option data-value="1">Après midi</option>
+                        <option value="0">Matin</option>
+                        <option value="1">Après midi</option>
                      </select>
                   </div>
                </div>
@@ -115,8 +117,8 @@
                   </div>
                   <div>
                      <select class="form-control" id="lv-dateFin-option" name="l_dateFin-option" aria-describedby="lv-dateFin-option" style="width: 150px" required="required">
-                        <option data-value="0">Matin</option>
-                        <option data-value="1" selected>Après midi</option>
+                        <option value="0">Matin</option>
+                        <option value="1" selected>Après midi</option>
                      </select>
                   </div>
                </div>

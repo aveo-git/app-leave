@@ -48,13 +48,13 @@
                         <div style="display: flex">
                             <div class="item">
                                 <a href="<?= site_url('/profil') ?>">
-                                    <ion-icon name="information-circle"></ion-icon>
+                                    <ion-icon name="person-circle"></ion-icon>
                                 </a>
                             </div>
                             <div class="item">
-                                <a href="<?= site_url('/profil') ?>">
-                                    <ion-icon name="person-circle"></ion-icon>
-                                </a>
+                                <div href="" id="button_logout_confirm">
+                                    <ion-icon style="color: #ee5644" name="log-out-outline"></ion-icon>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -86,6 +86,16 @@
             new Calendar({
                 id: '#color-calendar',
                 customWeekdayValues: ["Lun", "Mar", "Mer", "Jeu", "Ven", "Sam", "Dim"]
+            })
+            $('#button_logout_confirm').on('click', function() {
+                $.ajax({
+                    url: "<?= site_url('/security/authenticate/logout') ?>",
+                    method: "POST",
+                    data: null,
+                    success: function(msg) {
+                        location.reload();
+                    }
+                })
             })
         </script>
 </body>
