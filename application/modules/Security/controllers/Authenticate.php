@@ -35,7 +35,7 @@ class Authenticate extends MX_Controller {
                         "u_nom" => $user->u_nom,
                         "u_prenom" => $user->u_prenom,
                         "u_avatar" => $user->u_avatar,
-                        "u_service" => $user->u_idService,
+                        "u_service" => $this->auth_model->get_service($user->u_idService)->s_label,
                         "u_reference" => $user->u_reference,
                         "u_dispo" => $user->u_dispo,
                         "u_dispoYear" => $user->u_dispoYear,

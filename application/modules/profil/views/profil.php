@@ -1,3 +1,7 @@
+<?php
+   $user = $this->session->userdata('user');
+?>
+
 <div class="segment"> <br><br>
     <div class="text-center"><img src="<?= base_url().'/assets/images/avatar.png' ?>" alt="profil-user" class="rounded-circle profil"></div>
     <br>
@@ -6,15 +10,15 @@
             <form action="">
                 <div class="form-group">
                     <label class="" for="lv-nom">Nom</label>
-                    <input type="text" class="form-control" id="lv-nom" value="RASOLONIRINA" name="u_nom" required>
+                    <input type="text" class="form-control" id="lv-nom" value="<?= $user['u_nom'] ?>" name="u_nom" required>
                 </div>
                 <div class="form-group">
                     <label class="" for="lv-prenom">Prénom</label>
-                    <input type="text" class="form-control" id="lv-prenom" value="Dimby" name="u_prenom" required>
+                    <input type="text" class="form-control" id="lv-prenom" value="<?= $user['u_prenom'] ?>" name="u_prenom" required>
                 </div>
                 <div class="form-group">
                     <label class="" for="lv-reference">Réference</label>
-                    <input type="text" class="form-control" id="lv-reference" value="001-Aveo-2019" name="u_reference" required>
+                    <input type="text" class="form-control" id="lv-reference" value="<?= $user['u_reference'] ?>" name="u_reference" required>
                 </div>
                 <div class="form-group">
                     <label class="" for="lv-service">Service</label>
