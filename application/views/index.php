@@ -9,6 +9,11 @@
     <title>Application Congé - <?= $title ?></title>
 </head>
 <body>
+
+    <?php
+        $user = $this->session->userdata('user');
+    ?>
+
     <?php if($isNeedNav): ?>
         <?php
             $active_h = "";
@@ -29,21 +34,45 @@
             }
         ?>
 
+        <?php if($this->session->flashdata('alert')) { ?>
+            <div class="alert alert-success small" style="position: fixed; bottom: 30px; right: 30px; width: 500px; z-index: 9999">
+                <span class="message"><?= $this->session->flashdata('alert'); ?></span>
+                <button type="button" class="rh-close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true" style="font-size: 22px;position: relative;bottom: 3px;">&times;</span>
+                </button>
+            </div>
+        <?php } ?>
+
         <div style="margin: 2rem">
             <div class="row justify-content-center w-75 m-auto">
                 <div class="col">
                     <div class="segment" style="display: flex; justify-content: space-between; padding: 0px 40px">
                         <div style="display: flex">
-                            <div class="item <?= $active_h ?>">
-                                <a href="<?= site_url('/main') ?>">
-                                    <ion-icon name="home-sharp"></ion-icon>
-                                </a>
-                            </div>
-                            <div class="item <?= $active_l ?>">
-                                <a href="<?= site_url('/leaves') ?>">
-                                    <ion-icon name="newspaper"></ion-icon>
-                                </a>
-                            </div>
+                            <!-- If admin -->
+                            <?php if($user['u_profilId'] == 1): ?>
+                                <div class="item <?= $active_h ?>">
+                                    <a href="<?= site_url('/main') ?>">
+                                        <ion-icon name="home-sharp"></ion-icon>
+                                    </a>
+                                </div>
+                                <div class="item <?= $active_l ?>">
+                                    <a href="<?= site_url('/leaves') ?>">
+                                        <ion-icon name="newspaper"></ion-icon>
+                                    </a>
+                                </div>
+                            <!-- Sinon -->
+                            <?php else: ?>
+                                <div class="item">
+                                    <a href="<?= site_url('/list') ?>">
+                                        <ion-icon name="list-circle"></ion-icon>
+                                    </a>
+                                </div>
+                                <div class="item">
+                                    <a href="<?= site_url('/main') ?>">
+                                        <ion-icon name="newspaper"></ion-icon>
+                                    </a>
+                                </div>
+                            <?php endif ?>
                         </div>
                         <div style="display: flex">
                             <div class="item">
@@ -97,6 +126,7 @@
                     }
                 })
             })
+            $('.alert.alert-success.small').fadeOut(10000);
         </script>
 </body>
 </html>

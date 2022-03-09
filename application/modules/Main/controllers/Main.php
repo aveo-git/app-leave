@@ -36,6 +36,8 @@ class Main extends MX_Controller {
 
     public function add_leave() {
         // var_dump($this->getSunday(2022, 02));
+        $user = $this->session->userdata('user');
+        $nbJrest = $user['u_dispo'] - $this->input->post('nbJpris');
 
         $data = array(
             "l_type" => $this->input->post('l_type'),
@@ -43,13 +45,18 @@ class Main extends MX_Controller {
             "l_dateFin" => $this->input->post('l_dateFin')." ".$this->input->post('l_dateFin-option'),
             "l_responsable" => $this->input->post('u_responsable'),
             "l_nbJpris" => $this->input->post('nbJpris'),
-            "l_nbJrest" => null,
+            "l_nbJrest" => $nbJrest,
             "l_nbJdispo" => $this->input->post('u_dispo'),
-            "l_statut" => null,
+            "l_statut" => 0,
             "l_archived" => 0,
-            "l_mounth" => null,
             "l_idUser" => $this->input->post('id_user'),
         );
+        $this->main->insert_leave($data);
+        $user['u_dispo'] = $nbJrest;
+
+        $this->session->set_userdata('user', $user);
+
+        $this->session->set_flashdata('alert', "NOTE : Demande de congé envoyé, vous recevrez un mail lorsque le responsable aura fini d'examiner votre demande.");
     }
 
     private function calcul_nbJour($d2, $d1) {

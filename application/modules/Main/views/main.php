@@ -137,11 +137,17 @@
             </div>
             <div>
                Nombre de jours pris
-               <div class="totals">05</div>
+               <div class="totals" id="nb_Jpris">--</div>
             </div>
             <div>
                Droits restants
-               <div class="totals">05</div>
+               <div class="totals" id="nb_Jrestant">--</div>
+            </div>
+            <div>
+               Actualiser
+               <div class="" style="cursor: pointer;" id="refresh_nb">
+                  <ion-icon style="font-size: 35px;color: #ee5644;" name="refresh-circle-outline"></ion-icon>
+               </div>
             </div>
          </div>
       </div><br>
@@ -163,6 +169,7 @@
 </div>
 
 <script>
+   
    let insert_all_data = () => {
       $('#lv-nom').val('RASOLONIRINA');
       $('#lv-prenom').val('Dimby');
@@ -176,8 +183,6 @@
    $('#form-addleave').on('submit', function(e) {
       e.preventDefault();
       let data = $(this).serializeArray();
-      console.dir(data);
-
       let d1 = {
          "date": $('#lv-dateDepart').val(),
          "option": $('#lv-dateDepart-option').val()
@@ -186,22 +191,38 @@
          "date": $('#lv-dateFin').val(),
          "option": $('#lv-dateFin-option').val()
       }
-
-      console.dir(get_jourPris(d1, d2));
+      data.push({name: 'nbJpris', value: get_jourPris(d1, d2)});
+      console.dir(data);
+      
       $.ajax({
          url: "<?= site_url('/main/add_leave') ?>",
          method: "POST",
          data: data,
          success: function(data) {
-            // location.reload();
+            location.reload();
          }
       })
    })
 
+   $('#refresh_nb').on('click', function() {
+      if($('#lv-dateDepart').val() != "" && $('#lv-dateFin').val() != "") {
+         let d1 = {
+            "date": $('#lv-dateDepart').val(),
+            "option": $('#lv-dateDepart-option').val()
+         }
+         let d2 = {
+            "date": $('#lv-dateFin').val(),
+            "option": $('#lv-dateFin-option').val()
+         }
+         $('#nb_Jpris').html(add_zero(get_jourPris(d1, d2)));
+         $('#nb_Jrestant').html(add_zero(<?= $user['u_dispo'] ?> - get_jourPris(d1, d2)));
+      }
+   })
+
    let get_jourPris = (d1, d2) => {
-      if(d1.option == "08:00" && d2.option == "17:00") return add_zero(get_diff_date(d2.date, d1.date) + 1);
-      if(d1.option == "12:00" && d2.option == "12:00") return add_zero(get_diff_date(d2.date, d1.date));
-      if(d1.option != "08:00" || d2.option != "17:00") return add_zero(get_diff_date(d2.date, d1.date) + 1 - (1/2));
+      if(d1.option == "08:00" && d2.option == "17:00") return (get_diff_date(d2.date, d1.date) + 1);
+      if(d1.option == "12:00" && d2.option == "12:00") return (get_diff_date(d2.date, d1.date));
+      if(d1.option != "08:00" || d2.option != "17:00") return (get_diff_date(d2.date, d1.date) + 1 - (1/2));
    }
 
    let get_diff_date = (d2, d1) => {
