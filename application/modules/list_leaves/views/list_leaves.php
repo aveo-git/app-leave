@@ -1,6 +1,6 @@
 <div class="segment" style="min-height: 65vh;"><br>
     <div class="d-flex">
-        <div style="margin-right: 15px; max-width: 400px;width: 400px">
+        <div style="margin-right: 40px; max-width: 400px;width: 400px">
             <h6 class="py-2">Liste des congés en attente</h6>
             <div class="segment shadow-sm leave-item d-flex by-center active">
                 <div class="d-flex">
@@ -27,7 +27,7 @@
                 <div><ion-icon name="chevron-forward-circle"></ion-icon></div>
             </div>
         </div>
-        <div class="border-left d-flex justify-content-center w-100" style="padding-left: 10px; border-radius: 0px">
+        <div class="border-left d-flex justify-content-center w-100" style="border-radius: 0px">
             <div class="p-2" style="width: 90%">
                 <div class="text-center"><img src="<?= base_url().'/assets/images/avatar.png' ?>" alt="profil-user" class="rounded-circle profil sm"></div>
                 <div class="text-center leave-item-sending p-2">Envoyé le 08/02/2022 à 17:20</div>
