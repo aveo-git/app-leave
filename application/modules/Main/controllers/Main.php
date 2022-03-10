@@ -14,9 +14,14 @@ class Main extends MX_Controller {
     }
 
     public function index() {
-        $title = "Dashboard";
-        $content = $this->load->view('main', array(), TRUE);
-        $this->display($content, TRUE, $title);
+        $user = $this->session->userdata('user');
+        if($user['u_profilId'] != '1') {
+            $title = "Dashboard";
+            $content = $this->load->view('main', array(), TRUE);
+            $this->display($content, TRUE, $title);
+        } else {
+            redirect('/list');
+        }
     }
     
     // Top front

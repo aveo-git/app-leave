@@ -10,9 +10,14 @@ class Profil extends MX_Controller {
     }
 
     public function index() {
-        $title = "Profil";
-        $content = $this->load->view('profil', array(), TRUE);
-        $this->display($content, TRUE, $title);
+        $user = $this->session->userdata('user');
+        if($user['u_profilId'] != '1') {
+            $title = "Profil";
+            $content = $this->load->view('profil', array(), TRUE);
+            $this->display($content, TRUE, $title);
+        } else {
+            redirect('/main');
+        }
     }
     
     // Top front

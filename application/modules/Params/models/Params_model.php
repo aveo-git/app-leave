@@ -4,14 +4,8 @@ class Params_model extends CI_Model {
 
     public function __construct() {
         parent::__construct();
-        $this->params = 'rh_params';
-        $this->maildiffusion = "rh_maildiffusion";
-        $this->domaine = "rh_domaine";
-        $this->userad = "rh_userad";
-        $this->system = "rh_systeme";
-        $this->service = "rh_service";
-        $this->logiciel = "rh_logiciel";
-        $this->collab = "rh_collaborateur";
+        $this->params = 'l_params';
+        $this->user = "l_user";
     }
 
     public function get_all() {
@@ -92,14 +86,14 @@ class Params_model extends CI_Model {
         $this->db->insert($this->system, $data);
     }
 
-    public function delete_userad_by_id($id) {
-        $this->db->where('id_userad', $id);
-        $this->db->delete($this->userad);
+    public function delete_user_by_id($id) {
+        $this->db->where('id_user', $id);
+        $this->db->delete($this->user);
     }
 
-    public function update_userad($data, $id) {
-        $this->db->where('id_userad', $id);
-        $this->db->update($this->userad, $data);
+    public function update_user($data, $id) {
+        $this->db->where('id_user', $id);
+        $this->db->update($this->user, $data);
     }
 
     public function update_collab($data, $username) {
@@ -146,7 +140,7 @@ class Params_model extends CI_Model {
     }
 
     public function toggle_statut($data, $id) {
-        $this->db->where('id_userad', $id);
-        $this->db->update($this->userad, $data);
+        $this->db->where('id_user', $id);
+        $this->db->update($this->user, $data);
     }
 }

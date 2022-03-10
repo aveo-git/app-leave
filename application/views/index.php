@@ -18,6 +18,9 @@
         <?php
             $active_h = "";
             $active_l = "";
+            $active_list = "";
+            $active_users = "";
+            $active_params = "";
             if(isset($model) != NULL) {
                 switch ($model) {
                     case 'home':
@@ -25,6 +28,15 @@
                         break;
                     case 'leaves':
                         $active_l = "active";
+                        break;
+                    case 'list':
+                        $active_list = "active";
+                        break;
+                    case 'users':
+                        $active_users = "active";
+                        break;
+                    case 'params':
+                        $active_params = "active";
                         break;
                     
                     default:
@@ -49,7 +61,7 @@
                     <div class="segment" style="display: flex; justify-content: space-between; padding: 0px 40px">
                         <div style="display: flex">
                             <!-- If admin -->
-                            <?php if($user['u_profilId'] == 1): ?>
+                            <?php if($user['u_profilId'] != '1'): ?>
                                 <div class="item <?= $active_h ?>">
                                     <a href="<?= site_url('/main') ?>">
                                         <ion-icon name="home-sharp"></ion-icon>
@@ -62,38 +74,52 @@
                                 </div>
                             <!-- Sinon -->
                             <?php else: ?>
-                                <div class="item">
+                                <div class="item <?= $active_list ?>">
                                     <a href="<?= site_url('/list') ?>">
-                                        <ion-icon name="list-circle"></ion-icon>
+                                        <ion-icon name="newspaper"></ion-icon>
+                                    </a>
+                                    <div class="badge_notif"></div>
+                                </div>
+                                <div class="item <?= $active_users ?>">
+                                    <a href="<?= site_url('/users') ?>">
+                                        <ion-icon name="people"></ion-icon>
                                     </a>
                                 </div>
-                                <div class="item">
-                                    <a href="<?= site_url('/main') ?>">
-                                        <ion-icon name="newspaper"></ion-icon>
+                                <div class="item <?= $active_params ?>">
+                                    <a href="<?= site_url('/params') ?>">
+                                        <ion-icon name="construct-outline"></ion-icon>
                                     </a>
                                 </div>
                             <?php endif ?>
                         </div>
                         <div style="display: flex">
-                            <div class="item">
-                                <a href="<?= site_url('/profil') ?>">
-                                    <ion-icon name="person-circle"></ion-icon>
-                                </a>
-                            </div>
-                            <div class="item">
-                                <div href="" id="button_logout_confirm">
-                                    <ion-icon style="color: #ee5644" name="log-out-outline"></ion-icon>
+                            <?php if($user['u_profilId'] != '1'): ?>
+                                <div class="item">
+                                    <a href="<?= site_url('/profil') ?>">
+                                        <ion-icon name="person-circle"></ion-icon>
+                                    </a>
                                 </div>
-                            </div>
+                                <div class="item">
+                                    <div href="" id="button_logout_confirm">
+                                        <ion-icon style="color: #ee5644" name="log-out-outline"></ion-icon>
+                                    </div>
+                                </div>
+                            <?php else: ?>
+                                <div class="item">
+                                    <div href="" id="button_logout_confirm">
+                                        <ion-icon style="color: #ee5644" name="log-out-outline"></ion-icon>
+                                    </div>
+                                </div>
+                            <?php endif ?>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="row justify-content-center w-75 m-auto">
-                <div class="col-lg-8">
+                <div class="col-lg-9">
                     <?= $content; ?>
                 </div>
-                <div class="col-lg-4">
+                <div class="col-lg-3">
                     <div class="segment">
                         <div id="color-calendar"></div>
                     </div>

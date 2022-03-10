@@ -70,3 +70,38 @@ ion-icon.disabled {
 img.profil {
   width: 100px;
 }
+img.profil.sm {
+  width: 40px;
+}
+.badge_notif {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  background-color: #37bb93;
+  border-radius: 50%;
+  border: 2px solid white;
+  top: 17px;
+  left: 86px;
+}
+.leave-item {
+  padding: 9px 16px !important;
+  cursor: pointer;
+  border: 1px solid transparent;
+}
+.leave-item:hover,
+.leave-item.active {
+  border: 1px solid #ee5644;
+}
+.leave-item-name {
+  font-weight: 600;
+  line-height: 17px;
+  font-size: 12px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  width: 145px;
+}
+.leave-item-sending {
+  font-size: 12px;
+  font-style: italic;
+}

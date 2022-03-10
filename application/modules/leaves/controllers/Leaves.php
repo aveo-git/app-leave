@@ -10,9 +10,14 @@ class Leaves extends MX_Controller {
     }
 
     public function index() {
-        $title = "Liste de congés";
-        $content = $this->load->view('list', array(), TRUE);
-        $this->display($content, TRUE, $title);
+        $user = $this->session->userdata('user');
+        if($user['u_profilId'] != '1') {
+            $title = "Liste de congés";
+            $content = $this->load->view('list', array(), TRUE);
+            $this->display($content, TRUE, $title);
+        } else {
+            redirect('/list');
+        }
     }
     
     // Top front

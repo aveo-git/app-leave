@@ -40,7 +40,7 @@ class Authenticate extends MX_Controller {
                         "u_dispo" => $user->u_dispo,
                         "u_dispoYear" => $user->u_dispoYear,
                         "u_archived" => $user->u_archived,
-                        "u_profilId" => $user->u_prfilId
+                        "u_profilId" => $user->u_profilId
                     );
                     $this->session->set_userdata("user", $session_user);
                 } else {
