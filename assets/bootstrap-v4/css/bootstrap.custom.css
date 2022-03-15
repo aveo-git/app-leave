@@ -93,6 +93,11 @@ label {
   padding-right: 17px;
 }
 
+.icon_edit:hover {
+  cursor: pointer;
+  color: #ee5644;
+}
+
 .alert-warning {
   background-color: #ffc10759;
   border-color: #ffc107;

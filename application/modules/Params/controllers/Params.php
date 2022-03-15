@@ -19,8 +19,10 @@ class Params extends MX_Controller {
             redirect('/main');
         } else {
             $title = "Paramètre";
-            // var_dump($data);
-            $content = $this->load->view('params', array(), TRUE);
+            $params['params_ldap'] = $this->params->get_all(1);
+            $params['params_email'] = $this->params->get_all(2);
+            $data['general'] = $this->load->view('navs/general', $params, TRUE);
+            $content = $this->load->view('params', $data, TRUE);
             $this->display($content, TRUE, $title);
         }
     }
@@ -37,6 +39,17 @@ class Params extends MX_Controller {
             $html['content'] = $content;
         }
         $this->load->view('index', $html);
+    }
+
+    // Update params
+    public function update_params() {
+        $data = array(
+            "param_code" => $this->input->post('param_code'),
+            "param_lib" => $this->input->post('param_lib'),
+            "param_value" => $this->input->post('param_value'),
+        );
+        // var_dump($this->input->post('code_params'));
+        $this->params->update_param($data, $this->input->post('code_params'));
     }
 
     public function _remap($method) {

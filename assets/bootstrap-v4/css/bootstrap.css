@@ -4435,11 +4435,24 @@ input[type="button"].btn-block {
   padding-left: 0;
   margin-bottom: 0;
   list-style: none;
+  margin-top: 14px;
+  justify-content: center;
 }
 
 .nav-link {
   display: block;
-  padding: 0.5rem 1rem;
+  padding: 2px 1.5rem;
+  border-radius: 5px;
+}
+.nav-item {
+  width: 130px;
+  text-align: center;
+}
+.nav-item a {
+  text-transform: uppercase;
+  font-weight: 600;
+  font-size: 14px;
+  color: #6e6b67;
 }
 
 .nav-link:hover,
@@ -4453,15 +4466,8 @@ input[type="button"].btn-block {
   cursor: default;
 }
 
-.nav-tabs {
-  border-bottom: 1px solid #dee2e6;
-}
-
 .nav-tabs .nav-link {
   margin-bottom: -1px;
-  border: 1px solid transparent;
-  border-top-left-radius: 0.25rem;
-  border-top-right-radius: 0.25rem;
 }
 
 .nav-tabs .nav-link:hover,
@@ -4478,7 +4484,7 @@ input[type="button"].btn-block {
 .nav-tabs .nav-link.active,
 .nav-tabs .nav-item.show .nav-link {
   color: #495057;
-  background-color: #fff;
+  background-color: #f7f7f7;
   border-color: #dee2e6 #dee2e6 #fff;
 }
 
