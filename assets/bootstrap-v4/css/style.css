@@ -105,3 +105,9 @@ img.profil.sm {
   font-size: 12px;
   font-style: italic;
 }
+.empty-data {
+  height: 50vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

@@ -22,6 +22,7 @@ class Params extends MX_Controller {
             $params['params_ldap'] = $this->params->get_all(1);
             $params['params_email'] = $this->params->get_all(2);
             $data['general'] = $this->load->view('navs/general', $params, TRUE);
+            $data['users'] = $this->load->view('navs/users', array(), TRUE);
             $content = $this->load->view('params', $data, TRUE);
             $this->display($content, TRUE, $title);
         }
