@@ -111,3 +111,21 @@ img.profil.sm {
   justify-content: center;
   align-items: center;
 }
+.lv-action-button {
+  width: 20px;
+  height: 22px;
+  text-align: center;
+  display: inline-block;
+  cursor: pointer;
+}
+.lv-action-button.edit:hover {
+  color: #02c1ce;
+  background-color: rgba(0 0 0 / 6%);
+}
+.lv-action-button.trash {
+  color: #ff0358;
+}
+.lv-action-button.trash:hover {
+  color: #df004b;
+  background-color: rgba(0 0 0 / 6%);
+}

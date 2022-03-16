@@ -1,3 +1,10 @@
+<div class="progress">
+    <div style="text-align: center">
+        <i class="fa fa-spinner fa-pulse fa-3x fa-fw" style="color: #FFFFFF;"></i>
+        <div style="color: #FFF;font-size: 20px;padding: 15px 0 0 0;">Import en cours ...</div>
+    </div>
+</div>
+
 <div class="segment" style="min-height: 80vh">
    <ul class="nav nav-tabs" id="myTab" role="tablist">
       <li class="nav-item">

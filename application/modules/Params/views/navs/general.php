@@ -36,7 +36,7 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body" style="background-color: #FFFFFF">
+      <div class="modal-body">
          <form id="updateparams-form">
             <div class="row">
                <div class="form-group col">
