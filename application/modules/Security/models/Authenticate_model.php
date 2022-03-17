@@ -6,6 +6,7 @@ class Authenticate_model extends CI_Model {
         parent::__construct();
         $this->user = "l_user";
         $this->service = "l_service";
+        $this->calendar = "l_calendar";
     }
 
     public function get_user($pseudo) {
@@ -22,6 +23,14 @@ class Authenticate_model extends CI_Model {
         $this->db->from($this->service);
         $query = $this->db->get();
         return $query->row();
+    }
+
+    public function get_all_calendar() {
+        $this->db->select('*');
+        $this->db->order_by('c_debut', ASC);
+        $this->db->from($this->calendar);
+        $query = $this->db->get();
+        return $query->result();
     }
 
 }

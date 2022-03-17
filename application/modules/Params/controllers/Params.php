@@ -9,7 +9,7 @@ class Params extends MX_Controller {
         $this->load->module('security/authenticate');
         $this->load->module('mail/mail');
         $this->load->model('params_model', 'params');
-        $this->load->model('main/main_model', 'main');
+        $this->load->model('security/authenticate_model', 'auth_model');
         $this->load->library('email');
     }
 
@@ -25,6 +25,8 @@ class Params extends MX_Controller {
 
             $users['services'] = $this->params->get_all_service();
             $data['users'] = $this->load->view('navs/users', $users, TRUE);
+
+            $data['calendar'] = $this->load->view('navs/calendar', array(), TRUE);
             $content = $this->load->view('params', $data, TRUE);
             $this->display($content, TRUE, $title);
         }
@@ -187,6 +189,29 @@ class Params extends MX_Controller {
     
     public function toggle_status() {
         $this->params->toggle_status_user($this->input->post('id_user'), filter_var($this->input->post('u_status'), FILTER_VALIDATE_BOOLEAN));
+    }
+    
+    // Ajouter un jour ferié ou clôture d'agence
+    public function add_calendar() {
+        $data = array(
+            'c_debut' => $this->input->post('c_debut'),
+            'c_fin' => $this->input->post('c_fin') != '' ? $this->input->post('c_fin') : NULL,
+            'c_description' => $this->input->post('c_description'),
+            'c_flag' => $this->input->post('c_flag'),
+        );
+        $id = $this->input->post('id_calendar') != NULL ? $this->input->post('id_calendar') : NULL;
+        $this->params->add_calendar($id, $data);
+        $this->set_session_calendar();
+    }
+
+    public function remove_calendar() {
+        $this->params->remove_calendar($this->input->post('id_calendar'));
+        $this->set_session_calendar();
+    }
+
+    private function set_session_calendar() {
+        $calendar = $this->auth_model->get_all_calendar();
+        $this->session->set_userdata('calendar', $calendar);
     }
 
     public function _remap($method) {

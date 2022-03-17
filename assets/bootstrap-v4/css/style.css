@@ -129,3 +129,7 @@ img.profil.sm {
   color: #df004b;
   background-color: rgba(0 0 0 / 6%);
 }
+.calendar-item {
+  padding: 5px;
+  margin-bottom: 5px;
+}

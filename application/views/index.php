@@ -23,6 +23,16 @@
     </script>
 
     <?php
+
+            function get_entire_date($date) {
+                $mois = array("", "Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre");
+                $d = explode("-", $date);
+                $date_arrived = $d[2]." ".$mois[intval($d[1])];
+                return $date_arrived;
+            }
+
+        $calendar = $this->session->userdata('calendar');
+        // var_dump($calendar);
         $user = $this->session->userdata('user');
     ?>
 
@@ -135,13 +145,34 @@
                     <div class="segment">
                         <div id="color-calendar"></div>
                     </div>
-                    <div class="segment">
-                        <h6 class="py-2">Jours fériés de l'année :</h6>
-                        <ul>
-                            <li>Mardi 01 Janvier : Jour de l'an</li>
-                            <li>Lundi 10 Juin : Jour férié 1</li>
-                            <li>Mardi 26 Juin : Fête de l'independance</li>
-                        </ul>
+                    <div class="segment" style="padding: 10px 15px">
+                        <h6 class="py-1">Jours fériés de l'année :</h6>
+                        <div>
+                            <?php foreach($calendar as $c): ?>
+                            <div class="calendar-item border" data-id="<?= $c->id_calendar ?>">
+                                <?= get_entire_date($c->c_debut)." : ".$c->c_description ?>
+                                <?php $c_json = json_encode((array) $c); ?>
+                                <span class="float-right">
+                                    <span class="lv-action-button edit" 
+                                        data-toggle="modal"
+                                        data-target="#edit_calendar_modal"
+
+                                        data-value="<?= $c->id_calendar ?>"
+                                        data-debut="<?= $c->c_debut ?>"
+                                        data-fin="<?= $c->c_fin ?>"
+                                        data-description="<?= $c->c_description ?>"
+                                        data-flag="<?= $c->c_flag ?>"
+
+                                        title="Modifier"><ion-icon class="disabled" title="Modifier" name="create-outline"></ion-icon></span>
+                                    <span class="lv-action-button trash"
+                                        data-toggle="modal"
+                                        data-target="#delete_calendar_modal"
+                                        data-value="<?= $c->id_calendar ?>"
+                                        data-value="<?= $c->id_calendar ?>" title="Supprimer"><ion-icon class="disabled" name="trash-outline"></ion-icon></span>
+                                </span>
+                            </div>
+                            <?php endforeach ?>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -149,6 +180,54 @@
         <?php else: ?>
             <?= isset($content) ? $content : '' ?>
         <?php endif ?>
+
+        <!-- Modals -->
+
+        <!-- Modal pour modifier un collaborateur -->
+        <div class="modal fade" id="edit_calendar_modal" tabindex="-1" role="dialog" data-backdrop="static" aria-labelledby="editCalendar" aria-hidden="true">
+            <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editCalendar">Modifier : </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                    <form id="editcalendar-form">
+                        <input type="hidden" name="id_calendar" id="id_calendar">
+                        <input type="hidden" name="c_flag" id="c-flag">
+                        <div class="modal-body py-1">
+                            <div class="lv-content">
+                                <div class="row">
+                                    <div class="form-group col">
+                                        <label class="" for="c-debut">Debut</label>
+                                        <input type="date" class="form-control" id="c-debut" value="" name="c_debut" required>
+                                    </div>
+                                    <div class="form-group col">
+                                        <label class="" for="c-fin">Fin *</label>
+                                        <input type="date" class="form-control" id="c-fin" value="" name="c_fin">
+                                        <small>* Facultatif s'il n'y a qu'un seul jour</small>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col">
+                                        <label class="" for="c-description">Description :</label>
+                                        <textarea name="c_description" id="c-description" class="form-control" cols="10" rows="3" required></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <a href="#" type="button" class="btn btn-secondary close" data-dismiss="modal">Annuler</a>
+                            <button type="submit" class="btn btn-primary">Modifier</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Fin modals -->
+
         <script>
             new Calendar({
                 id: '#color-calendar',
@@ -159,6 +238,27 @@
                 ajax_func(null, 'security/authenticate/logout');
             })
             $('.alert.alert-success.small').fadeOut(10000);
+
+            $('.lv-action-button').on('click', function() {
+                if($(this).hasClass('edit')) {
+                    $('#editcalendar-form #id_calendar').val($(this).data('value'));
+                    $('#editcalendar-form #c-debut').val($(this).data('debut'));
+                    $('#editcalendar-form #c-fin').val($(this).data('fin'));
+                    $('#editcalendar-form #c-description').val($(this).data('description'));
+                    $('#editcalendar-form #c-flag').val($(this).data('flag'));
+                }
+                if($(this).hasClass('trash')) {
+                    let data = [{name: "id_calendar", value: $(this).data('value')}]
+                    ajax_func(data, 'params/remove_calendar');
+                }
+            })
+
+            $('#editcalendar-form').on('submit', function(e) {
+                e.preventDefault();
+                let data = $(this).serializeArray();
+                ajax_func(data, 'params/add_calendar')
+            })
+            
         </script>
 </body>
 </html>

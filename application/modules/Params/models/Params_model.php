@@ -7,6 +7,7 @@ class Params_model extends CI_Model {
         $this->params = 'l_params';
         $this->user = "l_user";
         $this->service = "l_service";
+        $this->calendar = "l_calendar";
     }
 
     public function get_all($section) {
@@ -93,11 +94,22 @@ class Params_model extends CI_Model {
     }
 
     public function toggle_status_user($id, $status) {
-        var_dump($id);
-        var_dump($status);
         $data = array('u_status' => $status);
         $this->db->where('id_user', $id);
         $this->db->update($this->user, $data);
+    }
+
+    public function add_calendar($id, $data) {
+        if($id == NULL) {
+            $this->db->insert($this->calendar, $data);
+        } else {
+            $this->db->where('id_calendar', $id);
+            $this->db->update($this->calendar, $data);
+        }
+    }
+    
+    public function remove_calendar($id) {
+        $this->db->delete($this->calendar, array('id_calendar' => $id));
     }
 
     private function is_exist($attr, $data, $table) {
