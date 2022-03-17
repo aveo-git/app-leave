@@ -74,14 +74,6 @@
 
     // Modification parametre
    $('#update_params').on('click', function() {
-      let data = $('#updateparams-form').serializeArray();
-      $.ajax({
-         url: "<?= site_url('params/update_params') ?>",
-         method: "POST",
-         data: data,
-         success: function(msg) {
-            location.reload();
-         }
-      })
+       ajax_func($('#updateparams-form').serializeArray(), 'params/update_params')
    })
 </script>

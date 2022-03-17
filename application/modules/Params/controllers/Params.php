@@ -172,7 +172,7 @@ class Params extends MX_Controller {
         } else {
             $data["u_avatar"] = 'default.png';
             $data["u_archived"] = 0;
-            $data["u_status"] = 0;
+            $data["u_status"] = true;
             $data["u_profilId"] = 1;
             $this->params->insert_user($data);
         }
@@ -183,6 +183,10 @@ class Params extends MX_Controller {
         foreach($data as $id) {
             $this->params->delete_user_by_id($id);
         }
+    }
+    
+    public function toggle_status() {
+        $this->params->toggle_status_user($this->input->post('id_user'), filter_var($this->input->post('u_status'), FILTER_VALIDATE_BOOLEAN));
     }
 
     public function _remap($method) {

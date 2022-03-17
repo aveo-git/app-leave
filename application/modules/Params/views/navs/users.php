@@ -224,39 +224,25 @@
         }
     })
 
+    $('#userad_data tbody').on('click', 'div.toogle_compte', function() {
+        let tr = $(this).parents('tr');
+        let user = table_userad.row(tr).data();
+        let data = []
+        data.push({name: 'id_user', value: user.id_user});
+        data.push({name: 'u_status', value: !parseInt(user.u_status, 10)});
+        ajax_func(data, 'params/toggle_status')
+    })
+
     $('#delete_user_confirm').on('click', function(e) {
         e.preventDefault();
-        console.dir($('#delete_user_form').serializeArray())
-        $.ajax({
-            url: "<?= site_url('params/delete_user') ?>",
-            method: "POST",
-            data: $('#delete_user_form').serializeArray(),
-            beforeSend: function() {
-                $(".progress").addClass('active');
-            },
-            success: function(msg) {
-                $(".progress").removeClass('active');
-                location.reload();
-            }
-        })
+        ajax_func($('#delete_user_form').serializeArray(), "params/delete_user");
     })
 
     $('#edituser-form').on('submit', function(e) {
         e.preventDefault();
         let data = $(this).serializeArray();
         data.push({name: 'u_idService', value: $('#lv-service option:selected').data('label')})
-        $.ajax({
-            url: "<?= site_url('params/update_user') ?>",
-            method: "POST",
-            data: data,
-            beforeSend: function() {
-                $(".progress").addClass('active');
-            },
-            success: function(msg) {
-                $(".progress").removeClass('active');
-                location.reload();
-            }
-        })
+        ajax_func(data, 'params/update_user');
     })
 
     $('#add_user').on('click', function(e) {
@@ -279,6 +265,8 @@
             $('#input_id_user').val(ids)
         }
     })
+
+
 
     $('#importAd-button').on('click', function(e) {
         e.preventDefault();

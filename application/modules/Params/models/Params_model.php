@@ -92,6 +92,14 @@ class Params_model extends CI_Model {
         return $query->row();
     }
 
+    public function toggle_status_user($id, $status) {
+        var_dump($id);
+        var_dump($status);
+        $data = array('u_status' => $status);
+        $this->db->where('id_user', $id);
+        $this->db->update($this->user, $data);
+    }
+
     private function is_exist($attr, $data, $table) {
         $this->db->where($attr, $data);
         $this->db->select('*');

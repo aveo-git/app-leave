@@ -30,14 +30,6 @@
 <script>
     $('#form-login').on('submit', function(e) {
         e.preventDefault();
-        let data = $(this).serializeArray();
-        $.ajax({
-            url: "<?= site_url('security/authenticate/authenticate') ?>",
-            method: "POST",
-            data: data,
-            success: function (msg) {
-                location.reload();
-            }
-        });
+        ajax_func($(this).serializeArray(), 'security/authenticate/authenticate')
     })
 </script>

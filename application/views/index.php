@@ -9,6 +9,18 @@
     <title>Application Congé - <?= $title ?></title>
 </head>
 <body>
+    <script>
+        let ajax_func = (data, url) => {
+            $.ajax({
+                url: "<?= base_url().'index.php/' ?>"+url,
+                method: "POST",
+                data: data,
+                success: function(msg) {
+                    location.reload();
+                }
+            })
+        }
+    </script>
 
     <?php
         $user = $this->session->userdata('user');
@@ -142,15 +154,9 @@
                 id: '#color-calendar',
                 customWeekdayValues: ["Lun", "Mar", "Mer", "Jeu", "Ven", "Sam", "Dim"]
             })
+
             $('#button_logout_confirm').on('click', function() {
-                $.ajax({
-                    url: "<?= site_url('/security/authenticate/logout') ?>",
-                    method: "POST",
-                    data: null,
-                    success: function(msg) {
-                        location.reload();
-                    }
-                })
+                ajax_func(null, 'security/authenticate/logout');
             })
             $('.alert.alert-success.small').fadeOut(10000);
         </script>

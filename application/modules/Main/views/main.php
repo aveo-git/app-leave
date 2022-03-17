@@ -192,16 +192,8 @@
          "option": $('#lv-dateFin-option').val()
       }
       data.push({name: 'nbJpris', value: get_jourPris(d1, d2)});
-      console.dir(data);
       
-      $.ajax({
-         url: "<?= site_url('/main/add_leave') ?>",
-         method: "POST",
-         data: data,
-         success: function(data) {
-            location.reload();
-         }
-      })
+      ajax_func(data, 'main/add_leave');
    })
 
    $('#refresh_nb').on('click', function() {
