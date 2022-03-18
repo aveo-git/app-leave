@@ -28,10 +28,14 @@
                 $mois = array("", "Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre");
                 $d = explode("-", $date);
                 $date_arrived = $d[2]." ".$mois[intval($d[1])];
-                return $date_arrived;
+                return array(
+                    'date_arrived' => $date_arrived,
+                    'date_full' => $date_arrived.' '.$d[0]
+                );
             }
 
         $calendar = $this->session->userdata('calendar');
+        $cloture = $this->session->userdata('cloture');
         // var_dump($calendar);
         $user = $this->session->userdata('user');
     ?>
@@ -142,7 +146,7 @@
                     <?= $content; ?>
                 </div>
                 <div class="col-lg-3">
-                    <div class="segment">
+                    <div class="segment" style="padding: 10px 15px">
                         <div id="color-calendar"></div>
                     </div>
                     <div class="segment" style="padding: 10px 15px">
@@ -150,8 +154,9 @@
                         <div>
                             <?php foreach($calendar as $c): ?>
                             <div class="calendar-item border" data-id="<?= $c->id_calendar ?>">
-                                <?= get_entire_date($c->c_debut)." : ".$c->c_description ?>
+                                <?= get_entire_date($c->c_debut)['date_arrived']." : ".$c->c_description ?>
                                 <?php $c_json = json_encode((array) $c); ?>
+                                <?php if($user['u_profilId'] == '1'): ?>
                                 <span class="float-right">
                                     <span class="lv-action-button edit" 
                                         data-toggle="modal"
@@ -165,14 +170,26 @@
 
                                         title="Modifier"><ion-icon class="disabled" title="Modifier" name="create-outline"></ion-icon></span>
                                     <span class="lv-action-button trash"
-                                        data-toggle="modal"
-                                        data-target="#delete_calendar_modal"
                                         data-value="<?= $c->id_calendar ?>"
                                         data-value="<?= $c->id_calendar ?>" title="Supprimer"><ion-icon class="disabled" name="trash-outline"></ion-icon></span>
                                 </span>
+                                <?php endif ?>
                             </div>
                             <?php endforeach ?>
                         </div>
+                    </div>
+                    <div class="segment" style="padding: 10px 15px">
+                        <h6 class="py-1">Clôture d'agence</h6>
+                        <?php foreach($cloture as $c): ?>
+                        <div class="calendar-item border" >
+                            De <span style="color: #ee5644; font-weight: 600"><?= get_entire_date($c->c_debut)['date_full'] ?></span> au <span style="color: #ee5644; font-weight: 600"><?= get_entire_date($c->c_fin)['date_full'] ?></span>
+                            <?php if($user['u_profilId'] == '1'): ?>
+                            <span class="lv-action-button trash"
+                                data-value="<?= $c->id_calendar ?>"
+                                data-value="<?= $c->id_calendar ?>" title="Supprimer"><ion-icon class="disabled" name="trash-outline"></ion-icon></span>
+                            <?php endif ?>
+                        </div>
+                        <?php endforeach ?>
                     </div>
                 </div>
             </div>
@@ -229,9 +246,26 @@
         <!-- Fin modals -->
 
         <script>
+
+            let calendar = <?= (json_encode((array) $calendar)); ?>;
+            let cloture = <?= (json_encode((array) $cloture)); ?>;
+            console.dir(calendar)
+            console.dir(cloture)
+            let myEvents = []
+            calendar.forEach(c => {
+                myEvents.push({start: c.c_debut, end: c.c_debut, name: c.c_description});
+            })
+            cloture.forEach(c => {
+                let v = new Date(c.c_fin);
+                for(let d = new Date(c.c_debut); d <= v; d.setDate(d.getDate() + 1)) {
+                    myEvents.push({start: d.toISOString(), end: d.toISOString(), name: c.c_description});
+                }
+            })
+
             new Calendar({
                 id: '#color-calendar',
-                customWeekdayValues: ["Lun", "Mar", "Mer", "Jeu", "Ven", "Sam", "Dim"]
+                customWeekdayValues: ["Lun", "Mar", "Mer", "Jeu", "Ven", "Sam", "Dim"],
+                eventsData: myEvents
             })
 
             $('#button_logout_confirm').on('click', function() {

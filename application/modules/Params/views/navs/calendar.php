@@ -32,7 +32,7 @@
     <br>
     <div class="row">
         <div class="col">
-            <h6 class="py-2 border-bottom text-uppercase">Clôture d'agence</h6>
+            <h6 class="py-2 border-bottom text-uppercase">Clôture d'agence (Année 2022)</h6>
         </div>
     </div>
     <br>

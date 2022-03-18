@@ -43,9 +43,12 @@ class Authenticate extends MX_Controller {
                         "u_profilId" => $user->u_profilId
                     );
                     $this->session->set_userdata("user", $session_user);
-                    
+
                     $session_calendar = $this->auth_model->get_all_calendar();
                     $this->session->set_userdata("calendar", $session_calendar);
+
+                    $session_cloture = $this->auth_model->get_all_cloture();
+                    $this->session->set_userdata("cloture", $session_cloture);
                 } else {
                     $this->session->set_flashdata('error', "Mot de passe incorrect.");
                 }

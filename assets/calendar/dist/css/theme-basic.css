@@ -115,6 +115,7 @@
 }
 .color-calendar .calendar__days .calendar__day-text {
   cursor: pointer;
+  z-index: 1;
 }
 .color-calendar .calendar__days .calendar__day-box {
   position: absolute;
@@ -134,14 +135,14 @@
 } */
 .color-calendar .calendar__days .calendar__day-event .calendar__day-bullet {
   position: absolute;
-  top: 80%;
-  border-radius: 50%;
-  width: 4px;
-  height: 4px;
+  top: 3px;
+  width: 27px;
+  height: 34px;
   left: 50%;
   transform: translateX(-50%);
   overflow: hidden;
   cursor: pointer;
+  border-radius: 7px;
 }
 .color-calendar
   .calendar__days
@@ -429,8 +430,8 @@
 }
 .color-calendar.basic .calendar__days .calendar__day-today .calendar__day-box {
   border-radius: 0.5rem;
-  background-color: var(--cal-color-primary);
-  opacity: 0.1;
+  border: 2px solid gray;
+  opacity: 1 !important;
 }
 .color-calendar.basic
   .calendar__days
@@ -439,7 +440,7 @@
   opacity: 0.1;
 }
 .color-calendar.basic .calendar__days .calendar__day-bullet {
-  background-color: var(--cal-color-primary);
+  background-color: #ffd4d0;
 }
 .color-calendar.basic
   .calendar__days
@@ -449,7 +450,7 @@
 }
 .color-calendar.basic .calendar__days .calendar__day-box {
   border-radius: 0.5rem;
-  background-color: var(--cal-color-primary);
+  /* background-color: var(--cal-color-primary); */
   box-shadow: 0 3px 15px -5px var(--cal-color-primary);
 }
 .color-calendar.basic .calendar__days .calendar__day-box:hover {
@@ -482,7 +483,7 @@
   .calendar__days
   .calendar__day-selected
   .calendar__day-bullet {
-  background-color: white;
+  /* background-color: white; */
 }
 .color-calendar.basic
   .calendar__days

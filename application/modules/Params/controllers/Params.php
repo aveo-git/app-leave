@@ -202,16 +202,23 @@ class Params extends MX_Controller {
         $id = $this->input->post('id_calendar') != NULL ? $this->input->post('id_calendar') : NULL;
         $this->params->add_calendar($id, $data);
         $this->set_session_calendar();
+        $this->set_session_cloture();
     }
 
     public function remove_calendar() {
         $this->params->remove_calendar($this->input->post('id_calendar'));
         $this->set_session_calendar();
+        $this->set_session_cloture();
     }
 
     private function set_session_calendar() {
         $calendar = $this->auth_model->get_all_calendar();
         $this->session->set_userdata('calendar', $calendar);
+    }
+
+    private function set_session_cloture() {
+        $cloture = $this->auth_model->get_all_cloture();
+        $this->session->set_userdata('cloture', $cloture);
     }
 
     public function _remap($method) {
