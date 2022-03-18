@@ -9,6 +9,7 @@ class Authenticate extends MX_Controller {
         $this->load->helper("security");
         $this->load->model('main/main_model', 'main');
         $this->load->model('security/authenticate_model', 'auth_model');
+        $this->load->model('list_leaves/list_leaves_model', 'leaves');
     }
 
     public function index() {
@@ -49,6 +50,9 @@ class Authenticate extends MX_Controller {
 
                     $session_cloture = $this->auth_model->get_all_cloture();
                     $this->session->set_userdata("cloture", $session_cloture);
+
+                    $session_notif = count($this->leaves->get_all_leave_waiting());
+                    $this->session->set_userdata("notif", $session_notif);
                 } else {
                     $this->session->set_flashdata('error', "Mot de passe incorrect.");
                 }

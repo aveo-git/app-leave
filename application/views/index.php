@@ -36,6 +36,7 @@
 
         $calendar = $this->session->userdata('calendar');
         $cloture = $this->session->userdata('cloture');
+        $notif = $this->session->userdata('notif');
         // var_dump($calendar);
         $user = $this->session->userdata('user');
     ?>
@@ -104,7 +105,9 @@
                                     <a href="<?= site_url('/list') ?>">
                                         <ion-icon name="newspaper"></ion-icon>
                                     </a>
+                                    <?php if($notif != 0): ?>
                                     <div class="badge_notif"></div>
+                                    <?php endif ?>
                                 </div>
                                 <div class="item <?= $active_users ?>">
                                     <a href="<?= site_url('/users') ?>">
@@ -249,8 +252,6 @@
 
             let calendar = <?= (json_encode((array) $calendar)); ?>;
             let cloture = <?= (json_encode((array) $cloture)); ?>;
-            console.dir(calendar)
-            console.dir(cloture)
             let myEvents = []
             calendar.forEach(c => {
                 myEvents.push({start: c.c_debut, end: c.c_debut, name: c.c_description});
