@@ -167,7 +167,7 @@
             {"data": 'u_pseudo'},
             {"data": null,
                 render: function(item) {
-                    return "<img src=<?= base_url().'/assets/images/' ?>"+item.u_avatar+" />"+" "+item.u_prenom+" "+item.u_nom;
+                    return "<img src=<?= base_url().'/assets/images/' ?>"+item.u_avatar+" width='15%' />"+" "+item.u_prenom+" "+item.u_nom;
                 } 
             },
             {"data": 'u_idService'},

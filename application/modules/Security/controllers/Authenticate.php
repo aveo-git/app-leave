@@ -32,10 +32,11 @@ class Authenticate extends MX_Controller {
                 if($user->u_pseudo == $this->input->post('u_pseudo') && $user->u_mdp == $this->input->post('u_mdp')) {
                     $session_user = array(
                         "id_user" => $user->id_user,
-                        "u_psuedo" => $user->u_pseudo,
+                        "u_pseudo" => $user->u_pseudo,
                         "u_nom" => $user->u_nom,
                         "u_prenom" => $user->u_prenom,
                         "u_avatar" => $user->u_avatar,
+                        "u_email" => $user->u_email,
                         "u_service" => $this->auth_model->get_service($user->u_idService)->s_label,
                         "u_reference" => $user->u_reference,
                         "u_dispo" => $user->u_dispo,

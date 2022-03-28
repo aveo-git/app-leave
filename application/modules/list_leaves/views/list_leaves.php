@@ -40,7 +40,7 @@
                 </div>
             </div>
             <div class="waiting-all">
-                <div class="text-center"><img src="" alt="profil-user" class="rounded-circle profil sm"></div>
+                <div class="text-center"><img src="" alt="profil-user" class="rounded-circle profil"></div>
                 <div class="text-center leave-item-sending p-2">Envoyé le <span id="date-send"></span></div>
                 <br>
                 <form id="waiting-form">

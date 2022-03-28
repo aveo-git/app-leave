@@ -60,6 +60,7 @@ class Params_model extends CI_Model {
     }
 
     public function update_user($id, $data) {
+        var_dump($data);
         $this->db->where('id_user', $id);
         $this->db->update($this->user, $data);
     }

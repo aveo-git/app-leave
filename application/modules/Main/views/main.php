@@ -26,7 +26,7 @@
          <div class="col">
             <div class="form-group">
                <label class="" for="lv-reference">Réference *</label>
-               <input type="text" class="form-control" id="lv-reference" value="<?= $user['u_reference'] ?>" name="u_reference" required>
+               <input type="text" class="form-control" id="lv-reference" value="<?= $user['u_reference'] ?>" name="u_reference">
             </div>
          </div>
          <div class="col">
@@ -162,7 +162,7 @@
 
       <br>
       <div>* Facultatif</div>
-      <button type="submit" class="btn btn-primary">Valider</button>
+      <button type="submit" class="btn btn-primary">Envoyer</button>
       <button type="button" class="btn btn-secondary">Effacer</button>
    </form>
    <br>
