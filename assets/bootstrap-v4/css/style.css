@@ -133,3 +133,6 @@ img.profil.sm {
   padding: 5px;
   margin-bottom: 5px;
 }
+.item a {
+  padding: 10px;
+}
