@@ -24,6 +24,7 @@ class Params_model extends CI_Model {
 	}
 
     public function get_all_user() {
+        // $this->db->where('u_profilId', 2);
         $this->db->select('*');
         $this->db->from($this->user);
         $query = $this->db->get();

@@ -28,7 +28,7 @@ class Authenticate_model extends CI_Model {
     public function get_all_calendar() {
         $this->db->where('c_flag', 0);
         $this->db->select('*');
-        $this->db->order_by('c_debut', ASC);
+        $this->db->order_by('c_debut', 'ASC');
         $this->db->from($this->calendar);
         $query = $this->db->get();
         return $query->result();
@@ -37,7 +37,7 @@ class Authenticate_model extends CI_Model {
     public function get_all_cloture() {
         $this->db->where('c_flag', 1);
         $this->db->select('*');
-        $this->db->order_by('c_debut', ASC);
+        $this->db->order_by('c_debut', 'ASC');
         $this->db->from($this->calendar);
         $query = $this->db->get();
         return $query->result();
