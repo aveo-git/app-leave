@@ -7,13 +7,15 @@ class Leaves extends MX_Controller {
     function __construct() {
         parent::__construct();
         $this->load->module('security/authenticate');
+        $this->load->model('leaves_model', 'leave');
     }
 
     public function index() {
         $user = $this->session->userdata('user');
+        $data['leaves'] = $this->leave->get_all_leave_by_id($user['id_user']);
         if($user['u_profilId'] != '1') {
             $title = "Liste de congés";
-            $content = $this->load->view('list', array(), TRUE);
+            $content = $this->load->view('leaves', $data, TRUE);
             $this->display($content, TRUE, $title);
         } else {
             redirect('/list');

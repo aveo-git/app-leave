@@ -42,36 +42,6 @@
     ?>
 
     <?php if($isNeedNav): ?>
-        <?php
-            $active_h = "";
-            $active_l = "";
-            $active_list = "";
-            $active_users = "";
-            $active_params = "";
-            if(isset($model) != NULL) {
-                switch ($model) {
-                    case 'home':
-                        $active_h = "active";
-                        break;
-                    case 'leaves':
-                        $active_l = "active";
-                        break;
-                    case 'list':
-                        $active_list = "active";
-                        break;
-                    case 'users':
-                        $active_users = "active";
-                        break;
-                    case 'params':
-                        $active_params = "active";
-                        break;
-                    
-                    default:
-                        # code...
-                        break;
-                }
-            }
-        ?>
 
         <?php if($this->session->flashdata('alert')) { ?>
             <div class="alert alert-success small" style="position: fixed; bottom: 30px; right: 30px; width: 500px; z-index: 9999">
@@ -89,19 +59,19 @@
                         <div style="display: flex">
                             <!-- If admin -->
                             <?php if($user['u_profilId'] != '1'): ?>
-                                <div class="item <?= $active_h ?>">
+                                <div class="item <?= basename($_SERVER['REQUEST_URI']) == 'main' ? 'active' : '' ?>">
                                     <a href="<?= site_url('/main') ?>">
                                         <ion-icon name="home-sharp"></ion-icon>
                                     </a>
                                 </div>
-                                <div class="item <?= $active_l ?>">
+                                <div class="item <?= basename($_SERVER['REQUEST_URI']) == 'leaves' ? 'active' : '' ?>">
                                     <a href="<?= site_url('/leaves') ?>">
                                         <ion-icon name="newspaper"></ion-icon>
                                     </a>
                                 </div>
                             <!-- Sinon -->
                             <?php else: ?>
-                                <div class="item <?= $active_list ?>">
+                                <div class="item <?= basename($_SERVER['REQUEST_URI']) == 'list' ? 'active' : '' ?>">
                                     <a href="<?= site_url('/list') ?>">
                                         <ion-icon name="newspaper"></ion-icon>
                                     </a>
@@ -109,12 +79,12 @@
                                     <div class="badge_notif"></div>
                                     <?php endif ?>
                                 </div>
-                                <div class="item <?= $active_users ?>">
+                                <div class="item <?= basename($_SERVER['REQUEST_URI']) == 'users' ? 'active' : '' ?>">
                                     <a href="<?= site_url('/users') ?>">
                                         <ion-icon name="people"></ion-icon>
                                     </a>
                                 </div>
-                                <div class="item <?= $active_params ?>">
+                                <div class="item <?= basename($_SERVER['REQUEST_URI']) == 'params' ? 'active' : '' ?>">
                                     <a href="<?= site_url('/params') ?>">
                                         <ion-icon name="construct-outline"></ion-icon>
                                     </a>
@@ -123,7 +93,7 @@
                         </div>
                         <div style="display: flex">
                             <?php if($user['u_profilId'] != '1'): ?>
-                                <div class="item">
+                                <div class="item <?= basename($_SERVER['REQUEST_URI']) == 'profil' ? 'active' : '' ?>">
                                     <a href="<?= site_url('/profil') ?>">
                                         <ion-icon name="person-circle"></ion-icon>
                                     </a>

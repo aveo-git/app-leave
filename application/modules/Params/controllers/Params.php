@@ -143,7 +143,7 @@ class Params extends MX_Controller {
                                 'u_nom' => isset($name[1] )?  $name[1]  : '' ,
                                 'u_idService' => $this->params->get_service_by('s_label', $service)->id_service,
                                 'u_archived'=> 0,
-                                'u_status' => 0,
+                                'u_status' => 1,
                                 // 'u_profilId' => 2
                             );
                         }

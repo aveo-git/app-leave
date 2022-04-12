@@ -44,6 +44,9 @@ ion-icon.disabled {
 .leaves ion-icon[name="checkmark-circle"] {
   color: #71cf87;
 }
+.leaves ion-icon[name="close-circle"] {
+  color: #e44c46;
+}
 #accordion .mounth {
   color: #ee5644;
   font-weight: 700;

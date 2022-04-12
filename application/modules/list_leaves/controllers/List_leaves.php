@@ -7,17 +7,17 @@ class List_leaves extends MX_Controller {
     function __construct() {
         parent::__construct();
         $this->load->module('security/authenticate');
-        $this->load->model('list_leaves_model', 'leaves');
+        $this->load->model('list_leaves_model', 'l_leaves');
     }
 
     public function index() {
         $user = $this->session->userdata('user');
         if($user['u_profilId'] == '1') {
             $title = "Liste des congés en attentes";
-            $leaves = $this->leaves->get_all_leave_waiting();
+            $leaves = $this->l_leaves->get_all_leave_waiting();
             foreach ($leaves as $key => $value) {
-                $leaves[$key]->l_idUser = $this->leaves->get_user_by_id($value->l_idUser);
-                $leaves[$key]->l_idUser->u_idService = $this->leaves->get_service_by_id($leaves[$key]->l_idUser->u_idService);
+                $leaves[$key]->l_idUser = $this->l_leaves->get_user_by_id($value->l_idUser);
+                $leaves[$key]->l_idUser->u_idService = $this->l_leaves->get_service_by_id($leaves[$key]->l_idUser->u_idService);
             }
             $data['leaves'] = $leaves;
             $content = $this->load->view('list_leaves', $data, TRUE);
@@ -46,8 +46,8 @@ class List_leaves extends MX_Controller {
         $data = array(
             'l_statut' => $this->input->post('l_statut')
         );
-        $this->leaves->set_status_leave($this->input->post('id_leave'), $data);
-        $session_notif = count($this->leaves->get_all_leave_waiting());
+        $this->l_leaves->set_status_leave($this->input->post('id_leave'), $data);
+        $session_notif = count($this->l_leaves->get_all_leave_waiting());
         $this->session->set_userdata("notif", $session_notif);
     }
 

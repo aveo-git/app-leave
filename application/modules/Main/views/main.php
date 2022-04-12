@@ -162,8 +162,8 @@
 
       <br>
       <div>* Facultatif</div>
-      <button type="submit" class="btn btn-primary">Envoyer</button>
       <button type="button" class="btn btn-secondary">Effacer</button>
+      <button type="submit" class="btn btn-primary">Envoyer</button>
    </form>
    <br>
 </div>
