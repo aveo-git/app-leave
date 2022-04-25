@@ -139,3 +139,7 @@ img.profil.sm {
 .item a {
   padding: 10px;
 }
+.disabled-button {
+  pointer-events: none;
+  opacity: 0.5;
+}

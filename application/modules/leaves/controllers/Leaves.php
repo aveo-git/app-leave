@@ -8,11 +8,15 @@ class Leaves extends MX_Controller {
         parent::__construct();
         $this->load->module('security/authenticate');
         $this->load->model('leaves_model', 'leave');
+        $this->year = date('Y');
     }
 
     public function index() {
+        $year_sess = $this->session->userdata('year');
+		$y = $year_sess != NULL ? $year_sess['date'] : $this->year;
         $user = $this->session->userdata('user');
-        $data['leaves'] = $this->leave->get_all_leave_by_id($user['id_user']);
+        $data['leaves'] = $this->leave->get_all_leave_by_id($user['id_user'], strval($y));
+        $data['year'] = $y;
         if($user['u_profilId'] != '1') {
             $title = "Liste de congés";
             $content = $this->load->view('leaves', $data, TRUE);
@@ -35,6 +39,10 @@ class Leaves extends MX_Controller {
             $html['content'] = $content;
         }
         $this->load->view('index', $html);
+    }
+
+    public function set_date() {
+        $this->session->set_userdata('year', array('date' => $this->input->post('year')));
     }
 
     public function _remap($method) {

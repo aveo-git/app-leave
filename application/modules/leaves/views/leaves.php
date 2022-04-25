@@ -1,12 +1,18 @@
-<div class="segment leaves">
-    <div class="d-flex by-center">
+<?php 
+    $year_now = date('Y');
+    $disabled = $year_now == $year ? " disabled-button" : "";
+?>
+<div class="segment leaves" style="height: 80vh">
+    <div class="d-flex by-center" style="border-bottom: 1px solid rgba(0, 0, 0, 0.1)">
         <h6 class="py-2">Liste des congés pris</h6>
         <h6 class="py-2 year">
-            <ion-icon name="arrow-back-circle"></ion-icon>    
-            <span>2022</span>
-            <ion-icon name="arrow-forward-circle"></ion-icon>
+            <ion-icon class="button-date" data-action="prev" name="arrow-back-circle"></ion-icon>    
+            <button class="btn btn-default"><?= $year ?></button>
+            <ion-icon class="button-date <?= $disabled ?>" data-action="next" name="arrow-forward-circle"></ion-icon>
         </h6>
     </div>
+    <br>
+    <?php if(count($leaves) != 0): ?>
     <div>
         <div class="d-flex by-center pb-1">
             <div>
@@ -17,6 +23,14 @@
     </div>
     <div id="accordion">
     </div>
+    <?php else: ?>
+        <div class="empty-data">
+            <div class="text-center">
+                <div><img src="<?= base_url().'/assets/images/empty-data.PNG' ?>" alt=""></div>
+                <div>Aucun congé.</div>
+            </div>
+        </div>
+    <?php endif; ?>
 </div>
 
 <script>
@@ -69,6 +83,8 @@
     // Ajout des congés dans le dom
     temp.forEach((item, index) => {
         let str = '';
+        let show = (temp.length == (index+1)) ? ' show' : '';
+
         item.leaves.forEach(l => {
             let icon = l.statut == '1' ? '<ion-icon name="checkmark-circle"></ion-icon>' : '<ion-icon name="close-circle"></ion-icon>';
             str += `<li>
@@ -97,7 +113,7 @@
                     </div>
                 </div>
     
-                <div id="collapse`+index+`" class="collapse" aria-labelledby="heading`+index+`" data-parent="#accordion">
+                <div id="collapse`+index+`" class="collapse`+show+`" aria-labelledby="heading`+index+`" data-parent="#accordion">
                     <div class="card-body">
                         <ul style="margin-left: -15px">
                             `+str+`
@@ -107,5 +123,11 @@
             </div>
         `)
     });
+
+    $('.button-date').on('click', function() {
+        let date = '<?= $year ?>';
+        let data = $(this).data('action') === 'next' ? [{name: 'year', value: parseInt(date, 10)+1}] : [{name: 'year', value: parseInt(date, 10)-1}];
+        ajax_func(data, 'leaves/set_date');
+    })
 
 </script>
