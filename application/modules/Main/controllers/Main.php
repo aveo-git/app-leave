@@ -17,7 +17,8 @@ class Main extends MX_Controller {
         $user = $this->session->userdata('user');
         if($user['u_profilId'] != '1') {
             $title = "Dashboard";
-            $content = $this->load->view('main', array(), TRUE);
+            $data['publicholiday'] = $this->main->get_all_calendar_date();
+            $content = $this->load->view('main', $data, TRUE);
             $this->display($content, TRUE, $title);
         } else {
             redirect('/list');
@@ -59,9 +60,10 @@ class Main extends MX_Controller {
         $this->main->insert_leave($data);
         $user['u_dispo'] = $nbJrest;
 
+        $this->mail->send_deposite($user);
         $this->session->set_userdata('user', $user);
 
-        $this->session->set_flashdata('alert', "NOTE : Demande de congé envoyé, vous recevrez un mail lorsque le responsable aura fini d'examiner votre demande.");
+        $this->session->set_flashdata('alert', "NOTE : Demande de congé envoyée, vous recevrez un mail lorsque le responsable aura fini d'examiner votre demande.");
     }
 
     private function calcul_nbJour($d2, $d1) {

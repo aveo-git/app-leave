@@ -25,6 +25,14 @@ class List_leaves_model extends CI_Model {
         return $query->row();
     }
 
+    public function get_leave_by_id($id) {
+        $this->db->where('id_leave', $id);
+        $this->db->select('*');
+        $this->db->from($this->leave);
+        $query = $this->db->get();
+        return $query->row();
+    }
+
     public function get_service_by_id($id) {
         $this->db->where('id_service', $id);
         $this->db->select('*');

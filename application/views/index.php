@@ -20,6 +20,20 @@
                 }
             })
         }
+        let ajax_func_validate = (data, url) => {
+            $.ajax({
+                url: "<?= base_url().'index.php/' ?>"+url,
+                method: "POST",
+                data: data,
+                beforeSend: function() {
+                    $(".progress").addClass('active');
+                },
+                success: function() {
+                    $(".progress").removeClass('active');
+                    location.reload();
+                }
+            })
+        }
     </script>
 
     <?php
@@ -46,9 +60,6 @@
         <?php if($this->session->flashdata('alert')) { ?>
             <div class="alert alert-success small" style="position: fixed; bottom: 30px; right: 30px; width: 500px; z-index: 9999">
                 <span class="message"><?= $this->session->flashdata('alert'); ?></span>
-                <button type="button" class="rh-close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true" style="font-size: 22px;position: relative;bottom: 3px;">&times;</span>
-                </button>
             </div>
         <?php } ?>
 
@@ -235,7 +246,7 @@
 
             new Calendar({
                 id: '#color-calendar',
-                customWeekdayValues: ["Lun", "Mar", "Mer", "Jeu", "Ven", "Sam", "Dim"],
+                customWeekdayValues: ["Dim", "Lun", "Mar", "Mer", "Jeu", "Ven", "Sam"],
                 eventsData: myEvents
             })
 

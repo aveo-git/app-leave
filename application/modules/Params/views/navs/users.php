@@ -32,7 +32,7 @@
     <hr>
     <button type="submit" class="btn btn-secondary" id="importAd-button">Importer</button>
     <button type="button" class="btn btn-danger" id="deleteAll-button" data-toggle='modal' data-target='#delete_user_modal'>Supprimer</button>
-    <button type="button" class="btn btn-secondary float-right" id="add_user" data-toggle='modal' data-target='#edit_user_modal'>Ajouter un utilisateur</button>
+    <button type="button" class="btn btn-secondary float-right" id="add_user" data-toggle='modal' data-target='#edit_user_modal'>Ajouter</button>
     <br><br>
 </div>
 

@@ -66,6 +66,7 @@
         data.total = with_zero(count);
         return data;
     }
+
     // Lister par mois les congés
     let temp = [];
     function tsy_haiko(l) {
@@ -78,7 +79,6 @@
         }
     }
     tsy_haiko(leaves)
-    console.dir(temp);
 
     // Ajout des congés dans le dom
     temp.forEach((item, index) => {

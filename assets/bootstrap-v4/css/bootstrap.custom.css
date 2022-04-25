@@ -139,6 +139,7 @@ label {
 }
 
 .alert-danger {
+  color: #000000;
   background-color: #ff03582e;
   border-color: #ff0358;
 }

@@ -8,6 +8,8 @@ class List_leaves extends MX_Controller {
         parent::__construct();
         $this->load->module('security/authenticate');
         $this->load->model('list_leaves_model', 'l_leaves');
+        $this->load->module('mail/mail');
+        $this->load->library('email');
     }
 
     public function index() {
@@ -47,6 +49,12 @@ class List_leaves extends MX_Controller {
             'l_statut' => $this->input->post('l_statut')
         );
         $this->l_leaves->set_status_leave($this->input->post('id_leave'), $data);
+
+        $user = $this->l_leaves->get_user_by_id($this->l_leaves->get_leave_by_id($this->input->post('id_leave'))->l_idUser);
+        $user->l_statut = $this->input->post('l_statut');
+        $arr['user'] = $user;
+        $this->mail->send_status_leave($arr);
+
         $session_notif = count($this->l_leaves->get_all_leave_waiting());
         $this->session->set_userdata("notif", $session_notif);
     }

@@ -31,7 +31,7 @@ class Authenticate extends MX_Controller {
         $session_user = array();
         $test = false;
         if($user != NULL) {
-            if($user->u_archived == 0) {
+            if($user->u_archived == 0 && $user->u_status) {
                 $AD_IP = $this->params->get_one_by_code("AD_IP");
                 $suffixe_ad = $this->params->get_one_by_code("SU_AD");
                 $pseudo = $this->input->post('u_pseudo')."".$suffixe_ad->param_value;

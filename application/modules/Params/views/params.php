@@ -19,12 +19,12 @@
    </ul>
    <br>
    <div class="tab-content" id="myTabContent">
-      <div class="tab-pane fade" id="general" role="tabpanel" aria-labelledby="general-tab">
+      <div class="tab-pane fade show active" id="general" role="tabpanel" aria-labelledby="general-tab">
          <div>
             <?= $general ?>
          </div>
       </div>
       <div class="tab-pane fade" id="users" role="tabpanel" aria-labelledby="users-tab"><?= $users ?></div>
-      <div class="tab-pane fade show active" id="calendar" role="tabpanel" aria-labelledby="calendar-tab"><?= $calendar ?></div>
+      <div class="tab-pane fade" id="calendar" role="tabpanel" aria-labelledby="calendar-tab"><?= $calendar ?></div>
    </div>
 </div>

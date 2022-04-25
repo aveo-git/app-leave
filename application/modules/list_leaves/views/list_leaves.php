@@ -6,7 +6,12 @@
     }
     $waiting = count($leaves);
 ?>
-
+<div class="progress">
+    <div style="text-align: center">
+        <i class="fa fa-spinner fa-pulse fa-3x fa-fw" style="color: #FFFFFF;"></i>
+        <div style="color: #FFF;font-size: 20px;padding: 15px 0 0 0;">Envoi de mail en cours ...</div>
+    </div>
+</div>
 <div class="segment"><br>
     <div class="d-flex">
         <div class="border-right" style="padding-right: 25px; max-width: 290px;width: 290px; min-height: 70vh">
@@ -165,7 +170,7 @@
             {name: 'id_leave', value: $('#waiting-form #id-leave').val()},
             {name: 'l_statut', value: 1}
         ]
-        ajax_func(data, 'list_leaves/valid_conge');
+        ajax_func_validate(data, 'list_leaves/valid_conge');
     })
 
     $('#refuse-leave').on('click', function() {
@@ -173,6 +178,6 @@
             {name: 'id_leave', value: $('#waiting-form #id-leave').val()},
             {name: 'l_statut', value: 2}
         ]
-        ajax_func(data, 'list_leaves/valid_conge');
+        ajax_func_validate(data, 'list_leaves/valid_conge');
     })
 </script>

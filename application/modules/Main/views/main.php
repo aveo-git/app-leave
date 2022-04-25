@@ -1,7 +1,20 @@
 <?php
    $user = $this->session->userdata('user');
+   $disabled = '';
+   // var_dump($user);
 ?>
-
+<?php
+   if($user['u_email'] == null){
+      $disabled = 'disabled';
+      ?>
+<div class="alert alert-danger">Assurez-vous que votre adresse email n'est pas vide. Si c'est le cas, modifiez-le <a href="<?= site_url().'/profil' ?>">ici</a>.</div>
+<?php } ?>
+<div class="progress">
+    <div style="text-align: center">
+        <i class="fa fa-spinner fa-pulse fa-3x fa-fw" style="color: #FFFFFF;"></i>
+        <div style="color: #FFF;font-size: 20px;padding: 15px 0 0 0;">Envoi de mail en cours ...</div>
+    </div>
+</div>
 <div class="segment">
    <br>
    <h6 class="py-2">Veuillez remplir les formulaires ci-dessous :</h6>
@@ -129,6 +142,11 @@
             </div>
          </div>
       </div>
+      <div class="row alert_date_negative">
+         <div class="col">
+            <div class="alert alert-danger">Date invalide, vérifier votre date.</div>
+         </div>
+      </div>
       <div class="row">
          <div class="col-lg-12 lv-droits d-flex">
             <div>
@@ -163,12 +181,14 @@
       <br>
       <div>* Facultatif</div>
       <button type="button" class="btn btn-secondary">Effacer</button>
-      <button type="submit" class="btn btn-primary">Envoyer</button>
+      <button type="submit" class="btn btn-primary send_leave" <?= $disabled ?>>Envoyer</button>
    </form>
    <br>
 </div>
 
 <script>
+
+   $('.alert_date_negative').hide()
    
    let insert_all_data = () => {
       $('#lv-nom').val('RASOLONIRINA');
@@ -184,43 +204,67 @@
       e.preventDefault();
       let data = $(this).serializeArray();
       let d1 = {
-         "date": $('#lv-dateDepart').val(),
+         "date": new Date($('#lv-dateDepart').val()),
          "option": $('#lv-dateDepart-option').val()
       }
       let d2 = {
-         "date": $('#lv-dateFin').val(),
+         "date": new Date($('#lv-dateFin').val()),
          "option": $('#lv-dateFin-option').val()
       }
       data.push({name: 'nbJpris', value: get_jourPris(d1, d2)});
       
-      ajax_func(data, 'main/add_leave');
+      ajax_func_validate(data, 'main/add_leave');
    })
 
    $('#refresh_nb').on('click', function() {
+      let d1, d2 = null;
       if($('#lv-dateDepart').val() != "" && $('#lv-dateFin').val() != "") {
          let d1 = {
-            "date": $('#lv-dateDepart').val(),
+            "date": new Date($('#lv-dateDepart').val()),
             "option": $('#lv-dateDepart-option').val()
          }
          let d2 = {
-            "date": $('#lv-dateFin').val(),
+            "date": new Date($('#lv-dateFin').val()),
             "option": $('#lv-dateFin-option').val()
          }
-         $('#nb_Jpris').html(add_zero(get_jourPris(d1, d2)));
-         $('#nb_Jrestant').html(add_zero(<?= $user['u_dispo'] ?> - get_jourPris(d1, d2)));
+         let jPris = get_jourPris(d1, d2);
+         if(jPris < 0) {
+            $('.send_leave').prop('disabled', true);
+            $('.alert_date_negative').show().fadeOut(7000);
+         } else {
+            $('.send_leave').prop('disabled', false);
+            $('#nb_Jpris').html(add_zero(jPris));
+            $('#nb_Jrestant').html(add_zero(<?= $user['u_dispo'] ?> - jPris));
+         }
       }
    })
 
    let get_jourPris = (d1, d2) => {
-      if(d1.option == "08:00" && d2.option == "17:00") return (get_diff_date(d2.date, d1.date) + 1);
-      if(d1.option == "12:00" && d2.option == "12:00") return (get_diff_date(d2.date, d1.date));
-      if(d1.option != "08:00" || d2.option != "17:00") return (get_diff_date(d2.date, d1.date) + 1 - (1/2));
+      let diff = 0;
+      if(d1.date>d2.date) return -1;
+      if(d1.option == "08:00" && d2.option == "17:00") diff = get_diff_date(d2.date, d1.date) + 1;
+      if(d1.option == "12:00" && d2.option == "12:00") diff = get_diff_date(d2.date, d1.date);
+      if(d1.option != "08:00" || d2.option != "17:00") diff = get_diff_date(d2.date, d1.date) + 1 - (1/2);
+      return diff - sundayAndHolidayExisting(d1.date, d2.date);
    }
 
    let get_diff_date = (d2, d1) => {
-      let date1 = new Date(d1);
-      let date2 = new Date(d2);
-      return (date2.getTime() - date1.getTime()) / (1000 * 3600 *24);
+      return (d2.getTime() - d1.getTime()) / (1000 * 3600 *24);
+   }
+
+   // Jour ferié + dimanche
+   let sundayAndHolidayExisting = (d1, d2) => {
+      let count = 0;
+      let all_holiday = _.map(<?= json_encode((array) $publicholiday); ?>, (n) => {
+         return new Date(n.c_debut);
+      })
+      for(let i = d1; i <= d2; i.setDate(i.getDate() + 1)) {
+         if(i.getDay() == 0) { 
+            count++ ;
+         }
+         if(all_holiday.find(e => _.isEqual(e, i)) !== undefined) count++;
+      }
+      return count;
    }
 
    let add_zero = (n) => {

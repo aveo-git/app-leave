@@ -13,8 +13,33 @@ class Mail extends MX_Controller {
         return;
     }
 
+    public function send_deposite($data) {
+        $params = $this->parametre();
+        $dest = $params['mailDest'];
+        $html = $this->load->view('mail_deposite', $data, TRUE); // Récuperation des données
+        $this->email->initialize($params['psettings']);
+        $this->email->to($dest);
+        $this->email->from($params['mailsender'], $params['mailappname']);
+        $this->email->subject($params['mailsubject']);
+        $this->email->message($html); // chargement du template
+        $this->email->send();
+    }
+
+    public function send_status_leave($data) {
+        $params = $this->parametre();
+        var_dump($data);
+        $dest = $data['user']->u_email;
+        $html = $this->load->view('mail_decision', $data, TRUE); // Récuperation des données
+        $this->email->initialize($params['psettings']);
+        $this->email->to($dest);
+        $this->email->from($params['mailsender'], $params['mailappname']);
+        $this->email->subject('Validation congé');
+        $this->email->message($html); // chargement du template
+        $this->email->send();
+    }
+
     public function parametre() {
-        $mailDest = $this->set_mailDiffusion($this->params->get_one_by_code('email_destinataire')->param_value);
+        $mailDest = $this->set_mailDest($this->params->get_one_by_code('email_destinataire')->param_value);
         $mailsender = $this->params->get_one_by_code('email_sender')->param_value; // Mail qui va envoyer les mail par défaut
         $mailappname = $this->params->get_one_by_code('email_appname')->param_value; // Nom de l'application
         $mailsubject = $this->params->get_one_by_code('email_subject')->param_value; // Nom de l'application
@@ -38,23 +63,10 @@ class Mail extends MX_Controller {
         );
     }
 
-    public function parametre_for_admin() {
-        $psettings = array( // Configuration de base de l'envoi de mail
-            'mailtype' => "html",
-            'protocol' => "smtp",
-            'smtp_host' => "mail.iris.re",
-            'smtp_user' => "aveolys@aveolys.com",
-            'smtp_pass' => "@uthent974",
-            'smtp_port' => "587",
-            'smtp_crypto' => "tls",
-            'priority' => "1",
-            'charset' => "utf-8",
-        );
-        return $data = array(
-            "mailsender" => "aveolys@aveolys.com",
-            "mailappname" => $this->params->get_one_by_code('email_appname')->param_value,
-            "psettings" => $psettings,
-        );
+    // S'il existe plusieurs mails de destination
+    private function set_mailDest($mails) {
+        $data = explode(";", $mails);
+        return implode(', ', $data);
     }
 
     private function get_entire_date($date) {
