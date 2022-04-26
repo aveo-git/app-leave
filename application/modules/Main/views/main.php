@@ -172,7 +172,7 @@
       <div class="row">
          <div class="col-lg-12">
             <div class="alert alert-primary">
-            Vous devez soumettre vos demandes des congé (à l'exception des congés maladies) deux jours avant leur date effective. Les
+            Vous devez soumettre vos demandes de congé (à l'exception des congés maladies) deux jours avant leur date effective. Les
             congés pour raison exceptionnelle doivent être accompagnés d'un justificatif (médical, mariage, naissance, décès, ...).
             </div>
          </div>

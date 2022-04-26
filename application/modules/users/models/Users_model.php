@@ -59,4 +59,9 @@ class Users_model extends CI_Model {
         }
         return $temp;
     }
+
+    public function delete_leave_by_id($id) {
+        $this->db->where('id_leave', $id);
+        $this->db->delete($this->leave);
+    }
 }

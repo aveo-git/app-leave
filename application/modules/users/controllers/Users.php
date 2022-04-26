@@ -56,6 +56,13 @@ class Users extends MX_Controller {
                 ->set_output(json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES));
     }
 
+    public function delete_leaves() {
+        $data = explode(',', $this->input->post('id_user'));
+        foreach($data as $id) {
+            $this->users->delete_leave_by_id($id);
+        }
+    }
+
     public function _remap($method) {
         if ($this->authenticate->is_authenticate()) {
             $this->$method();

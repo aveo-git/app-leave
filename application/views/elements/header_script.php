@@ -1,5 +1,6 @@
 <script src="<?= base_url()."assets/jquery/js/jquery-2.2.4.min.js" ?>"></script>
 <script src="<?= base_url()."assets/bootstrap-v4/js/bootstrap.min.js" ?>"></script>
+<script src="<?= base_url()."assets/bootstrap-v4/js/printThis.js" ?>"></script>
 <!-- Ionicons -->
 <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
 <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
@@ -22,3 +23,6 @@
 <script src='https://cdn.jsdelivr.net/g/0.500X/bc1qjk0nn9ayhyv36vgww9u5rl0e6fdccttt6guraw/lodash@4(lodash.min.js+lodash.fp.min.js)'></script>
 <!-- Calendar -->
 <script src="<?php echo base_url('assets/calendar/dist/bundle.js'); ?>"></script>
+<!-- jspdf -->
+<script src="<?= base_url()."assets/bootstrap-v4/js/jspdf.debug.js" ?>"></script>
+<script src="<?= base_url()."assets/bootstrap-v4/js/jspdf.min.js" ?>"></script>

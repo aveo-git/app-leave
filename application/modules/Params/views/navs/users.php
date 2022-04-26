@@ -14,7 +14,7 @@
             <table id="userad_data" class="table table-striped table-bordered compact dataTable no-footer" role="grid" aria-describedby="datatable_info" style="width: 100%">
                 <thead>
                     <tr role="row">
-                        <th style="width: 4%; text-align: center"><input type="checkbox" name="" id=""></th>
+                        <th style="width: 4%; text-align: center"></th>
                         <th>Pseudo</th>
                         <th>Nom et Prénom</th>
                         <th>Service</th>

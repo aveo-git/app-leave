@@ -10639,4 +10639,26 @@ a.text-dark:focus {
     border-color: #dee2e6;
   }
 }
+
+#print_leave_modal {
+  color: #000000;
+}
+#print_leave_modal .motif {
+  background-color: #000000;
+  color: #ffffff;
+  text-align: center;
+}
+#print_leave_modal h1 {
+  font-size: 18px;
+  color: #000;
+  font-weight: 700;
+}
+#print_leave_modal .item {
+  padding: 10px 0px;
+}
+#print_leave_modal .value {
+  padding: 0px 20px;
+  font-weight: 700;
+}
+
 /*# sourceMappingURL=bootstrap.css.map */
