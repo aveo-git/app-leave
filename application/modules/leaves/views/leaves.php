@@ -48,7 +48,7 @@
     function retrieve_leave(l) {
         let count = 0;
         let data = {
-            month: months[new Date(l[0].l_dateAjout).getMonth()+1],
+            month: months[new Date(l[0].l_dateDepart).getMonth()],
             leaves: [],
         };
         l.forEach(element => {
