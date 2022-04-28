@@ -19,10 +19,12 @@ class Params extends MX_Controller {
             redirect('/main');
         } else {
             $title = "Paramètre";
+            $params['users'] = json_encode((array) $this->params->get_all_user());
             $params['params_ldap'] = $this->params->get_all(1);
             $params['params_email'] = $this->params->get_all(2);
             $data['general'] = $this->load->view('navs/general', $params, TRUE);
 
+            $users['resp'] = $this->params->get_one_by_code("email_destinataire")->param_value;
             $users['services'] = $this->params->get_all_service();
             $data['users'] = $this->load->view('navs/users', $users, TRUE);
 

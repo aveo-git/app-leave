@@ -9,6 +9,7 @@ class Main extends MX_Controller {
         $this->load->module('security/authenticate');
         $this->load->module('admin/admin');
         $this->load->model('main_model', 'main');
+        $this->load->model('params_model', 'params');
         $this->load->module('mail/mail');
         $this->load->library('email');
     }
@@ -17,6 +18,7 @@ class Main extends MX_Controller {
         $user = $this->session->userdata('user');
         if($user['u_profilId'] != '3') {
             $title = "Dashboard";
+            $data['resp'] = $this->main->get_user_by_email($this->params->get_one_by_code("email_destinataire")->param_value);
             $data['publicholiday'] = $this->main->get_all_calendar_date();
             $content = $this->load->view('main', $data, TRUE);
             $this->display($content, TRUE, $title);

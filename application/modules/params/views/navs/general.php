@@ -51,7 +51,7 @@
                   <label for="lv-lib">Params lib</label>
                   <input type="text" class="form-control" id="lv-lib" name="param_lib" aria-describedby="lv-lib" required>
                </div>
-               <div class="form-group col">
+               <div class="form-group col for-resp">
                   <label for="lv-value">Params value</label>
                   <input type="text" class="form-control" id="lv-value" name="param_value" aria-describedby="lv-value" required>
                </div>
@@ -69,11 +69,32 @@
 
 <script>
     $('.icon_edit').on('click', function() {
-        $('#title-params').html($(this).data('code'))
-        $('#updateparams-form #lv-code').val($(this).data('code'))
-        $('#updateparams-form #lv-lib').val($(this).data('lib'))
-        $('#updateparams-form #lv-value').val($(this).data('value'))
-        $('#code_params').val($(this).data('code'));
+      let users = <?= $users ?>;
+      if($(this).data('code') == 'email_destinataire') {
+        let str = '<select class="form-control" id="lv-value" name="param_value" aria-describedby="lv-value" required="required">';
+        users.forEach(item => {
+          if(item.u_email != null) {
+            str += `
+                <option value="`+item.u_email+`">`+item.u_email+`</option>
+                `;
+          } else {
+            str += `
+                <option value="`+item.u_email+`" disabled>`+item.u_prenom+` `+item.u_nom+`(Pas de mail)</option>
+                `;
+          }
+        })
+        str += `</select>`;
+        $('#updateparams-form .for-resp').html(`
+          <label for="lv-value">Params value</label>
+          `+str+`
+        `)
+      }
+      $('#title-params').html($(this).data('code'))
+      $('#updateparams-form #lv-code').val($(this).data('code'))
+      $('#updateparams-form #lv-lib').val($(this).data('lib'))
+      $('#updateparams-form #lv-value').val($(this).data('value'))
+      $('#code_params').val($(this).data('code'));
+      
     })
 
     // Modification parametre

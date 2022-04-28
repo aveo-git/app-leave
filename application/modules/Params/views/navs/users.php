@@ -167,7 +167,8 @@
             {"data": 'u_pseudo'},
             {"data": null,
                 render: function(item) {
-                    return "<img src=<?= base_url().'/assets/images/' ?>"+item.u_avatar+" width='15%' />"+" "+item.u_prenom+" "+item.u_nom;
+                    let admin = item.u_email == '<?= $resp ?>' ? '<span class="btn-valide" style="background-color: #e9e9e9" title="Responsable d\'agence">Resp.</span>' : ''
+                    return "<img src=<?= base_url().'/assets/images/' ?>"+item.u_avatar+" width='15%' />"+" "+item.u_prenom+" "+item.u_nom+" "+admin;
                 } 
             },
             {"data": 'u_idService'},

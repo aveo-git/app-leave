@@ -6,6 +6,7 @@ class Main_model extends CI_Model {
         parent::__construct();
         $this->leave = "l_leave";
         $this->calendar = 'l_calendar';
+        $this->user = 'l_user';
     }
 
     public function insert_leave($data) {
@@ -20,5 +21,13 @@ class Main_model extends CI_Model {
         $this->db->from($this->calendar);
         $query = $this->db->get();
         return $query->result();
+    }
+
+    public function get_user_by_email($email) {
+        $this->db->where('u_email', $email);
+        $this->db->select('*');
+        $this->db->from($this->user);
+        $query = $this->db->get();
+        return $query->row();
     }
 }

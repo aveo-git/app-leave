@@ -53,7 +53,7 @@
          <div class="col">
             <div class="form-group">
                <label class="" for="lv-responsable">Résponsable</label>
-               <input type="text" class="form-control" id="lv-responsable" value="Patrick Hervier" name="u_responsable" required>
+               <input type="text" class="form-control" id="lv-responsable" value="<?= $resp->u_prenom." ".$resp->u_nom ?>" name="u_responsable" required>
             </div>
          </div>
          <div class="col">
