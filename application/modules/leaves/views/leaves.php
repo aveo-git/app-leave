@@ -40,9 +40,8 @@
         return with_zero(new Date(date).getDate())+' '+months[new Date(date).getMonth()]+' à '+with_zero(new Date(date).getHours())+':'+with_zero(new Date(date).getMinutes());
     }
     let with_zero = (n) => {
-        return n < 10 ? ("0"+n) : n;
+        return n < 10 && n >= 1 || n == 0 ? ("0"+n) : n;
     }
-    console.dir(leaves);
 
     // Formaliser les congés
     function retrieve_leave(l) {
@@ -61,7 +60,8 @@
                 rest: element.l_nbJrest,
                 statut: element.l_statut
             })
-            count += parseInt(element.l_nbJpris, 10);
+            if(element.l_statut != "2")
+                count += parseFloat(element.l_nbJpris, 10);
         });
         data.total = with_zero(count);
         return data;
@@ -72,7 +72,7 @@
     function tsy_haiko(l) {
         if(l.length != 0) {
             let l_temp = _.filter(l, function(d) {
-                    return (new Date(d.l_dateAjout).getMonth()+1) === new Date(l[0].l_dateAjout).getMonth()+1;
+                    return (new Date(d.l_dateDepart).getMonth()+1) === new Date(l[0].l_dateDepart).getMonth()+1;
                 });
             temp.push(retrieve_leave(l_temp));
             tsy_haiko(_.difference(l, l_temp))
@@ -81,17 +81,18 @@
     tsy_haiko(leaves)
 
     // Ajout des congés dans le dom
+    // console.dir(temp);
     temp.forEach((item, index) => {
         let str = '';
         let show = (temp.length == (index+1)) ? ' show' : '';
 
         item.leaves.forEach(l => {
-            let icon = l.statut == '1' ? '<ion-icon name="checkmark-circle"></ion-icon>' : '<ion-icon name="close-circle"></ion-icon>';
+            let icon = l.statut == '1' ? ' <span class="btn-valide">validé</span>' : ' <span class="btn-refused" style="background-color: #ffb2ba; padding: 1px 5px; border-radius: 5px">refusé</span>';
             str += `<li>
                         `+l.debut+` - `+l.fin+` : `+l.type+` | 
                         Droits disponibles : `+l.dispo+` | 
                         Jour pris : <span style="color: #ee5644">`+l.pris+`</span> | 
-                        Droit restant : `+l.rest+` 
+                        Droit restant : `+l.rest+`&nbsp;&nbsp;
                         `+icon+`
                     </li>`
         });

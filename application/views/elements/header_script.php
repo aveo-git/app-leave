@@ -1,6 +1,5 @@
 <script src="<?= base_url()."assets/jquery/js/jquery-2.2.4.min.js" ?>"></script>
 <script src="<?= base_url()."assets/bootstrap-v4/js/bootstrap.min.js" ?>"></script>
-<script src="<?= base_url()."assets/bootstrap-v4/js/printThis.js" ?>"></script>
 <!-- Ionicons -->
 <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
 <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>

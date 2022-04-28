@@ -143,3 +143,19 @@ img.profil.sm {
   pointer-events: none;
   opacity: 0.5;
 }
+span.btn-valide {
+  color: #000;
+  background-color: #bdffc0;
+  padding: 1px 5px;
+  border-radius: 5px;
+  font-size: 13px;
+  text-transform: capitalize;
+}
+span.btn-refused {
+  color: #000;
+  background-color: #ffb2ba;
+  padding: 1px 5px;
+  border-radius: 5px;
+  font-size: 12px;
+  text-transform: capitalize;
+}

@@ -144,7 +144,7 @@
       </div>
       <div class="row alert_date_negative">
          <div class="col">
-            <div class="alert alert-danger">Date invalide, vérifier votre date.</div>
+            <div class="alert alert-danger message"></div>
          </div>
       </div>
       <div class="row">
@@ -188,17 +188,10 @@
 
 <script>
 
-   $('.alert_date_negative').hide()
-   
-   let insert_all_data = () => {
-      $('#lv-nom').val('RASOLONIRINA');
-      $('#lv-prenom').val('Dimby');
-      $('#lv-reference').val('001-AVEO-2019');
-      $('#lv-service').val('Dev Web et Graphiste');
-      $('#lv-responsable').val('Patrick Hervier');
-      $('#lv-conge').prop('checked', true);
+   $('.alert_date_negative').hide();
+   if(<?= $user['u_dispo'] ?> == 0){
+      $('.send_leave').prop('disabled', true);
    }
-   // insert_all_data();
 
    $('#form-addleave').on('submit', function(e) {
       e.preventDefault();
@@ -228,13 +221,20 @@
             "option": $('#lv-dateFin-option').val()
          }
          let jPris = get_jourPris(d1, d2);
-         if(jPris < 0) {
+         if(<?= $user['u_dispo'] ?> < jPris) {
             $('.send_leave').prop('disabled', true);
+            $('.alert_date_negative .message').html("Vous n'avez plus assez de date disponible.");
             $('.alert_date_negative').show().fadeOut(7000);
          } else {
-            $('.send_leave').prop('disabled', false);
-            $('#nb_Jpris').html(add_zero(jPris));
-            $('#nb_Jrestant').html(add_zero(<?= $user['u_dispo'] ?> - jPris));
+            if(jPris < 0) {
+               $('.send_leave').prop('disabled', true);
+               $('.alert_date_negative .message').html('Date invalide, vérifier votre date.')
+               $('.alert_date_negative').show().fadeOut(7000);
+            } else {
+               $('.send_leave').prop('disabled', false);
+               $('#nb_Jpris').html(add_zero(jPris));
+               $('#nb_Jrestant').html(add_zero(<?= $user['u_dispo'] ?> - jPris));
+            }
          }
       }
    })
