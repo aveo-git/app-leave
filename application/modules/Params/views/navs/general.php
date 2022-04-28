@@ -25,6 +25,10 @@
         <?php endforeach ?>
     </div>
 </form>
+<div>
+  <button type="button" class="btn btn-secondary" id="test_messagerie" title="Tester si les parametres de messagerie sont correctes">Tester</button>
+</div>
+<br>
 
 <!-- Modal pour mofication LDAP -->
 <div class="modal fade" id="edit_params" tabindex="-1" role="dialog" data-backdrop="static" aria-labelledby="params_serviceLabel" aria-hidden="true">
@@ -75,5 +79,22 @@
     // Modification parametre
    $('#update_params').on('click', function() {
        ajax_func($('#updateparams-form').serializeArray(), 'params/update_params')
+   })
+
+   // Tester si les params messagerie sont correctes
+   $("#test_messagerie").on('click', function() {
+      $.ajax({
+         url: '<?= site_url('/params/send_test') ?>',
+         method: "POST",
+         data: null,
+         beforeSend: function() {
+            $('.progress .message').html('Envoie de mail en cours ...')
+            $(".progress").addClass('active');
+         },
+         success: function(msg) {
+            $(".progress").removeClass('active');
+            location.reload();
+         }
+      })
    })
 </script>

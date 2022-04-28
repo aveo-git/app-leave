@@ -14,7 +14,7 @@ class List_leaves extends MX_Controller {
 
     public function index() {
         $user = $this->session->userdata('user');
-        if($user['u_profilId'] == '1') {
+        if($user['u_profilId'] == '3') {
             $title = "Liste des congés en attentes";
             $leaves = $this->l_leaves->get_all_leave_waiting();
             foreach ($leaves as $key => $value) {

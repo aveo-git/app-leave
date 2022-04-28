@@ -17,7 +17,7 @@ class Leaves extends MX_Controller {
         $user = $this->session->userdata('user');
         $data['leaves'] = $this->leave->get_all_leave_by_id($user['id_user'], strval($y));
         $data['year'] = $y;
-        if($user['u_profilId'] != '1') {
+        if($user['u_profilId'] != '3') {
             $title = "Liste de congés";
             $content = $this->load->view('leaves', $data, TRUE);
             $this->display($content, TRUE, $title);

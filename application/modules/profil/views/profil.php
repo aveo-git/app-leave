@@ -8,7 +8,7 @@
     </div>
     <br>
     <div class="row justify-content-center">
-        <div class="col-lg-5">
+        <div class="col-lg-6">
             <form id="profil-form">
                 <div class="form-group">
                     <label class="" for="lv-nom">Profil image</label>
@@ -38,13 +38,41 @@
                         <?php endforeach ?>
                      </select>
                 </div>
+                <hr>
                 <br>
                 <div class="text-center">
-                    <button type="submit" class="btn btn-primary" id="profil-submit">Valider</button>
                     <button type="button" class="btn btn-secondary">Annuler</button>
+                    <button type="submit" class="btn btn-primary">Valider</button>
                 </div>
             </form>
             <br><br>
+            <?php if($user['u_profilId'] == 2): ?>
+            <div>
+                <?php if($this->session->flashdata('error')) { ?>
+                    <div class="alert alert-warning small"><?= $this->session->flashdata('error'); ?></div>
+                <?php } ?>
+                <form id="password-form">
+                    <div class="form-group">
+                        <label class="" for="lv-ancient">Ancien mot de passe</label>
+                        <input type="password" class="form-control" id="lv-ancient" name="u_password">
+                    </div>
+                    <div class="form-group">
+                        <label class="" for="lv-new">Nouveau mot de passe</label>
+                        <input type="password" class="form-control" id="lv-new" name="u_new_password" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="" for="lv-confirmation">Confirmation</label>
+                        <input type="password" class="form-control" id="lv-confirmation" name="u_confirmation" required>
+                    </div>
+                    <br>
+                    <div class="text-center">
+                        <button type="button" class="btn btn-secondary">Annuler</button>
+                        <button type="submit" class="btn btn-primary">Changer</button>
+                    </div>
+                </form>
+                <br><br>
+            </div>
+            <?php endif ?>
         </div>
     </div>
 </div>
@@ -78,5 +106,11 @@
                 }
             })
         }
+    })
+
+    $('#password-form').on('submit', function(e) {
+        e.preventDefault();
+        let data = $(this).serializeArray();
+        ajax_func(data, 'profil/set_password');
     })
 </script>

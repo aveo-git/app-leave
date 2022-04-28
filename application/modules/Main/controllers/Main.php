@@ -15,7 +15,7 @@ class Main extends MX_Controller {
 
     public function index() {
         $user = $this->session->userdata('user');
-        if($user['u_profilId'] != '1') {
+        if($user['u_profilId'] != '3') {
             $title = "Dashboard";
             $data['publicholiday'] = $this->main->get_all_calendar_date();
             $content = $this->load->view('main', $data, TRUE);

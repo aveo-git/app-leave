@@ -28,38 +28,47 @@ class Authenticate extends MX_Controller {
 
     public function authenticate() {
         $user = $this->auth_model->get_user($this->input->post('u_pseudo'));
+        var_dump($user);
         $session_user = array();
         $test = false;
         if($user != NULL) {
-            if($user->u_archived == 0 && $user->u_status) {
-                $AD_IP = $this->params->get_one_by_code("AD_IP");
-                $suffixe_ad = $this->params->get_one_by_code("SU_AD");
-                $pseudo = $this->input->post('u_pseudo')."".$suffixe_ad->param_value;
-                
-                $adServer = "ldap://".$AD_IP->param_value;
-                $ldap = ldap_connect($adServer);
-                ldap_set_option($ldap, LDAP_OPT_PROTOCOL_VERSION, 3);
-                ldap_set_option($ldap, LDAP_OPT_REFERRALS, 0);
-                $bind = @ldap_bind($ldap, $pseudo, $this->input->post('u_mdp'));
-                if ($bind) {
-                    $session_user = array(
-                        "id_user" => $user->id_user,
-                        "u_pseudo" => $user->u_pseudo,
-                        "u_nom" => $user->u_nom,
-                        "u_prenom" => $user->u_prenom,
-                        "u_avatar" => $user->u_avatar,
-                        "u_email" => $user->u_email,
-                        "u_service" => $this->auth_model->get_service($user->u_idService)->s_label,
-                        "u_reference" => $user->u_reference,
-                        "u_dispo" => $user->u_dispo,
-                        "u_dispoYear" => $user->u_dispoYear,
-                        "u_archived" => $user->u_archived,
-                        "u_profilId" => $user->u_profilId
-                    );
-                    $test = true;
-                    @ldap_close($ldap);
+            if($user->u_archived == 0 && $user->u_status == '1') {
+                $session_user = array(
+                    "id_user" => $user->id_user,
+                    "u_pseudo" => $user->u_pseudo,
+                    "u_nom" => $user->u_nom,
+                    "u_prenom" => $user->u_prenom,
+                    "u_avatar" => $user->u_avatar,
+                    "u_email" => $user->u_email,
+                    "u_service" => $this->auth_model->get_service($user->u_idService)->s_label,
+                    "u_reference" => $user->u_reference,
+                    "u_dispo" => $user->u_dispo,
+                    "u_dispoYear" => $user->u_dispoYear,
+                    "u_archived" => $user->u_archived,
+                    "u_profilId" => $user->u_profilId
+                );
+                if($user->u_profilId == '2') {
+                    if(password_verify($this->input->post('u_mdp'), $user->u_password)) {
+                        $test = true;
+                    } else {
+                        $this->session->set_flashdata('error', "Login incorrect ou bien votre compte a été désactivé. Veuillez contacter votre administrateur.");
+                    }
                 } else {
-                    $this->session->set_flashdata('error', "Login incorrect ou bien votre compte a été désactivé. Veuillez contacter votre administrateur.");
+                    $AD_IP = $this->params->get_one_by_code("AD_IP");
+                    $suffixe_ad = $this->params->get_one_by_code("SU_AD");
+                    $pseudo = $this->input->post('u_pseudo')."".$suffixe_ad->param_value;
+                    
+                    $adServer = "ldap://".$AD_IP->param_value;
+                    $ldap = ldap_connect($adServer);
+                    ldap_set_option($ldap, LDAP_OPT_PROTOCOL_VERSION, 3);
+                    ldap_set_option($ldap, LDAP_OPT_REFERRALS, 0);
+                    $bind = @ldap_bind($ldap, $pseudo, $this->input->post('u_mdp'));
+                    if ($bind) {
+                        $test = true;
+                        @ldap_close($ldap);
+                    } else {
+                        $this->session->set_flashdata('error', "Login incorrect ou bien votre compte a été désactivé. Veuillez contacter votre administrateur.");
+                    }
                 }
             } else {
                 $this->session->set_flashdata('error', "Utilisateur désactivé, veuillez contacter votre supérieur.");
@@ -69,7 +78,7 @@ class Authenticate extends MX_Controller {
                 $session_user = array(
                     "u_pseudo" => 'admin',
                     "u_nom" => 'Admin',
-                    "u_profilId" => 1
+                    "u_profilId" => '3'
                 );
                 $test = true;
             } else {

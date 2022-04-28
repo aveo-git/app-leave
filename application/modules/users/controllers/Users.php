@@ -12,7 +12,7 @@ class Users extends MX_Controller {
 
     public function index() {
         $user = $this->session->userdata('user');
-        if($user['u_profilId'] == '1') {
+        if($user['u_profilId'] == '3') {
             $title = "Liste des utilisateurs";
             $data['leaves'] = $this->users->get_all_leave();
             $data['users'] = $this->users->get_user_disctinct();

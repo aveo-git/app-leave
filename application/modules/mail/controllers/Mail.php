@@ -13,6 +13,18 @@ class Mail extends MX_Controller {
         return;
     }
 
+    public function send_test() {
+        $params = $this->parametre();
+        $dest = $params['mailDest'];
+        $html = $this->load->view('mail_test', null, TRUE); // Récuperation des données
+        $this->email->initialize($params['psettings']);
+        $this->email->to($dest);
+        $this->email->from($params['mailsender'], $params['mailappname']);
+        $this->email->subject($params['mailsubject']);
+        $this->email->message($html); // chargement du template
+        $this->email->send();
+    }
+
     public function send_deposite($data) {
         $params = $this->parametre();
         $dest = $params['mailDest'];
@@ -27,13 +39,25 @@ class Mail extends MX_Controller {
 
     public function send_status_leave($data) {
         $params = $this->parametre();
-        var_dump($data);
         $dest = $data['user']->u_email;
         $html = $this->load->view('mail_decision', $data, TRUE); // Récuperation des données
         $this->email->initialize($params['psettings']);
         $this->email->to($dest);
         $this->email->from($params['mailsender'], $params['mailappname']);
         $this->email->subject('Validation congé');
+        $this->email->message($html); // chargement du template
+        $this->email->send();
+    }
+
+    public function send_mail_newuser($data) {
+        $params = $this->parametre();
+        $dest = $data['u_email'];
+
+        $html = $this->load->view('mail_newuser', $data, TRUE); // Récuperation des données
+        $this->email->initialize($params['psettings']);
+        $this->email->to($dest);
+        $this->email->from($params['mailsender'], $params['mailappname']);
+        $this->email->subject("Information sur votre compte");
         $this->email->message($html); // chargement du template
         $this->email->send();
     }

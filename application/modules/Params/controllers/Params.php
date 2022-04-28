@@ -15,7 +15,7 @@ class Params extends MX_Controller {
 
     public function index() {
         $sess = $this->session->userdata('user');
-        if($sess['u_profilId'] != "1") {
+        if($sess['u_profilId'] != "3") {
             redirect('/main');
         } else {
             $title = "Paramètre";
@@ -27,6 +27,13 @@ class Params extends MX_Controller {
             $data['users'] = $this->load->view('navs/users', $users, TRUE);
 
             $data['calendar'] = $this->load->view('navs/calendar', array(), TRUE);
+            if($this->session->userdata('link') == null) {
+                $this->session->set_userdata('link', array(
+                    'general' => 'active',
+                    'users' => '',
+                    'calendar' => ''
+                ));
+            }
             $content = $this->load->view('params', $data, TRUE);
             $this->display($content, TRUE, $title);
         }
@@ -95,7 +102,7 @@ class Params extends MX_Controller {
             }
         }
 
-        $this->session->set_flashdata('error', "NOTE : Compte AD importé.");
+        $this->session->set_flashdata('alert', "NOTE : Compte AD importé.");
     }
 
     protected function retrieves_users($conn)
@@ -144,7 +151,7 @@ class Params extends MX_Controller {
                                 'u_idService' => $this->params->get_service_by('s_label', $service)->id_service,
                                 'u_archived'=> 0,
                                 'u_status' => 1,
-                                // 'u_profilId' => 2
+                                'u_profilId' => 1
                             );
                         }
                     }
@@ -171,12 +178,20 @@ class Params extends MX_Controller {
         );
         if($this->input->post('id_user') != '') {
             $this->params->update_user($this->input->post('id_user'), $data);
+
+            $this->session->set_flashdata('alert', "NOTE : Utilisateur modifié avec succès.");
         } else {
+            $password = $this->random_password();
             $data["u_avatar"] = 'default.png';
             $data["u_archived"] = 0;
+            $data['u_password'] = password_hash($password, PASSWORD_BCRYPT);
             $data["u_status"] = true;
-            $data["u_profilId"] = 1;
+            $data["u_profilId"] = 2;
             $this->params->insert_user($data);
+            $data['u_password'] = $password;
+            $this->mail->send_mail_newuser($data);
+
+            $this->session->set_flashdata('alert', "NOTE : Utilisateur ajouté avec succès.");
         }
     }
 
@@ -205,6 +220,28 @@ class Params extends MX_Controller {
         $this->set_session_cloture();
     }
 
+    public function send_test() {
+        $this->mail->send_test();
+
+        $this->session->set_flashdata('alert', "NOTE : Mail envoyé. \n Vérifier à nouveau les paramètres si vous ne recevrez aucun mail.");
+    }
+
+    public function set_link() {
+        $data = array('general' => '', 'users' => '', 'calendar' => '');
+        switch($this->input->post('link')) {
+            case 'general':
+                $data['general'] = 'active';
+            break;
+            case 'users':
+                $data['users'] = 'active';
+            break;
+            case 'calendar':
+                $data['calendar'] = 'active';
+            break;
+        }
+        $this->session->set_userdata('link', $data);
+    }
+
     public function remove_calendar() {
         $this->params->remove_calendar($this->input->post('id_calendar'));
         $this->set_session_calendar();
@@ -219,6 +256,17 @@ class Params extends MX_Controller {
     private function set_session_cloture() {
         $cloture = $this->auth_model->get_all_cloture();
         $this->session->set_userdata('cloture', $cloture);
+    }
+
+    public function random_password() {
+        $alphabet = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890';
+        $pass = array(); //remember to declare $pass as an array
+        $alphaLength = strlen($alphabet) - 1; //put the length -1 in cache
+        for ($i = 0; $i < 12; $i++) {
+            $n = rand(0, $alphaLength);
+            $pass[] = $alphabet[$n];
+        }
+        return implode($pass); //turn the array into a string
     }
 
     public function _remap($method) {

@@ -241,13 +241,25 @@
     $('#edituser-form').on('submit', function(e) {
         e.preventDefault();
         let data = $(this).serializeArray();
-        data.push({name: 'u_idService', value: $('#lv-service option:selected').data('label')})
-        ajax_func(data, 'params/update_user');
+        data.push({name: 'u_idService', value: $('#lv-service option:selected').data('label')});
+        if($('#lv-id_user').val() != '') {
+            ajax_func(data, 'params/update_user');
+        } else {
+            ajax_func_validate(data, 'params/update_user');
+        }
     })
 
     $('#add_user').on('click', function(e) {
         e.preventDefault();
         $('#editUser').html('Ajouter un nouveau utilisateur');
+        $('#edituser-form #lv-id_user').val('');
+        $('#edituser-form #lv-u_idService').val('');
+        $('#edituser-form #lv-pseudo').val('');
+        $('#edituser-form #lv-email').val('');
+        $('#edituser-form #lv-prenom').val('');
+        $('#edituser-form #lv-nom').val('');
+        $('#edituser-form #lv-dispo').val('');
+        $('#edituser-form #lv-dispoYear').val('');
     })
     $('#deleteAll-button').on('click', function(e) {
         e.preventDefault();

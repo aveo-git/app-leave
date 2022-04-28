@@ -8,11 +8,13 @@ class Profil extends MX_Controller {
         parent::__construct();
         $this->load->module('security/authenticate');
         $this->load->model('params/params_model', 'params');
+        $this->load->model('list_leaves_model', 'l_leaves');
+        $this->load->model('profil_model', 'profil');
     }
 
     public function index() {
         $user = $this->session->userdata('user');
-        if($user['u_profilId'] != '1') {
+        if($user['u_profilId'] != '3') {
             $title = "Profil";
             $data['services'] = $this->params->get_all_service();
             $content = $this->load->view('profil', $data, TRUE);
@@ -57,6 +59,24 @@ class Profil extends MX_Controller {
         $this->params->update_user($this->input->post('id_user'), $data);
         $data['u_service'] = $this->auth_model->get_service($data['u_idService'])->s_label;
         $this->session->set_userdata('user', array_merge($sess_prev, $data));
+    }
+
+    // Update password
+    public function set_password() {
+        $user = $this->session->userdata('user');
+        $password = $this->l_leaves->get_user_by_id($user['id_user'])->u_password;
+        if(password_verify($this->input->post('u_password'), $password)) {
+            if($this->input->post('u_new_password') == $this->input->post('u_confirmation')) {
+                $data = ['u_password' => password_hash($this->input->post('u_confirmation'), PASSWORD_BCRYPT)];
+                $this->profil->set_password($user['id_user'], $data);
+
+                $this->session->set_flashdata('alert', "NOTE : Le mot de passe a été changé avec succès.");
+            } else {
+                $this->session->set_flashdata('error', "NOTE : Les deux mots de passe ne sont pas identiques.");
+            }
+        } else {
+            $this->session->set_flashdata('error', "NOTE : Le mot de passe que vous avez saisi est incorrect.");
+        }
     }
 
     public function _remap($method) {

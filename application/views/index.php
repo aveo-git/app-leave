@@ -51,7 +51,6 @@
         $calendar = $this->session->userdata('calendar');
         $cloture = $this->session->userdata('cloture');
         $notif = $this->session->userdata('notif');
-        // var_dump($calendar);
         $user = $this->session->userdata('user');
     ?>
 
@@ -69,7 +68,7 @@
                     <div class="segment" style="display: flex; justify-content: space-between; padding: 0px 40px">
                         <div style="display: flex">
                             <!-- If admin -->
-                            <?php if($user['u_profilId'] != '1'): ?>
+                            <?php if($user['u_profilId'] != '3'): ?>
                                 <div class="item <?= basename($_SERVER['REQUEST_URI']) == 'main' ? 'active' : '' ?>">
                                     <a href="<?= site_url('/main') ?>">
                                         <ion-icon name="home-sharp"></ion-icon>
@@ -103,7 +102,7 @@
                             <?php endif ?>
                         </div>
                         <div style="display: flex">
-                            <?php if($user['u_profilId'] != '1'): ?>
+                            <?php if($user['u_profilId'] != '3'): ?>
                                 <div class="item <?= basename($_SERVER['REQUEST_URI']) == 'profil' ? 'active' : '' ?>">
                                     <a href="<?= site_url('/profil') ?>">
                                         <ion-icon name="person-circle"></ion-icon>
@@ -140,7 +139,7 @@
                             <div class="calendar-item border" data-id="<?= $c->id_calendar ?>">
                                 <?= get_entire_date($c->c_debut)['date_arrived']." : ".$c->c_description ?>
                                 <?php $c_json = json_encode((array) $c); ?>
-                                <?php if($user['u_profilId'] == '1'): ?>
+                                <?php if($user['u_profilId'] == '3'): ?>
                                 <span class="float-right">
                                     <span class="lv-action-button edit" 
                                         data-toggle="modal"
@@ -167,7 +166,7 @@
                         <?php foreach($cloture as $c): ?>
                         <div class="calendar-item border" >
                             De <span style="color: #ee5644; font-weight: 600"><?= get_entire_date($c->c_debut)['date_full'] ?></span> au <span style="color: #ee5644; font-weight: 600"><?= get_entire_date($c->c_fin)['date_full'] ?></span>
-                            <?php if($user['u_profilId'] == '1'): ?>
+                            <?php if($user['u_profilId'] == '3'): ?>
                             <span class="lv-action-button trash"
                                 data-value="<?= $c->id_calendar ?>"
                                 data-value="<?= $c->id_calendar ?>" title="Supprimer"><ion-icon class="disabled" name="trash-outline"></ion-icon></span>
