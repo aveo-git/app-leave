@@ -1,5 +1,8 @@
 <div class="segment" style="min-height: 75vh">
-    <h6 class="py-2 border-bottom text-uppercase">Liste de tout les congés (Par utilisateur)</h6>
+    <h6 class="py-2 border-bottom text-uppercase d-flex align-items-center justify-content-between">
+        <div>Liste de tout les congés (Par utilisateur)</div>
+        <div><button class="btn btn-secondary">RAPPORT</button></div>
+    </h6>
     <form action="">
         <select class="form-control" id="lv-selectuser" name="id_user" aria-describedby="lv-selectuser" required="required">
             <option value="all" selected>Tous...</option>
