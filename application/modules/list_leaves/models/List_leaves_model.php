@@ -46,4 +46,9 @@ class List_leaves_model extends CI_Model {
         $this->db->update($this->leave, $data);
     }
 
+    public function set_nbdispo_user($id, $data) {
+        $this->db->where('id_user', $id);
+        $this->db->update($this->user, $data);
+    }
+
 }

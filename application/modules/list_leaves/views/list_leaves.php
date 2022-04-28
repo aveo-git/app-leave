@@ -50,17 +50,18 @@
                 <br>
                 <form id="waiting-form">
                     <input type="hidden" name="id_leave" id="id-leave">
+                    <input type="hidden" name="id_user" id="id-user">
                     <div class="row">
                         <div class="col">
                             <div class="form-group">
                                 <label class="" for="lv-prenom">Prénom</label>
-                                <input type="text" class="form-control" id="lv-prenom" value="Dimby" name="u_prenom" disabled>
+                                <input type="text" class="form-control" id="lv-prenom" name="u_prenom" disabled>
                             </div>
                         </div>
                         <div class="col">
                             <div class="form-group">
                                 <label class="" for="lv-nom">Nom</label>
-                                <input type="text" class="form-control" id="lv-nom" name="u_nom" value="RASOLONIRINA" disabled>
+                                <input type="text" class="form-control" id="lv-nom" name="u_nom" disabled>
                             </div>
                         </div>
                     </div>
@@ -68,13 +69,13 @@
                         <div class="col">
                             <div class="form-group">
                                 <label class="" for="lv-reference">Réference</label>
-                                <input type="text" class="form-control" id="lv-reference" value="001-AVEO-2019" name="u_reference" disabled>
+                                <input type="text" class="form-control" id="lv-reference" name="u_reference" disabled>
                             </div>
                         </div>
                         <div class="col">
                             <div class="form-group">
                                 <label class="" for="lv-service">Service</label>
-                                <input type="text" class="form-control" id="lv-service" value="Dev Web et Graphiste" name="u_service" disabled>
+                                <input type="text" class="form-control" id="lv-service" name="u_service" disabled>
                             </div>
                         </div>
                     </div>
@@ -82,7 +83,7 @@
                         <div class="col">
                             <div class="form-group">
                                 <label class="" for="lv-type">Type de congé</label>
-                                <input type="text" class="form-control" id="lv-type" value="Congé" name="l_type" disabled>
+                                <input type="text" class="form-control" id="lv-type" name="l_type" disabled>
                             </div>
                         </div>
                     </div>
@@ -90,13 +91,13 @@
                         <div class="col">
                             <div class="form-group">
                                 <label class="" for="lv-dateDepart">Le :</label>
-                                <input type="text" class="form-control" id="lv-dateDepart" value="12/02/2022 à 08:00" name="l_dateDepart" disabled>
+                                <input type="text" class="form-control" id="lv-dateDepart" name="l_dateDepart" disabled>
                             </div>
                         </div>
                         <div class="col">
                             <div class="form-group">
                                 <label class="" for="lv-dateFin">Jusqu'au :</label>
-                                <input type="text" class="form-control" id="lv-dateFin" value="12/02/2022 à 17:00" name="l_dateFin" disabled>
+                                <input type="text" class="form-control" id="lv-dateFin" name="l_dateFin" disabled>
                             </div>
                         </div>
                     </div>
@@ -104,19 +105,19 @@
                         <div class="col">
                             <div class="form-group">
                                 <label class="" for="lv-dispo">Disponible</label>
-                                <input type="text" class="form-control" id="lv-dispo" value="23" name="l_nbJdispo" disabled>
+                                <input type="text" class="form-control" id="lv-dispo" name="l_nbJdispo" disabled>
                             </div>
                         </div>
                         <div class="col">
                             <div class="form-group">
                                 <label class="" for="lv-pris">Jour(s) pris</label>
-                                <input type="text" class="form-control" id="lv-pris" value="1" name="l_nbJpris" disabled>
+                                <input type="text" class="form-control" id="lv-pris" name="l_nbJpris" disabled>
                             </div>
                         </div>
                         <div class="col">
                             <div class="form-group">
                                 <label class="" for="lv-rest">Jour(s) restant</label>
-                                <input type="text" class="form-control" id="lv-rest" value="22" name="l_nbJrest" disabled>
+                                <input type="text" class="form-control" id="lv-rest" name="l_nbJrest" disabled>
                             </div>
                         </div>
                     </div>
@@ -149,7 +150,7 @@
         $('.waiting-all').show();
 
         let data = $(this).data('value')
-        // console.dir(data);
+        $('#waiting-form #id-user').val(data.l_idUser.id_user);
         $('#waiting-form #id-leave').val(data.id_leave)
         $('#waiting-form #lv-nom').val(data.l_idUser.u_nom)
         $('#waiting-form #lv-prenom').val(data.l_idUser.u_prenom)
@@ -167,8 +168,10 @@
 
     $('#valide-leave').on('click', function() {
         let data = [
+            {name: 'id_user', value: $('#waiting-form #id-user').val()},
             {name: 'id_leave', value: $('#waiting-form #id-leave').val()},
-            {name: 'l_statut', value: 1}
+            {name: 'l_nbRest', value: $('#waiting-form #lv-rest').val()},
+            {name: 'l_statut', value: '1'}
         ]
         ajax_func_validate(data, 'list_leaves/valid_conge');
     })
@@ -176,7 +179,8 @@
     $('#refuse-leave').on('click', function() {
         let data = [
             {name: 'id_leave', value: $('#waiting-form #id-leave').val()},
-            {name: 'l_statut', value: 2}
+            {name: 'l_nbDispo', value: $('#waiting-form #lv-dispo').val()},
+            {name: 'l_statut', value: '2'}
         ]
         ajax_func_validate(data, 'list_leaves/valid_conge');
     })

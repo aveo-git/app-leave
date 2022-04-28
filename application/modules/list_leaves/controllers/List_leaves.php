@@ -48,6 +48,12 @@ class List_leaves extends MX_Controller {
         $data = array(
             'l_statut' => $this->input->post('l_statut')
         );
+        if($this->input->post('l_statut') == '2') {
+            $data['l_nbJrest'] = $this->input->post('l_nbDispo');
+        } else {
+            $temp = array('u_dispo' => ($this->input->post('l_nbRest')));
+            $this->l_leaves->set_nbdispo_user($this->input->post('id_user'), $temp);
+        }
         $this->l_leaves->set_status_leave($this->input->post('id_leave'), $data);
 
         $user = $this->l_leaves->get_user_by_id($this->l_leaves->get_leave_by_id($this->input->post('id_leave'))->l_idUser);
