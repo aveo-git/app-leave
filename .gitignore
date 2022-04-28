@@ -4,7 +4,6 @@
 */cache/*
 !*/cache/index.html
 !*/cache/.htaccess
-application/config/database.php
 
 user_guide_src/build/*
 user_guide_src/cilexer/build/*
