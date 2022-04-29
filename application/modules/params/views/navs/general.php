@@ -69,7 +69,7 @@
         </div>
         <div class="form-group col">
           <label for="lv-desc-u">Description</label>
-          <input type="text" class="form-control" id="lv-desc-u" name="s_description" aria-describedby="lv-desc-u" required>
+          <input type="text" class="form-control" id="lv-desc-u" name="s_description" aria-describedby="lv-desc-u">
         </div>
       </div>
       <div class="row">
