@@ -36,8 +36,8 @@
     <h6 class="py-2 border-bottom text-uppercase">Ajouter un service</h6>
     <form id="service-form">
       <div class="form-group ">
-        <label for="lv-service">Nom du service</label>
-        <input type="text" class="form-control" id="lv-service" name="s_label" aria-describedby="lv-service" required>
+        <label for="lv-service_add">Nom du service</label>
+        <input type="text" class="form-control" id="lv-service_add" name="s_label" aria-describedby="lv-service_add" required>
       </div>
       <div class="form-group">
         <label for="lv-desc">Description</label>
@@ -61,7 +61,7 @@
       </div>
     </form>
     <form id="edit-service-form">
-      <input type="hidden" name="id_service" id="id_service">
+      <input type="hidden" name="id_service" id="id_service_add">
       <div class="row">
         <div class="form-group col">
           <label for="lv-label-u">Nom du service</label>
@@ -185,7 +185,7 @@
       $('#lv-service-u option:selected').each(function() {
          $('#lv-label-u').val($(this).html());
          $('#lv-desc-u').val($(this).data('desc'));
-         $('#id_service').val($(this).val());
+         $('#id_service_add').val($(this).val());
       })
    })
 </script>
