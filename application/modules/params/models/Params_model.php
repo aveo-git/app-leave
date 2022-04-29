@@ -86,6 +86,11 @@ class Params_model extends CI_Model {
         }
     }
 
+    public function update_service($id, $data) {
+        $this->db->where('id_service', $id);
+        $this->db->update($this->service, $data);
+    }
+
     public function get_service_by($s, $label) {
         $this->db->where($s, $label);
         $this->db->select('*');

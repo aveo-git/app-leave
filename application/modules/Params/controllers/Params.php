@@ -19,13 +19,15 @@ class Params extends MX_Controller {
             redirect('/main');
         } else {
             $title = "Paramètre";
+            $services = $this->params->get_all_service();
             $params['users'] = json_encode((array) $this->params->get_all_user());
             $params['params_ldap'] = $this->params->get_all(1);
             $params['params_email'] = $this->params->get_all(2);
+            $params['services'] = $services;
             $data['general'] = $this->load->view('navs/general', $params, TRUE);
 
             $users['resp'] = $this->params->get_one_by_code("email_destinataire")->param_value;
-            $users['services'] = $this->params->get_all_service();
+            $users['services'] = $services;
             $data['users'] = $this->load->view('navs/users', $users, TRUE);
 
             $data['calendar'] = $this->load->view('navs/calendar', array(), TRUE);
@@ -226,6 +228,22 @@ class Params extends MX_Controller {
         $this->mail->send_test();
 
         $this->session->set_flashdata('alert', "NOTE : Mail envoyé. \n Vérifier à nouveau les paramètres si vous ne recevrez aucun mail.");
+    }
+
+    public function add_service() {
+        $data = array(
+            's_label' => $this->input->post('s_label'),
+            's_description' => $this->input->post('s_description')
+        );
+        $this->params->insert_service($data);
+    }
+
+    public function update_service() {
+        $data = array(
+            's_label' => $this->input->post('s_label'),
+            's_description' => $this->input->post('s_description')
+        );
+        $this->params->update_service($this->input->post('id_service'), $data);
     }
 
     public function set_link() {

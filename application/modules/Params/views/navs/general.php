@@ -25,8 +25,60 @@
         <?php endforeach ?>
     </div>
 </form>
-<div>
-  <button type="button" class="btn btn-secondary" id="test_messagerie" title="Tester si les parametres de messagerie sont correctes">Tester</button>
+<div class="row">
+  <div class="col">
+    <button type="button" class="btn btn-secondary" id="test_messagerie" title="Tester si les parametres de messagerie sont correctes">Tester</button>
+  </div>
+</div>
+<br>
+<div class="row">
+  <div class="col-lg-5">
+    <h6 class="py-2 border-bottom text-uppercase">Ajouter un service</h6>
+    <form id="service-form">
+      <div class="form-group ">
+        <label for="lv-service">Nom du service</label>
+        <input type="text" class="form-control" id="lv-service" name="s_label" aria-describedby="lv-service" required>
+      </div>
+      <div class="form-group">
+        <label for="lv-desc">Description</label>
+        <input type="text" class="form-control" id="lv-desc" name="s_description" aria-describedby="lv-desc" required>
+      </div>
+      <button type="submit" class="btn btn-secondary">Ajouter</button>
+    </form>
+  </div>
+  <div class="col-lg-7">
+    <h6 class="py-2 border-bottom text-uppercase">Modifier un service</h6>
+    <form id="">
+      <div class="row">
+        <div class="form-group col">
+          <label for="lv-service-u">Nom du service</label>
+          <select class="form-control" id="lv-service-u" name="s_label" aria-describedby="lv-service-u" required="required">
+              <?php foreach($services as $item){ ?>
+                <option value="<?= $item->id_service ?>" data-desc="<?= $item->s_description ?>"><?= $item->s_label ?></option>
+              <?php } ?>
+          </select>
+        </div>
+      </div>
+    </form>
+    <form id="edit-service-form">
+      <input type="hidden" name="id_service" id="id_service">
+      <div class="row">
+        <div class="form-group col">
+          <label for="lv-label-u">Nom du service</label>
+          <input type="text" class="form-control" id="lv-label-u" name="s_label" aria-describedby="lv-label-u" required>
+        </div>
+        <div class="form-group col">
+          <label for="lv-desc-u">Description</label>
+          <input type="text" class="form-control" id="lv-desc-u" name="s_description" aria-describedby="lv-desc-u" required>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <button type="submit" class="btn btn-secondary">Modifier</button>
+        </div>
+      </div>
+    </form>
+  </div>
 </div>
 <br>
 
@@ -116,6 +168,24 @@
             $(".progress").removeClass('active');
             location.reload();
          }
+      })
+   })
+
+   $('#service-form').on('submit', function(e) {
+     e.preventDefault();
+     ajax_func($(this).serializeArray(), 'params/add_service');
+   })
+
+   $('#edit-service-form').on('submit', function(e) {
+     e.preventDefault();
+     ajax_func($(this).serializeArray(), 'params/update_service');
+   })
+
+   $('#lv-service-u').change(function() {
+      $('#lv-service-u option:selected').each(function() {
+         $('#lv-label-u').val($(this).html());
+         $('#lv-desc-u').val($(this).data('desc'));
+         $('#id_service').val($(this).val());
       })
    })
 </script>
