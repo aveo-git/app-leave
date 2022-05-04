@@ -47,6 +47,10 @@ class Users extends MX_Controller {
         echo json_encode($data);
     }
 
+    public function report_leaves() {
+        echo json_encode($this->users->get_report(date("Y-m")));
+    }
+
     // Get user
     public function list_leaves() {
         $data['data'] = $this->users->get_all_leave();

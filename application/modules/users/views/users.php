@@ -1,7 +1,7 @@
 <div class="segment" style="min-height: 75vh">
     <h6 class="py-2 border-bottom text-uppercase d-flex align-items-center justify-content-between">
         <div>Liste de tout les congés (Par utilisateur)</div>
-        <div><button class="btn btn-secondary">RAPPORT</button></div>
+        <div><button class="btn btn-secondary" id="report_button" data-toggle="modal" data-target="#report_modal">RAPPORT</button></div>
     </h6>
     <form action="">
         <select class="form-control" id="lv-selectuser" name="id_user" aria-describedby="lv-selectuser" required="required">
@@ -12,7 +12,7 @@
         </select>
     </form>
     <br>
-    <!-- USER LIST -->
+    <!-- LEAVES LIST -->
     <table id="leaves_data" class="table table-striped table-bordered compact dataTable no-footer" role="grid" aria-describedby="datatable_info" style="width: 100%">
         <thead>
             <tr role="row">
@@ -30,7 +30,7 @@
             </tr>
         </thead>
     </table>
-    <!-- /USER LIST -->
+    <!-- /LEAVES LIST -->
     <hr>
     <div>
         <button type="button" class="btn btn-danger" id="deletealluser-button" data-toggle='modal' data-target='#delete_leave_modal'>Supprimer</button>
@@ -131,10 +131,41 @@
     </div>
 </div>
 
+
+<!-- Modal pour Supprimer un utilisateur -->
+<div class="modal fade" id="report_modal" tabindex="-1" role="dialog" data-backdrop="static" aria-labelledby="report" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="report">Rapport mensuel : <small id="month_report"></small></h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <!-- LEAVES LIST -->
+            <table id="report_data" class="table table-striped table-bordered compact dataTable no-footer" role="grid" aria-describedby="datatable_info" style="width: 100%">
+                <thead>
+                    <tr role="row">
+                        <th>Nom et Prénom</th>
+                        <th># Pris</th>
+                        <th># Restant</th>
+                    </tr>
+                </thead>
+            </table>
+            <!-- /LEAVES LIST -->
+        </div>
+        <div class="modal-footer">
+        </div>
+        </div>
+    </div>
+</div>
+
 <!-- Fin modal ----------------------------------------------------- -->
 
 <script>
 
+    let months = ['Janvier', 'Fevrier', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Decembre'];
     let action_userad = function(id) {
         return `
             <div class="text-center">
@@ -142,6 +173,51 @@
             </div>
         `;
     }
+
+    $('#report_button').on('click', function(e) {
+        $('#report_data').DataTable().destroy();
+        let date_now = new Date();
+        $('#month_report').html(months[date_now.getMonth()]);
+        e.preventDefault();
+        $.ajax({
+            url: '<?= site_url('users/report_leaves') ?>',
+            type: "POST",
+            data: null,
+            dataType: "json",
+            success: function(data) {
+                $('#report_data').DataTable({
+                    "data": data,
+                    "columns": [
+                        {"data": null,
+                            render: function(item) {
+                                return item.u_prenom+" "+item.u_nom;
+                            }
+                        },
+                        {"data": 'nbPris'},
+                        {"data": 'u_dispo'},
+                    ],
+                    "language": {
+                            "emptyTable": "Aucun Résultat",
+                            "infoEmpty": "Aucun enregistrement disponible",
+                            "zeroRecords": "Aucun Résultat",
+                            "infoFiltered": "",
+                            "lengthMenu": "Afficher : _MENU_",
+                            "info": "_END_ sur _MAX_ entrée(s)",
+                            'search': "Recherche : ",
+                            "paginate": {
+                                "first":      "Premier",
+                                "last":       "Dernier",
+                                "next":       "Suivant",
+                                "previous":   "Précedent"
+                            },
+                        },
+                    "dom": "",
+                    // "dom": 'dli',
+                    "bFilter": true,
+                });
+            }
+        })
+    })
 
     $('#lv-selectuser').on('change', function(e){
         $('#leaves_data').DataTable().destroy();

@@ -7,6 +7,13 @@ class Users_model extends CI_Model {
         $this->user = "l_user";
     }
 
+    public function get_all_user() {
+        $this->db->select('*');
+        $this->db->from($this->user);
+        $query = $this->db->get();
+        return $query->result();
+    }
+
     public function get_username_by_id($id) {
         $this->db->where('id_user', $id);
         $this->db->select('u_nom, u_prenom');
@@ -58,6 +65,24 @@ class Users_model extends CI_Model {
             $temp[$key]->l_idUser = $username != null ? $username->u_prenom." ".$username->u_nom : '';
         }
         return $temp;
+    }
+
+    public function get_nbpris_by_month($id, $month) {
+        $this->db->where('l_idUser', $id);
+        $this->db->where('l_statut', 1);
+        $this->db->like('l_dateFin', $month);
+        $this->db->select_sum('l_nbJpris');
+        $this->db->from($this->leave);
+        $query = $this->db->get();
+        return $query->row();
+    }
+    
+    public function get_report($month) {
+        $users = $this->get_all_user();
+        foreach($users as $item) {
+            $item->nbPris = $this->get_nbpris_by_month($item->id_user, $month)->l_nbJpris == null ? 0 : $this->get_nbpris_by_month($item->id_user, $month)->l_nbJpris;
+        }
+        return $users;
     }
 
     public function delete_leave_by_id($id) {
