@@ -28,7 +28,6 @@ class Authenticate extends MX_Controller {
 
     public function authenticate() {
         $user = $this->auth_model->get_user($this->input->post('u_pseudo'));
-        var_dump($user);
         $session_user = array();
         $test = false;
         if($user != NULL) {
