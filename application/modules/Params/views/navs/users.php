@@ -91,11 +91,11 @@
                     <div class="row">
                         <div class="form-group col">
                             <label for="lv-dispo">Droit de départ (Droit disponible)</label>
-                            <input type="number" class="form-control" id="lv-dispo" value="" name="u_dispo" aria-describedby="lv-dispo" required="required">
+                            <input type="number" step="0.5" class="form-control" id="lv-dispo" value="" name="u_dispo" aria-describedby="lv-dispo" required="required">
                         </div>
                         <div class="form-group col">
                             <label for="lv-dispoYear">Droit fin d'année</label>
-                            <input type="number" class="form-control" id="lv-dispoYear" value="" name="u_dispoYear" aria-describedby="lv-dispoYear">
+                            <input type="number" step="0.5" class="form-control" id="lv-dispoYear" value="" name="u_dispoYear" aria-describedby="lv-dispoYear">
                         </div>
                     </div>
                 </div>
