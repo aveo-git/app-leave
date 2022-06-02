@@ -38,6 +38,7 @@ class Mail extends MX_Controller {
     }
 
     public function send_status_leave($data) {
+        var_dump($data);
         $params = $this->parametre();
         $dest = $data['user']->u_email;
         $html = $this->load->view('mail_decision', $data, TRUE); // Récuperation des données
