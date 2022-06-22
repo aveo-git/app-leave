@@ -1,19 +1,27 @@
 <?php
 
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
-class Mail extends MX_Controller {
+class Mail extends MX_Controller
+{
 
-    function __construct() {
+    function __construct()
+    {
         parent::__construct();
+
+        $this->ciphering = "AES-128-CTR";
+        $this->encryption_key = "EgteqOMGgX1MRrDxm2q22t0Iy9FzpNHB9bLtL";
+        $this->description_iv = '1234567891011121';
     }
 
-    public function index() {
+    public function index()
+    {
         // $this->test($this->load->view('mail_adminlocal', array(), TRUE));
         return;
     }
 
-    public function send_test() {
+    public function send_test()
+    {
         $params = $this->parametre();
         $dest = $params['mailDest'];
         $html = $this->load->view('mail_test', null, TRUE); // Récuperation des données
@@ -25,7 +33,8 @@ class Mail extends MX_Controller {
         $this->email->send();
     }
 
-    public function send_deposite($data) {
+    public function send_deposite($data)
+    {
         $params = $this->parametre();
         $dest = $params['mailDest'];
         $html = $this->load->view('mail_deposite', $data, TRUE); // Récuperation des données
@@ -37,8 +46,8 @@ class Mail extends MX_Controller {
         $this->email->send();
     }
 
-    public function send_status_leave($data) {
-        var_dump($data);
+    public function send_status_leave($data)
+    {
         $params = $this->parametre();
         $dest = $data['user']->u_email;
         $html = $this->load->view('mail_decision', $data, TRUE); // Récuperation des données
@@ -50,7 +59,8 @@ class Mail extends MX_Controller {
         $this->email->send();
     }
 
-    public function send_mail_newuser($data) {
+    public function send_mail_newuser($data)
+    {
         $params = $this->parametre();
         $dest = $data['u_email'];
 
@@ -63,7 +73,8 @@ class Mail extends MX_Controller {
         $this->email->send();
     }
 
-    public function parametre() {
+    public function parametre()
+    {
         $mailDest = $this->set_mailDest($this->params->get_one_by_code('email_destinataire')->param_value);
         $mailsender = $this->params->get_one_by_code('email_sender')->param_value; // Mail qui va envoyer les mail par défaut
         $mailappname = $this->params->get_one_by_code('email_appname')->param_value; // Nom de l'application
@@ -73,7 +84,7 @@ class Mail extends MX_Controller {
             'protocol' => $this->params->get_one_by_code('email_protocol')->param_value,
             'smtp_host' => $this->params->get_one_by_code('email_host')->param_value,
             'smtp_user' => $this->params->get_one_by_code('email_user')->param_value,
-            'smtp_pass' => $this->params->get_one_by_code('email_password')->param_value,
+            'smtp_pass' => $this->decrypt($this->params->get_one_by_code('email_password')->param_value),
             'smtp_port' => $this->params->get_one_by_code('email_port')->param_value,
             'smtp_crypto' => "tls",
             'priority' => "1",
@@ -89,16 +100,19 @@ class Mail extends MX_Controller {
     }
 
     // S'il existe plusieurs mails de destination
-    private function set_mailDest($mails) {
+    private function set_mailDest($mails)
+    {
         $data = explode(";", $mails);
         return implode(', ', $data);
     }
 
-    private function get_entire_date($date) {
-        $mois = array("", "Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre");
-        $d = explode("-", explode(" ", $date)[0]);
-        $heure = explode(" ", $date)[1];
-        $date_arrived = $d[2]." ".$mois[intval($d[1])]." ".$d[0];
-        return $date_arrived." à ".$heure;
+    public function encrypt($password)
+    {
+        return openssl_encrypt($password, $this->ciphering, $this->encryption_key, 0, $this->description_iv);
+    }
+
+    public function decrypt($password)
+    {
+        return openssl_decrypt($password, $this->ciphering, $this->encryption_key, 0, $this->description_iv);
     }
 }
