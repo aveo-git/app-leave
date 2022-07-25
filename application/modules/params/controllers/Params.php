@@ -109,7 +109,7 @@ class Params extends MX_Controller
         ldap_set_option($ldap, LDAP_OPT_PROTOCOL_VERSION, 3);
         ldap_set_option($ldap, LDAP_OPT_REFERRALS, 0);
 
-        $bind = ldap_bind($ldap, $pseudo, $passad->param_value);
+        $bind = ldap_bind($ldap, $pseudo, $this->decrypt($passad->param_value));
         // var_dump($bind);
 
         if ($bind) {
