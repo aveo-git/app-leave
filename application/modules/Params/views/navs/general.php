@@ -20,7 +20,7 @@
     <?php foreach ($params_email as $p) :
       $inputType = $p->param_code == 'email_password' ? 'password' : 'text';
     ?>
-      <div class="col-lg-4">
+      <div class="col-lg-6">
         <div class="form-group">
           <label for="lv-<?= $p->param_code ?>"><?= $p->param_lib ?> <ion-icon class="icon_edit" data-toggle="modal" data-target="#edit_params" data-code="<?= $p->param_code ?>" data-lib="<?= $p->param_lib ?>" data-value="<?= $p->param_value ?>" name="create-outline"></ion-icon></label>
           <input type=<?= $inputType ?> class="form-control" value="<?= $p->param_value ?>" id="lv-<?= $p->param_code ?>" disabled>
@@ -29,11 +29,27 @@
     <?php endforeach ?>
   </div>
 </form>
+<br>
 <div class="row">
   <div class="col">
     <button type="button" class="btn btn-secondary" id="test_messagerie" title="Tester si les parametres de messagerie sont correctes">Tester</button>
   </div>
 </div>
+<br>
+<h6 class="py-2 border-bottom text-uppercase">Parametre de solde</h6>
+<form id="params-form">
+  <div class="row">
+    <?php foreach ($params_sell as $p) :
+    ?>
+      <div class="col-lg-6">
+        <div class="form-group">
+          <label for="lv-<?= $p->param_code ?>"><?= $p->param_lib ?> <ion-icon class="icon_edit" data-toggle="modal" data-target="#edit_params" data-code="<?= $p->param_code ?>" data-lib="<?= $p->param_lib ?>" data-value="<?= $p->param_value ?>" name="create-outline"></ion-icon></label>
+          <input type='text' class="form-control" value="<?= $p->param_value ?>" id="lv-<?= $p->param_code ?>" disabled>
+        </div>
+      </div>
+    <?php endforeach ?>
+  </div>
+</form>
 <br>
 <div class="row">
   <div class="col-lg-5">

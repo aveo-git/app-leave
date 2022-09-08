@@ -59,16 +59,24 @@
     $('#jourferie-form').on('submit', function(e) {
         e.preventDefault();
         let data = $(this).serializeArray();
-        data.push({name: "c_flag", value: 0});
-        console.dir(data)
+        data.push({
+            name: "c_flag",
+            value: 0
+        });
         ajax_func(data, 'params/add_calendar');
     })
 
     $('#cloture-form').on('submit', function(e) {
         e.preventDefault();
         let data = $(this).serializeArray();
-        data.push({name: "c_description", value: "Clôture d'agence"});
-        data.push({name: "c_flag", value: 1});
+        data.push({
+            name: "c_description",
+            value: "Clôture d'agence"
+        });
+        data.push({
+            name: "c_flag",
+            value: 1
+        });
         ajax_func(data, 'params/add_calendar');
     })
 </script>

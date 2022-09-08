@@ -80,7 +80,7 @@ ion-icon.disabled {
 #accordion .indication {
   padding: 0 20px;
 }
-#accordion ul>li {
+#accordion ul > li {
   margin-bottom: 10px;
 }
 
@@ -200,4 +200,9 @@ span.btn-refused {
   bottom: 5px;
   cursor: pointer;
   display: none;
+}
+
+.sell-leaves button {
+  float: right;
+  margin: 10px 0px 30px 0px;
 }

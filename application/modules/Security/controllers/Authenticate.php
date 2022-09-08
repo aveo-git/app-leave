@@ -1,10 +1,12 @@
 <?php
 
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
-class Authenticate extends MX_Controller {
+class Authenticate extends MX_Controller
+{
 
-    function __construct() {
+    function __construct()
+    {
         parent::__construct();
         $this->load->helper("security");
         $this->load->model('main/main_model', 'main');
@@ -13,12 +15,14 @@ class Authenticate extends MX_Controller {
         $this->load->model('params/params_model', 'params');
     }
 
-    public function index() {
+    public function index()
+    {
         $this->login();
     }
 
     // Connexion rapide
-    public function login() {
+    public function login()
+    {
         $title = "Se connecter";
         if ($this->is_authenticate()) {
             redirect('/main');
@@ -26,12 +30,14 @@ class Authenticate extends MX_Controller {
         Modules::load("main")->display($this->load->view("login", array(), TRUE), FALSE, $title);
     }
 
-    public function authenticate() {
+    public function authenticate()
+    {
         $user = $this->auth_model->get_user($this->input->post('u_pseudo'));
+        $solde = $this->params->get_one_by_code('sell_leave');
         $session_user = array();
         $test = false;
-        if($user != NULL) {
-            if($user->u_archived == 0 && $user->u_status == '1') {
+        if ($user != NULL) {
+            if ($user->u_archived == 0 && $user->u_status == '1') {
                 $session_user = array(
                     "id_user" => $user->id_user,
                     "u_pseudo" => $user->u_pseudo,
@@ -44,10 +50,11 @@ class Authenticate extends MX_Controller {
                     "u_dispo" => $user->u_dispo,
                     "u_dispoYear" => $user->u_dispoYear,
                     "u_archived" => $user->u_archived,
-                    "u_profilId" => $user->u_profilId
+                    "u_profilId" => $user->u_profilId,
+                    "solde" => $solde->param_value
                 );
-                if($user->u_profilId == '2') {
-                    if(password_verify($this->input->post('u_mdp'), $user->u_password)) {
+                if ($user->u_profilId == '2') {
+                    if (password_verify($this->input->post('u_mdp'), $user->u_password)) {
                         $test = true;
                     } else {
                         $this->session->set_flashdata('error', "Login incorrect ou bien votre compte a été désactivé. Veuillez contacter votre administrateur.");
@@ -55,9 +62,9 @@ class Authenticate extends MX_Controller {
                 } else {
                     $AD_IP = $this->params->get_one_by_code("AD_IP");
                     $suffixe_ad = $this->params->get_one_by_code("SU_AD");
-                    $pseudo = $this->input->post('u_pseudo')."".$suffixe_ad->param_value;
-                    
-                    $adServer = "ldap://".$AD_IP->param_value;
+                    $pseudo = $this->input->post('u_pseudo') . "" . $suffixe_ad->param_value;
+
+                    $adServer = "ldap://" . $AD_IP->param_value;
                     $ldap = ldap_connect($adServer);
                     ldap_set_option($ldap, LDAP_OPT_PROTOCOL_VERSION, 3);
                     ldap_set_option($ldap, LDAP_OPT_REFERRALS, 0);
@@ -72,8 +79,8 @@ class Authenticate extends MX_Controller {
             } else {
                 $this->session->set_flashdata('error', "Utilisateur désactivé, veuillez contacter votre supérieur.");
             }
-        } else if($this->input->post('u_pseudo') == 'admin') {
-            if($this->input->post('u_mdp') == 'VeNus974!') {
+        } else if ($this->input->post('u_pseudo') == 'admin') {
+            if ($this->input->post('u_mdp') == 'VeNus974!') {
                 $session_user = array(
                     "u_pseudo" => 'admin',
                     "u_nom" => 'Admin',
@@ -86,7 +93,7 @@ class Authenticate extends MX_Controller {
         } else {
             $this->session->set_flashdata('error', "Utilisateur inexistant.");
         }
-        if($test) {
+        if ($test) {
             $this->session->set_userdata("user", $session_user);
 
             $session_calendar = $this->auth_model->get_all_calendar();
@@ -101,13 +108,15 @@ class Authenticate extends MX_Controller {
     }
 
     // Déconnexion
-    public function logout() {
+    public function logout()
+    {
         // var_dump($this->session->userdata('logged_in'));
         $this->session->sess_destroy();
         redirect('/');
     }
 
-    public function is_authenticate() {
+    public function is_authenticate()
+    {
         if ($this->session->userdata("user") === NULL) {
             $this->session->sess_regenerate();
             return FALSE;

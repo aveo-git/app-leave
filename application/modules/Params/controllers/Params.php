@@ -33,6 +33,7 @@ class Params extends MX_Controller
             $params['params_email'] = $this->params->get_all(2);
             $params['params_email'][4]->param_value = $this->decrypt($params['params_email'][4]->param_value);
             $params['services'] = $services;
+            $params['params_sell'] = $this->params->get_all(3);
             $data['general'] = $this->load->view('navs/general', $params, TRUE);
 
             $users['resp'] = $this->params->get_one_by_code("email_destinataire")->param_value;
