@@ -120,6 +120,7 @@ class Users_model extends CI_Model
     private function get_anterior_leave()
     {
         $this->db->where('l_dateDepart >', date('Y-m-d'));
+        $this->db->where('l_statut', 1);
         $this->db->select('*');
         $this->db->from($this->leave);
         $query = $this->db->get();

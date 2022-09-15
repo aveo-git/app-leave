@@ -108,7 +108,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="params_serviceLabel">Modification de : <small id="title-params">Domaine</small></h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <button type="button" class="close" data-dismiss="modal" onclick="reloadIfResp()" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -133,7 +133,7 @@
         </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+        <button type="button" class="btn btn-secondary" data-value="rakoto" data-dismiss="modal" onclick="reloadIfResp()">Fermer</button>
         <button type="button" class="btn btn-primary" id="update_params">Sauver</button>
       </div>
     </div>
@@ -141,6 +141,12 @@
 </div>
 
 <script>
+  function reloadIfResp() {
+    if ($("#code_params").val() === 'email_destinataire') {
+      location.reload();
+    }
+  }
+
   $('.icon_edit').on('click', function() {
     $('.form-group.col.for-resp input').attr('type', 'password');
     $('.eye-hidden-password i').addClass("fa-eye-slash");
