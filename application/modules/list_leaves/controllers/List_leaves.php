@@ -55,7 +55,7 @@ class List_leaves extends MX_Controller
             'l_statut' => $this->input->post('l_statut'),
             'l_nbJrest' => $this->input->post('l_nbRest')
         );
-        if ($this->input->post('l_statut') == '2') {
+        if ($this->input->post('l_statut') == '2' && $this->input->post('lv_type') != "Autorisation d'absence") {
             $dispo = $this->input->post('l_nbJpris') + $this->input->post('l_nbRest');
             $this->l_leaves->set_nbdispo_user($this->input->post('id_user'), $dispo);
             $data['l_nbJrest'] = $this->input->post('l_nbDispo');

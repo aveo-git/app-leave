@@ -51,7 +51,7 @@ class Main extends MX_Controller
         // var_dump($this->getSunday(2022, 02));
         $user = $this->session->userdata('user');
         $desc = $this->input->post('u_descr');
-        $nbJrest = $user['u_dispo'] - $this->input->post('nbJpris');
+        $nbJrest = $this->input->post('l_type') === "Autorisation d'absence" ? $user['u_dispo'] : $user['u_dispo'] - $this->input->post('nbJpris');
 
         $data = array(
             "l_type" => $this->input->post('l_type'),

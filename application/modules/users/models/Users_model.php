@@ -76,9 +76,8 @@ class Users_model extends CI_Model
 
     public function get_nbpris_by_month($id, $month)
     {
-        $this->db->where('l_idUser', $id);
-        $this->db->where('l_statut', 1);
-        $this->db->like('l_dateFin', $month);
+        $this->db->where(array('l_idUser' => $id, 'l_statut' => 1));
+        $this->db->like('l_dateDepart', $month);
         $this->db->select_sum('l_nbJpris');
         $this->db->from($this->leave);
         $query = $this->db->get();
@@ -95,6 +94,7 @@ class Users_model extends CI_Model
             $item->leave_ant = null;
             foreach ($leave_ant as $j => $lt) {
                 if ($lt->l_idUser == $item->id_user) {
+                    $item->u_dispo = $lt->l_type === "Autorisation d'absence" ? $item->u_dispo - $lt->l_nbJpris : $item->u_dispo;
                     array_push($l_temp, $leave_ant[$j]);
                 }
             }
@@ -105,9 +105,9 @@ class Users_model extends CI_Model
                 }
             }
             $item->nbPris = $this->get_nbpris_by_month($item->id_user, $month)->l_nbJpris == null ? 0 : $this->get_nbpris_by_month($item->id_user, $month)->l_nbJpris;
-            // var_dump($item->leave_ant);
             $item->u_dispo = $item->u_dispo + $item->leave_ant;
         }
+        // var_dump($users);
         return $users;
     }
 

@@ -2,6 +2,7 @@
 $user = $this->session->userdata('user');
 $disabled = '';
 // var_dump($user);
+
 ?>
 <?php
 if ($user['u_email'] == null) {
@@ -79,6 +80,10 @@ $disabled_sell = ($user['u_dispo'] < $user['solde']);
                      <input type="radio" class="form-check-input" value="Obligations militaires" name="l_type" id="lv-militaire">
                      <label class="form-check-label" for="lv-militaire">Obligations militaires</label>
                   </div>
+                  <div class="form-check">
+                     <input type="radio" class="form-check-input" value="Congé sans solde" name="l_type" id="lv-sanssolde">
+                     <label class="form-check-label" for="lv-sanssolde">Congé sans solde</label>
+                  </div>
                </div>
                <div class="col">
                   <div class="form-check">
@@ -89,6 +94,10 @@ $disabled_sell = ($user['u_dispo'] < $user['solde']);
                      <input type="radio" class="form-check-input" value="Activités judiciaires" name="l_type" id="lv-judiciaire">
                      <label class="form-check-label" for="lv-judiciaire">Activités judiciaires</label>
                   </div>
+                  <div class="form-check">
+                     <input type="radio" class="form-check-input" value="Autorisation d'absence" name="l_type" id="lv-autorisation">
+                     <label class="form-check-label" for="lv-autorisation">Autorisation d'absence</label>
+                  </div>
                </div>
                <div class="col">
                   <div class="form-check">
@@ -98,12 +107,6 @@ $disabled_sell = ($user['u_dispo'] < $user['solde']);
                   <div class="form-check">
                      <input type="radio" class="form-check-input" value="Congé parental" name="l_type" id="lv-parental">
                      <label class="form-check-label" for="lv-parental">Congé parental</label>
-                  </div>
-               </div>
-               <div class="col">
-                  <div class="form-check">
-                     <input type="radio" class="form-check-input" value="Congé sans solde" name="l_type" id="lv-sanssolde">
-                     <label class="form-check-label" for="lv-sanssolde">Congé sans solde</label>
                   </div>
                   <div class="form-check">
                      <input type="radio" class="form-check-input" value="Autre" name="l_type" id="lv-autre">
@@ -117,12 +120,12 @@ $disabled_sell = ($user['u_dispo'] < $user['solde']);
          <div class="col">
             <div class="form-group">
                <label for="lv-responsable">Date du :</label>
-               <div class="d-flex" style="justify-content: space-between">
+               <div class="d-flex" style="justify-content: normal">
                   <div>
                      <input type="date" class="form-control" id="lv-dateDepart" name="l_dateDepart" style="width: 240px" required>
                   </div>
                   <div>
-                     <select class="form-control" id="lv-dateDepart-option" name="l_dateDepart-option" aria-describedby="lv-dateDepart-option" style="width: 150px" required="required">
+                     <select class="form-control" id="lv-dateDepart-option" name="l_dateDepart-option" aria-describedby="lv-dateDepart-option" style="width: 150px; margin-left: 15px" required="required">
                         <option value="08:00">08:00</option>
                         <option value="12:00">12:00</option>
                      </select>
@@ -133,12 +136,12 @@ $disabled_sell = ($user['u_dispo'] < $user['solde']);
          <div class="col">
             <div class="form-group">
                <label for="lv-responsable">Jusqu'au :</label>
-               <div class="d-flex" style="justify-content: space-between">
+               <div class="d-flex" style="justify-content: normal">
                   <div>
                      <input type="date" class="form-control" id="lv-dateFin" name="l_dateFin" style="width: 240px" required>
                   </div>
                   <div>
-                     <select class="form-control" id="lv-dateFin-option" name="l_dateFin-option" aria-describedby="lv-dateFin-option" style="width: 150px" required="required">
+                     <select class="form-control" id="lv-dateFin-option" name="l_dateFin-option" aria-describedby="lv-dateFin-option" style="width: 150px; margin-left: 15px" required="required">
                         <option value="12:00">12:00</option>
                         <option value="17:00" selected>17:00</option>
                      </select>
@@ -252,7 +255,7 @@ $disabled_sell = ($user['u_dispo'] < $user['solde']);
          name: 'nbJpris',
          value: get_jourPris(d1, d2)
       });
-
+      // console.log(data)
       ajax_func_validate(data, 'main/add_leave');
    })
 
@@ -280,7 +283,7 @@ $disabled_sell = ($user['u_dispo'] < $user['solde']);
             } else {
                $('.send_leave').prop('disabled', false);
                $('#nb_Jpris').html(add_zero(jPris));
-               $('#nb_Jrestant').html(add_zero(<?= $user['u_dispo'] ?> - jPris));
+               $('#nb_Jrestant').html(add_zero($('#lv-autorisation').is(":checked") ? <?= $user['u_dispo'] ?> : <?= $user['u_dispo'] ?> - jPris));
             }
          }
       }

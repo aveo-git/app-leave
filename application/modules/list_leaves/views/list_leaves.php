@@ -19,7 +19,7 @@ $waiting = count($leaves);
             <h6 class="py-2">Liste des congés en attente</h6>
             <?php if ($waiting == 0) : ?>
                 <div class="text-left">
-                    <div class="d-flex align-items-center">
+                    <div class="d-flex align-items-center" style="font-size: 14px">
                         <ion-icon name="reader-outline" size="small"></ion-icon> &nbsp; Pas de congé en attente.
                     </div>
                 </div>
@@ -220,6 +220,10 @@ $waiting = count($leaves);
             {
                 name: 'l_nbDispo',
                 value: $('#waiting-form #lv-dispo').val()
+            },
+            {
+                name: 'lv_type',
+                value: $('#waiting-form #lv-type').val()
             },
             {
                 name: 'l_statut',

@@ -206,3 +206,9 @@ span.btn-refused {
   float: right;
   margin: 10px 0px 30px 0px;
 }
+#color-calendar .calendar__monthyear {
+  font-size: 18px;
+}
+.form-control[readonly] {
+  color: #d6d6d7;
+}

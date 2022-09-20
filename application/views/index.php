@@ -66,7 +66,7 @@
         <?php } ?>
 
         <div style="margin: 2rem">
-            <div class="row justify-content-center w-75 m-auto">
+            <div class="row justify-content-center m-auto" style="max-width: 1400px">
                 <div class="col">
                     <div class="segment" style="display: flex; justify-content: space-between; padding: 0px 40px">
                         <div style="display: flex">
@@ -127,7 +127,7 @@
                     </div>
                 </div>
             </div>
-            <div class="row justify-content-center w-75 m-auto">
+            <div class="row justify-content-center m-auto" style="max-width: 1400px">
                 <div class="col-lg-9">
                     <?= $content; ?>
                 </div>
