@@ -52,7 +52,7 @@
 </form>
 <br>
 <div class="row">
-  <div class="col-lg-5">
+  <div class="col-lg-4">
     <h6 class="py-2 border-bottom text-uppercase">Ajouter un service</h6>
     <form id="service-form">
       <div class="form-group ">
@@ -66,7 +66,7 @@
       <button type="submit" class="btn btn-secondary">Ajouter</button>
     </form>
   </div>
-  <div class="col-lg-7">
+  <div class="col-lg-4">
     <h6 class="py-2 border-bottom text-uppercase">Modifier un service</h6>
     <form id="">
       <div class="row">
@@ -95,6 +95,26 @@
       <div class="row">
         <div class="col">
           <button type="submit" class="btn btn-secondary">Modifier</button>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="col-lg-4">
+    <h6 class="py-2 border-bottom text-uppercase">Supprimer un service</h6>
+    <form id="delete-service-form">
+      <div class="row">
+        <div class="form-group col">
+          <label for="lv-service-d">Nom du service</label>
+          <select class="form-control" id="lv-service-d" name="id_service" aria-describedby="lv-service-d" required="required">
+            <?php foreach ($services as $item) { ?>
+              <option value="<?= $item->id_service ?>" data-desc="<?= $item->s_description ?>"><?= $item->s_label ?></option>
+            <?php } ?>
+          </select>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <button type="submit" class="btn btn-primary">Supprimer</button>
         </div>
       </div>
     </form>
@@ -226,6 +246,11 @@
   $('#edit-service-form').on('submit', function(e) {
     e.preventDefault();
     ajax_func($(this).serializeArray(), 'params/update_service');
+  })
+
+  $('#delete-service-form').on('submit', function(e) {
+    e.preventDefault();
+    ajax_func($(this).serializeArray(), 'params/delete_service');
   })
 
   $('#lv-service-u').change(function() {

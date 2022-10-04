@@ -269,6 +269,11 @@ class Params extends MX_Controller
         $this->params->update_service($this->input->post('id_service'), $data);
     }
 
+    public function delete_service()
+    {
+        $this->params->delete_service($this->input->post('id_service'));
+    }
+
     public function set_link()
     {
         $data = array('general' => '', 'users' => '', 'calendar' => '');
