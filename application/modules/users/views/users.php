@@ -148,7 +148,7 @@
                     <thead>
                         <tr role="row">
                             <th>Nom et Prénom</th>
-                            <th># Pris</th>
+                            <th># Pris du mois</th>
                             <th># Restant</th>
                         </tr>
                     </thead>
