@@ -304,7 +304,8 @@ $disabled_sell = ($user['u_dispo'] < $user['solde']);
       if (d1.option == "08:00" && d2.option == "17:00") diff = get_diff_date(d2.date, d1.date) + 1;
       if (d1.option == "12:00" && d2.option == "12:00") diff = get_diff_date(d2.date, d1.date);
       if (d1.option != "08:00" || d2.option != "17:00") diff = get_diff_date(d2.date, d1.date) + 1 - (1 / 2);
-      return diff - sundayAndHolidayExisting(d1.date, d2.date);
+
+      return diff - sundayAndHolidayExisting(d1.date, d2.date) + hasFriday(d1.date, d2.date);
    }
 
    let get_diff_date = (d2, d1) => {
@@ -322,6 +323,14 @@ $disabled_sell = ($user['u_dispo'] < $user['solde']);
             count++;
          }
          if (all_holiday.find(e => _.isEqual(e, i)) !== undefined) count++;
+      }
+      return count;
+   }
+
+   let hasFriday = (d1, d2) => {
+      let count = 0;
+      if (d1.getDay() == 5 && d2.getDay() == 5 || d2.getDay() == 5) {
+         count++;
       }
       return count;
    }
