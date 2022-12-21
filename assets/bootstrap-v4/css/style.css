@@ -1,13 +1,16 @@
 ::-webkit-scrollbar {
   display: none !important;
 }
+
 .item ion-icon {
   font-size: 20px;
   color: #9eb6be;
 }
+
 ion-icon.disabled {
   pointer-events: none;
 }
+
 .lv-login {
   height: 100vh;
   width: 100%;
@@ -15,12 +18,15 @@ ion-icon.disabled {
   justify-content: center;
   align-items: center;
 }
+
 .segment.login {
   width: 400px;
 }
+
 .lv-droits div {
   margin-right: 20px;
 }
+
 .lv-droits div .totals {
   background-color: #f7f7f7;
   width: 100px;
@@ -28,6 +34,7 @@ ion-icon.disabled {
   border-radius: 5px;
   font-size: 20px;
 }
+
 .leaves .year ion-icon {
   font-size: 20px;
   color: #9eb6be;
@@ -36,17 +43,21 @@ ion-icon.disabled {
   margin: 0 10px;
   cursor: pointer;
 }
+
 .leaves ion-icon {
   font-size: 20px;
   color: #9eb6be;
   cursor: pointer;
 }
+
 .leaves ion-icon[name="checkmark-circle"] {
   color: #71cf87;
 }
+
 .leaves ion-icon[name="close-circle"] {
   color: #e44c46;
 }
+
 #accordion .mounth {
   color: #ee5644;
   font-weight: 700;
@@ -56,6 +67,7 @@ ion-icon.disabled {
   width: 140px;
   display: inline-block;
 }
+
 #accordion .value {
   color: #ee5644;
   font-weight: 700;
@@ -64,18 +76,22 @@ ion-icon.disabled {
   width: 140px;
   display: inline-block;
 }
+
 #accordion .indication {
   padding: 0 20px;
 }
 #accordion ul > li {
   margin-bottom: 10px;
 }
+
 img.profil {
   width: 100px;
 }
+
 img.profil.sm {
   width: 40px;
 }
+
 .badge_notif {
   position: absolute;
   width: 12px;
@@ -86,15 +102,18 @@ img.profil.sm {
   top: 17px;
   left: 86px;
 }
+
 .leave-item {
   padding: 9px 16px !important;
   cursor: pointer;
   border: 1px solid transparent;
 }
+
 .leave-item:hover,
 .leave-item.active {
   border: 1px solid #ee5644;
 }
+
 .leave-item-name {
   font-weight: 600;
   line-height: 17px;
@@ -104,16 +123,19 @@ img.profil.sm {
   text-overflow: ellipsis;
   width: 145px;
 }
+
 .leave-item-sending {
   font-size: 12px;
   font-style: italic;
 }
+
 .empty-data {
   height: 50vh;
   display: flex;
   justify-content: center;
   align-items: center;
 }
+
 .lv-action-button {
   width: 20px;
   height: 22px;
@@ -121,28 +143,35 @@ img.profil.sm {
   display: inline-block;
   cursor: pointer;
 }
+
 .lv-action-button.edit:hover {
   color: #02c1ce;
   background-color: rgba(0 0 0 / 6%);
 }
+
 .lv-action-button.trash {
   color: #ff0358;
 }
+
 .lv-action-button.trash:hover {
   color: #df004b;
   background-color: rgba(0 0 0 / 6%);
 }
+
 .calendar-item {
   padding: 5px;
   margin-bottom: 5px;
 }
+
 .item a {
   padding: 10px;
 }
+
 .disabled-button {
   pointer-events: none;
   opacity: 0.5;
 }
+
 span.btn-valide {
   color: #000;
   background-color: #bdffc0;
@@ -151,6 +180,7 @@ span.btn-valide {
   font-size: 13px;
   text-transform: capitalize;
 }
+
 span.btn-refused {
   color: #000;
   background-color: #ffb2ba;
@@ -158,4 +188,27 @@ span.btn-refused {
   border-radius: 5px;
   font-size: 12px;
   text-transform: capitalize;
+}
+
+.form-group.col.for-resp {
+  position: relative;
+}
+
+.eye-hidden-password {
+  position: absolute;
+  right: 22px;
+  bottom: 5px;
+  cursor: pointer;
+  display: none;
+}
+
+.sell-leaves button {
+  float: right;
+  margin: 10px 0px 30px 0px;
+}
+#color-calendar .calendar__monthyear {
+  font-size: 18px;
+}
+.form-control[readonly] {
+  color: #d6d6d7;
 }

@@ -1,15 +1,18 @@
 <?php
 
-class List_leaves_model extends CI_Model {
+class List_leaves_model extends CI_Model
+{
 
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct();
         $this->leave = "l_leave";
         $this->user = "l_user";
         $this->service = "l_service";
     }
 
-    public function get_all_leave_waiting() {
+    public function get_all_leave_waiting()
+    {
         $this->db->where('l_statut', 0);
         $this->db->select('*');
         $this->db->from($this->leave);
@@ -17,7 +20,8 @@ class List_leaves_model extends CI_Model {
         return $query->result();
     }
 
-    public function get_user_by_id($id) {
+    public function get_user_by_id($id)
+    {
         $this->db->where('id_user', $id);
         $this->db->select('*');
         $this->db->from($this->user);
@@ -25,7 +29,8 @@ class List_leaves_model extends CI_Model {
         return $query->row();
     }
 
-    public function get_leave_by_id($id) {
+    public function get_leave_by_id($id)
+    {
         $this->db->where('id_leave', $id);
         $this->db->select('*');
         $this->db->from($this->leave);
@@ -33,7 +38,8 @@ class List_leaves_model extends CI_Model {
         return $query->row();
     }
 
-    public function get_service_by_id($id) {
+    public function get_service_by_id($id)
+    {
         $this->db->where('id_service', $id);
         $this->db->select('*');
         $this->db->from($this->service);
@@ -41,14 +47,15 @@ class List_leaves_model extends CI_Model {
         return $query->row();
     }
 
-    public function set_status_leave($id, $data) {
+    public function set_status_leave($id, $data)
+    {
         $this->db->where('id_leave', $id);
         $this->db->update($this->leave, $data);
     }
 
-    public function set_nbdispo_user($id, $data) {
+    public function set_nbdispo_user($id, $dispo)
+    {
         $this->db->where('id_user', $id);
-        $this->db->update($this->user, $data);
+        $this->db->update($this->user, array('u_dispo' => $dispo));
     }
-
 }

@@ -2,6 +2,7 @@
     <p>Bonjour,</p>
     <p style="text-align: justify;">Votre demande de congé a été <?= $user->l_statut == '1' ? '<span style="background-color: #bdffc0; padding: 1px 5px; border-radius: 5px">validé</span>' : '<span style="background-color: #ffb2ba; padding: 1px 5px; border-radius: 5px">refusé</span>' ?> par votre supérieur. <br>
     </p>
+    <p>Réf : <b>#<?= $leave->id_leave ?>/<?= explode(' ', $leave->l_dateAjout)[0] ?>/<?= $leave->l_type ?></b></p>
     <p>Pour voir plus de détails, rendez-vous sur <a href="<?= base_url() ?>" target="blank"><?= base_url() ?></a>.</p>
     <p>
         <div>Bien cordialement.</div>
