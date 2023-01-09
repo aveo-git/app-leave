@@ -81,8 +81,8 @@ $disabled = $year_now == $year ? " disabled-button" : "";
     }
     tsy_haiko(leaves)
 
-    // Ajout des congés dans le dom
-    console.dir(leaves);
+    // // Ajout des congés dans le dom
+    // console.dir(leaves);
     temp.forEach((item, index) => {
         let str = '';
         let show = (temp.length == (index + 1)) ? ' show' : '';
