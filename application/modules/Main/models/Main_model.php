@@ -13,6 +13,9 @@ class Main_model extends CI_Model
 
     public function insert_leave($data)
     {
+        if ($data['l_type'] === 'Congé compensé') {
+            $data['l_dateDepart'] = date('Y-m-d H:i:s');
+        }
         $this->db->set('l_dateAjout', 'NOW()', FALSE);
         $this->db->insert($this->leave, $data);
     }

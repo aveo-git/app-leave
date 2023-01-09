@@ -51,6 +51,7 @@ class Main extends MX_Controller
         // var_dump($this->getSunday(2022, 02));
         $user = $this->session->userdata('user');
         $desc = $this->input->post('u_descr');
+        // Here -> atao date ajout ref congé compensé
         $nbJrest = $this->input->post('l_type') === "Autorisation d'absence" ? $user['u_dispo'] : $user['u_dispo'] - $this->input->post('nbJpris');
 
         $data = array(

@@ -9,7 +9,6 @@ class Leaves_model extends CI_Model {
 
     public function get_all_leave_by_id($id, $date) {
         $this->db->where('l_idUser', $id);
-        $this->db->where('l_statut !=', 0);
         $this->db->where('YEAR(l_dateAjout)', $date);
         $this->db->order_by('l_dateAjout', 'ASC');
         $this->db->select('*');
