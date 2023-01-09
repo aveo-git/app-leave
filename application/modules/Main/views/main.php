@@ -1,7 +1,6 @@
 <?php
 $user = $this->session->userdata('user');
 $disabled = '';
-// var_dump($user);
 
 ?>
 <?php
