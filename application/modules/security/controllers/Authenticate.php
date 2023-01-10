@@ -24,10 +24,14 @@ class Authenticate extends MX_Controller
     public function login()
     {
         $title = "Se connecter";
-        if ($this->is_authenticate()) {
+        if ($this->is_authenticate() && $this->is_valid_key()) {
             redirect('/main');
+        } else if (!$this->is_valid_key()) {
+            redirect('/verification');
+            // Modules::load("main")->display($this->load->view("admin/admin", array('title' => $title), TRUE), FALSE, $title);
+        } else {
+            Modules::load("main")->display($this->load->view("login", array(), TRUE), FALSE, $title);
         }
-        Modules::load("main")->display($this->load->view("login", array(), TRUE), FALSE, $title);
     }
 
     public function authenticate()
@@ -117,10 +121,15 @@ class Authenticate extends MX_Controller
 
     public function is_authenticate()
     {
-        if ($this->session->userdata("user") === NULL) {
+        if ($this->session->userdata("user") === NULL && $this->session->userdata('token') === NULL) {
             $this->session->sess_regenerate();
             return FALSE;
         }
         return TRUE;
+    }
+
+    private function is_valid_key()
+    {
+        return $this->session->userdata('token') !== NULL;
     }
 }
