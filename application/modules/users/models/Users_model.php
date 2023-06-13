@@ -32,6 +32,7 @@ class Users_model extends CI_Model
         $this->db->distinct();
         $this->db->where('l_statut !=', 0);
         $this->db->from($this->leave);
+    $this->db->join('l_user', 'l_user.id_user = l_leave.l_idUser');
         $query = $this->db->get();
         $temp = $query->result();
         foreach ($temp as $key => $value) {
@@ -45,9 +46,10 @@ class Users_model extends CI_Model
     {
         $this->db->where('l_statut !=', 0);
         $this->db->where('l_archived', 0);
-        $this->db->order_by('l_nbJdispo', 'DESC');
+    $this->db->order_by('l_dateAjout', 'DESC');
         $this->db->select('*');
         $this->db->from($this->leave);
+    $this->db->join('l_user', 'l_user.id_user = l_leave.l_idUser');
         $query = $this->db->get();
         $temp = $query->result();
         foreach ($temp as $key => $value) {
