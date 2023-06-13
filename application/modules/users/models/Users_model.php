@@ -42,21 +42,24 @@ class Users_model extends CI_Model
         return $temp;
     }
 
-    public function get_all_leave()
+  public function get_all_leave($dontIncludeCompensed = FALSE)
     {
-        $this->db->where('l_statut !=', 0);
-        $this->db->where('l_archived', 0);
+    $this->db->where('l_statut !=', 0);
+    $this->db->where('l_archived', 0);
     $this->db->order_by('l_dateAjout', 'DESC');
-        $this->db->select('*');
-        $this->db->from($this->leave);
+    if ($dontIncludeCompensed) {
+      $this->db->where('l_type !=', 'Congé compensé');
+    }
+    $this->db->select('*');
+    $this->db->from($this->leave);
     $this->db->join('l_user', 'l_user.id_user = l_leave.l_idUser');
-        $query = $this->db->get();
-        $temp = $query->result();
-        foreach ($temp as $key => $value) {
-            $username = $this->get_username_by_id($value->l_idUser);
-            $temp[$key]->l_idUser = $username != null ? $username->u_prenom . " " . $username->u_nom : '';
-        }
-        return $temp;
+    $query = $this->db->get();
+    $temp = $query->result();
+    foreach ($temp as $key => $value) {
+      $username = $this->get_username_by_id($value->l_idUser);
+      $temp[$key]->l_idUser = $username != null ? $username->u_prenom . " " . $username->u_nom : '';
+    }
+    return $temp;
     }
 
     public function get_all_leave_by_user($id)
