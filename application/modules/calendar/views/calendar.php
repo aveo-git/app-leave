@@ -9,8 +9,8 @@
   var leaves = <?= $leaves ?>;
   const events = leaves.map(leave => {
     const title = `Abs. ${leave?.u_prenom}`;
-    const start = leave?.l_dateDepart.split(' ')[0];
-    const end = leave?.l_dateFin.split(' ')[0];
+    const start = new Date(leave?.l_dateDepart.split(' ')[0]);
+    const end = new Date(leave?.l_dateFin.split(' ')[0]);
     return {
       title,
       start,
@@ -26,7 +26,8 @@
       buttonText: {
         today: 'Aujourd\'hui'
       },
-      events: events,
+      displayEventTime: false,
+      events,
       eventDidMount: function(info) {
         var eventColor = generateEventColor(info.event.title);
         info.el.style.backgroundColor = eventColor;
