@@ -42,9 +42,13 @@ class Users_model extends CI_Model
         return $temp;
     }
 
-  public function get_all_leave($dontIncludeCompensed = FALSE)
+  public function get_all_leave($dontIncludeCompensed = FALSE, $dontIncludeRefused = FALSE)
     {
-    $this->db->where('l_statut !=', 0);
+    if ($dontIncludeRefused) {
+      $this->db->where('l_statut', 1);
+    } else {
+      $this->db->where('l_statut !=', 0);
+    }
     $this->db->where('l_archived', 0);
     $this->db->order_by('l_dateAjout', 'DESC');
     if ($dontIncludeCompensed) {

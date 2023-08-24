@@ -19,7 +19,7 @@ class Calendar extends MX_Controller
     $y = $year_sess != NULL ? $year_sess['date'] : $this->year;
     $user = $this->session->userdata('user');
     $data['year'] = $y;
-    $data['leaves'] = json_encode((array)$this->users->get_all_leave(TRUE));
+    $data['leaves'] = json_encode((array)$this->users->get_all_leave(TRUE, TRUE));
     $title = "Calendrier";
     $content = $this->load->view('calendar', $data, TRUE);
     $this->display($content, TRUE, $title);
