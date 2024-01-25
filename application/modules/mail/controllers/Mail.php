@@ -12,6 +12,8 @@ class Mail extends MX_Controller
         $this->ciphering = "AES-128-CTR";
         $this->encryption_key = "EgteqOMGgX1MRrDxm2q22t0Iy9FzpNHB9bLtL";
         $this->description_iv = '1234567891011121';
+        $this->load->model('params/params_model', 'params');
+        $this->load->library('email');
     }
 
     public function index()
@@ -23,7 +25,7 @@ class Mail extends MX_Controller
     public function send_test()
     {
         $params = $this->parametre();
-        $dest = $params['mailDest'];
+        $dest = "tojo@aveolys.com";
         $html = $this->load->view('mail_test', null, TRUE); // Récuperation des données
         $this->email->initialize($params['psettings']);
         $this->email->to($dest);

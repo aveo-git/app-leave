@@ -7,8 +7,8 @@ $query_builder = TRUE;
 $db['default'] = array(
 	'dsn'	=> 'mysql:host=localhost;dbname=app_leave',
 	'hostname' => 'localhost',
-	'username' => 'phpmyadmin',
-	'password' => '@veoc0D',
+	'username' => 'root',
+	'password' => '',
 	'database' => 'app_leave',
 	'dbdriver' => 'pdo',
 	'dbprefix' => '',
