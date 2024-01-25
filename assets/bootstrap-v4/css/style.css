@@ -212,3 +212,44 @@ span.btn-refused {
 .form-control[readonly] {
   color: #d6d6d7;
 }
+
+.calendar-container {
+  background-color: #FFFFFF;
+  border-radius: 5px;
+  padding: 20px;
+}
+
+#color-calendar .fc-col-header-cell a {
+  color: #717b85;
+}
+
+#color-calendar .fc-h-event .fc-event-title-container {
+  padding: 3px 8px;
+}
+
+#color-calendar .fc-day a {
+  color: #717b85;
+}
+
+#color-calendar .fc-toolbar-title {
+  text-transform: capitalize;
+  font-size: 28px;
+}
+
+#color-calendar .fc-today-button {
+  padding: 0.2rem 2em;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+}
+
+#color-calendar .fc-button-group .fc-button {
+  padding: 0.2rem 0.2rem;
+  font-size: 0.8rem;
+  background-color: transparent;
+  color: #000000;
+  border: none;
+}
+
+#color-calendar .fc-button-group .fc-prev-button {
+  margin-right: 10px;
+}

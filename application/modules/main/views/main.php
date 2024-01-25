@@ -43,7 +43,7 @@ $disabled_sell = ($user['u_dispo'] < $user['solde']);
       <div class="row">
          <div class="col">
             <div class="form-group">
-               <label class="" for="lv-reference">Réference *</label>
+               <label class="" for="lv-reference">Réference (facultatif)</label>
                <input type="text" class="form-control" id="lv-reference" value="<?= $user['u_reference'] ?>" name="u_reference">
             </div>
          </div>
@@ -186,7 +186,6 @@ $disabled_sell = ($user['u_dispo'] < $user['solde']);
       </div>
 
       <br>
-      <div>* Facultatif</div>
       <button type="button" class="btn btn-secondary">Effacer</button>
       <button type="submit" class="btn btn-primary send_leave" <?= $disabled ?>>Envoyer</button>
    </form>
