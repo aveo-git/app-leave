@@ -243,7 +243,6 @@ class Params extends MX_Controller
         $this->set_session_calendar();
         $this->set_session_cloture();
     }
-
     public function send_test()
     {
         $this->mail->send_test();
