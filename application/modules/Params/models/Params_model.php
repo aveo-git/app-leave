@@ -142,6 +142,13 @@ class Params_model extends CI_Model
         $this->db->delete($this->calendar, array('id_calendar' => $id));
     }
 
+    public function update_calendar_year()
+    {
+        $currentYear = date('Y');
+        $data = array('c_debut' => $currentYear . substr('c_debut', 4));
+        $this->db->update($this->calendar, $data);
+    }
+
     private function is_exist($attr, $data, $table)
     {
         $this->db->where($attr, $data);
