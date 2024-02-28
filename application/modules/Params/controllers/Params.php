@@ -112,6 +112,7 @@ class Params extends MX_Controller
 
         $bind = ldap_bind($ldap, $pseudo, $this->decrypt($passad->param_value));
         // var_dump($bind);
+        // var_dump(phpinfo());
 
         if ($bind) {
             $data = $this->retrieves_users($ldap);
@@ -143,7 +144,6 @@ class Params extends MX_Controller
         $pageSize = 100;
         $cookie = '';
         do {
-            ldap_control_paged_result($conn, $pageSize, true, $cookie);
             $result  = ldap_search($conn, $dn, $filter, $justthese);
             $entries = ldap_get_entries($conn, $result);
             // var_dump($entries);
