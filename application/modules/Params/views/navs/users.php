@@ -293,6 +293,9 @@
             success: function(msg) {
                 $(".progress").removeClass('active');
                 location.reload();
+            },
+            error: function(err){
+                console.log(err)
             }
         })
     })
