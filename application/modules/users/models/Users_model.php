@@ -71,7 +71,7 @@ class Users_model extends CI_Model
         $this->db->where('l_idUser', $id);
         $this->db->where('l_statut !=', 0);
         $this->db->where('l_archived', 0);
-        $this->db->order_by('l_nbJdispo', 'DESC');
+        $this->db->order_by('l_dateAjout', 'DESC');
         $this->db->select('*');
         $this->db->from($this->leave);
         $query = $this->db->get();
