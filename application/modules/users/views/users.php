@@ -186,6 +186,12 @@
             }
                 
         },
+        'columnDefs': [
+            {
+                "targets": [3,4,5],
+                "className": "text-center",
+            },
+        ],
         "columns": [
             {
                 className: 'details-control',
@@ -203,10 +209,14 @@
                 }
             },
             {
-                "data": "nb"
+                "data": "nb",
+                "center":true
             },
             {
-                "data": "pris"
+                "data": null,
+                render: function(item) {
+                    return item.pris || "0";
+                }
             },
             {
                 "data": null,
@@ -262,7 +272,8 @@
                             <td>${leave.l_statut === '1' ? '<span style="background-color: #bdffc0; padding: 1px 5px; border-radius: 5px">Validé</span>' : '<span style="background-color: #ffb2ba; padding: 1px 5px; border-radius: 5px">Refusé</span>'}</td>
                         </tr>`;
             }).join('');
-            row.child(`<table cellpadding="5" cellspacing="0" border="0" style="width:100%;">
+            if(leaves.length > 0){
+                row.child(`<table cellpadding="5" cellspacing="0" border="0" style="width:100%;">
                         <tr>
                             <th></th>
                             <th>Type</th>
@@ -277,6 +288,10 @@
                         ${leaves}
                         </tbody>
                        </table>`).show();
+            }else{
+                row.child(`<p class="text-center">Aucune donnée disponible.</p>`).show();
+            }
+            
             tr.addClass('shown');
         }
     });

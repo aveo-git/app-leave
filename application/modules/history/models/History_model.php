@@ -23,6 +23,7 @@ class History_model extends CI_Model
             $this->db->where('YEAR(h.date)', $year);
         }
         $this->db->join('l_user u', 'u.id_user = h.user');
+        $this->db->order_by('h.date',"DESC");
         $query = $this->db->get();
         $result = $query->result();
         foreach ($result as $key => $value) {
