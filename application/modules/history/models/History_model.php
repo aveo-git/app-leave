@@ -46,6 +46,7 @@ class History_model extends CI_Model
         $this->db->select("SUM(l.l_nbJpris) p");
         $this->db->from("l_leave l");
         $this->db->where('l.l_idUser', $user);
+        $this->db->where('l.l_statut', 1);
         $this->db->where('MONTH(l.l_dateDepart)', $month);
         $this->db->where('YEAR(l.l_dateDepart)', $year);
         $query = $this->db->get();

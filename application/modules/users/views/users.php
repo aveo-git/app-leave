@@ -1,8 +1,4 @@
 <div class="segment" style="min-height: 75vh">
-    <h6 class="py-2 border-bottom text-uppercase d-flex align-items-center justify-content-between">
-        <div>Liste de tout les congés (Par utilisateur)</div>
-        <div><button class="btn btn-secondary" id="report_button" data-toggle="modal" data-target="#report_modal">RAPPORT</button></div>
-    </h6>
     <form action="">
         <select class="form-control" id="lv-selectuser" name="id_user" aria-describedby="lv-selectuser" required="required">
             <option value="all" selected>Tous...</option>
@@ -17,16 +13,11 @@
         <thead>
             <tr role="row">
                 <th></th>
-                <th>Type</th>
+                <th>Date</th>
                 <th>Nom et Prénom</th>
-                <th>Debut</th>
-                <th>Fin</th>
-                <th>Responsable</th>
+                <th># Dispo</th>
                 <th># Pris</th>
                 <th># Restant</th>
-                <th># Dispo</th>
-                <th>Statut</th>
-                <th>Action</th>
             </tr>
         </thead>
     </table>
@@ -173,62 +164,6 @@
         `;
     }
 
-    $('#report_button').on('click', function(e) {
-        $('#report_data').DataTable().destroy();
-        let date_now = new Date();
-        $('#month_report').html(months[date_now.getMonth()]);
-        e.preventDefault();
-        $.ajax({
-            url: '<?= site_url('users/report_leaves') ?>',
-            type: "POST",
-            data: null,
-            dataType: "json",
-            success: function(data) {
-                $('#report_data').DataTable({
-                    "data": data,
-                    "columns": [{
-                            "data": null,
-                            render: function(item) {
-                                return item.u_prenom + " " + item.u_nom;
-                            }
-                        },
-                        {
-                            "data": 'nbPris'
-                        },
-                        {
-                            "data": null,
-                            render: function(item) {
-                                if (item.leave_ant != null) {
-                                    text = `dont ${item.leave_ant} jour(s) validé(s) le mois prochain`;
-                                    return item.u_dispo + " <span title='" + text + "' style='cursor: pointer'><ion-icon name='alert-circle-outline'  class='disabled'></ion-icon></span>"
-                                }
-                                return item.u_dispo
-                            }
-                        },
-                    ],
-                    "language": {
-                        "emptyTable": "Aucun Résultat",
-                        "infoEmpty": "Aucun enregistrement disponible",
-                        "zeroRecords": "Aucun Résultat",
-                        "infoFiltered": "",
-                        "lengthMenu": "Afficher : _MENU_",
-                        "info": "_END_ sur _MAX_ entrée(s)",
-                        'search': "Recherche : ",
-                        "paginate": {
-                            "first": "Premier",
-                            "last": "Dernier",
-                            "next": "Suivant",
-                            "previous": "Précedent"
-                        },
-                    },
-                    "dom": "",
-                    // "dom": 'dli',
-                    "bFilter": true,
-                });
-            }
-        })
-    })
-
     $('#lv-selectuser').on('change', function(e) {
         $('#leaves_data').DataTable().destroy();
         e.preventDefault();
@@ -318,56 +253,38 @@
         })
     })
 
+    // list leave 
     let table_leaves = $('#leaves_data').DataTable({
-        "ajax": '<?= site_url('users/list_leaves') ?>',
-        "columns": [{
-                "data": null,
-                render: function(item) {
-                    return '<input type="checkbox" name="' + item.id_leave + '" id="' + item.id_leave + '" />'
-                }
+        "ajax": '<?= site_url('history') ?>',
+        "columns": [
+            {
+                className: 'details-control',
+                orderable: false,
+                data: null,
+                defaultContent: '+'
             },
             {
-                "data": 'l_type'
-            },
-            {
-                "data": 'l_idUser'
+                "data": "date"
             },
             {
                 "data": null,
                 render: function(item) {
-                    return item.l_dateDepart;
+                    return item.u_prenom + " " + item.u_nom;
                 }
+            },
+            {
+                "data": "nb"
+            },
+            {
+                "data": "pris"
             },
             {
                 "data": null,
                 render: function(item) {
-                    return item.l_dateFin;
+                    return item.nb - item.pris;
                 }
             },
-            {
-                "data": 'l_responsable'
-            },
-            {
-                "data": 'l_nbJpris'
-            },
-            {
-                "data": 'l_nbJrest'
-            },
-            {
-                "data": 'l_nbJdispo'
-            },
-            {
-                "data": null,
-                render: function(item) {
-                    return item.l_statut === '1' ? '<span style="background-color: #bdffc0; padding: 1px 5px; border-radius: 5px">Validé</span>' : '<span style="background-color: #ffb2ba; padding: 1px 5px; border-radius: 5px">Refusé</span>';
-                }
-            },
-            {
-                "data": null,
-                render: function(item) {
-                    return action_userad(item.id_user);
-                }
-            },
+            
         ],
         "language": {
             "emptyTable": "Aucun Résultat",
@@ -393,23 +310,58 @@
         ],
     });
 
-    $('#leaves_data tbody').on('click', 'span', function() {
-        let tr = $(this).parents('tr');
-        let leave = table_leaves.row(tr).data();
-        if ($(this).hasClass('print')) {
-
+    // expande to show leave details
+    $('#leaves_data tbody').on('click', 'td.details-control', function () {
+        var tr = $(this).closest('tr');
+        var row = table_leaves.row(tr);
+        if (row.child.isShown()) {
+            row.child.hide();
+            tr[0].children[0].innerHTML = "+"
+            tr.removeClass('shown');
+        } else {
+            tr[0].children[0].innerHTML = "-"
+            var user = row.data();
+            var leaves = user.leaves.map(function(leave) {
+                return `<tr>
+                            <td class="select_leave">${'<input type="checkbox" name="' + leave.id_leave + '" id="' + leave.id_leave + '" />'}</td>
+                            <td>${leave.l_type}</td>
+                            <td>${leave.l_dateAjout}</td>
+                            <td>${leave.l_dateDepart}</td>
+                            <td>${leave.l_dateFin}</td>
+                            <td>${leave.l_responsable}</td>
+                            <td>${leave.l_nbJpris}</td>
+                            <td>${leave.l_statut === '1' ? '<span style="background-color: #bdffc0; padding: 1px 5px; border-radius: 5px">Validé</span>' : '<span style="background-color: #ffb2ba; padding: 1px 5px; border-radius: 5px">Refusé</span>'}</td>
+                        </tr>`;
+            }).join('');
+            row.child(`<table cellpadding="5" cellspacing="0" border="0" style="width:100%;">
+                        <tr>
+                            <th></th>
+                            <th>Type</th>
+                            <th>Crée en</th>
+                            <th>Debut</th>
+                            <th>Fin</th>
+                            <th>Responsable</th>
+                            <th># Pris</th>
+                            <th>Statut</th>
+                        </tr>
+                        <tbody>
+                        ${leaves}
+                        </tbody>
+                       </table>`).show();
+            tr.addClass('shown');
         }
-    })
+    });
 
     $('#delete_leave_confirm').on('click', function(e) {
         e.preventDefault();
         ajax_func($('#delete_user_form').serializeArray(), "users/delete_leaves");
     })
 
+    // delete leave
     $('#deletealluser-button').on('click', function(e) {
         e.preventDefault();
         $('#alert-content').html('Vous êtes sûr de vouloir supprimer les congés sélectionnés?');
-        let data = $('#leaves_data tbody td.sorting_1 input:checked');
+        let data = $('.select_leave input:checked');
         let ids = [];
         if (data.length < 1) {
             $('#alert-content').html('Aucun congé sélectionner. Choisissez au moins un.');

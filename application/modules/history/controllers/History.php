@@ -10,7 +10,7 @@ class History extends MX_Controller
 
     public function index()
     {
-        $data = $this->history->getHistory();
+        $data["data"] = $this->history->getHistory();
         $this->output
                 ->set_status_header(200)
                 ->set_content_type('application/json', 'utf-8')

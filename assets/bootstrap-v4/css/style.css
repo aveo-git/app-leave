@@ -214,7 +214,7 @@ span.btn-refused {
 }
 
 .calendar-container {
-  background-color: #FFFFFF;
+  background-color: #ffffff;
   border-radius: 5px;
   padding: 20px;
 }
@@ -252,4 +252,11 @@ span.btn-refused {
 
 #color-calendar .fc-button-group .fc-prev-button {
   margin-right: 10px;
+}
+
+.details-control {
+  width: 40px;
+  font-size: 20px;
+  font-weight: 800;
+  cursor: pointer;
 }
