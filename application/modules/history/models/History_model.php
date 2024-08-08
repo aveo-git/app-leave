@@ -9,10 +9,19 @@ class History_model extends CI_Model
         $this->table = "l_history";
     }
 
-    public function getHistory()
+    public function getHistory($user,$date)
     {
         $this->db->select("u.id_user, u.u_nom, u.u_prenom, h.date, h.nb");
         $this->db->from($this->table . " h");
+        if($user){
+            $this->db->where("h.user",$user);
+        }
+        if($date){
+            $month = date('m', strtotime($date));
+            $year = date('Y', strtotime($date));
+            $this->db->where('MONTH(h.date)', $month);
+            $this->db->where('YEAR(h.date)', $year);
+        }
         $this->db->join('l_user u', 'u.id_user = h.user');
         $query = $this->db->get();
         $result = $query->result();

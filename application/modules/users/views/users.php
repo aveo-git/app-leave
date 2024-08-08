@@ -1,12 +1,14 @@
 <div class="segment" style="min-height: 75vh">
-    <form action="">
-        <select class="form-control" id="lv-selectuser" name="id_user" aria-describedby="lv-selectuser" required="required">
-            <option value="all" selected>Tous...</option>
+    <h5>Liste des congés</h5>
+    <div class="row justify-content-between">
+        <select class="form-control col-md-6" id="lv-selectuser" name="id_user" aria-describedby="lv-selectuser" required="required">
+            <option value="" selected>Tous...</option>
             <?php foreach ($users as $u) : ?>
                 <option value="<?= $u->l_idUser ?>"><?= $u->username ?></option>
             <?php endforeach ?>
         </select>
-    </form>
+        <input class="form-control col-md-4" type="month" id="month">
+    </div>
     <br>
     <!-- LEAVES LIST -->
     <table id="leaves_data" class="table table-striped table-bordered compact dataTable no-footer" role="grid" aria-describedby="datatable_info" style="width: 100%">
@@ -164,98 +166,26 @@
         `;
     }
 
+    // reload on filter
     $('#lv-selectuser').on('change', function(e) {
-        $('#leaves_data').DataTable().destroy();
-        e.preventDefault();
-        $.ajax({
-            url: "<?= site_url('users/select_leaves') ?>",
-            type: "POST",
-            data: {
-                idUser: $(this).val()
-            },
-            dataType: "json",
-            success: function(data) {
-                $('#leaves_data').DataTable({
-                    "data": data,
-                    "columns": [{
-                            "data": null,
-                            render: function(item) {
-                                return '<input type="checkbox" name="' + item.id_leave + '" id="' + item.id_leave + '" />'
-                            }
-                        },
-                        {
-                            "data": 'l_type'
-                        },
-                        {
-                            "data": 'l_idUser'
-                        },
-                        {
-                            "data": null,
-                            render: function(item) {
-                                return item.l_dateDepart;
-                            }
-                        },
-                        {
-                            "data": null,
-                            render: function(item) {
-                                return item.l_dateFin;
-                            }
-                        },
-                        {
-                            "data": 'l_responsable'
-                        },
-                        {
-                            "data": 'l_nbJpris'
-                        },
-                        {
-                            "data": 'l_nbJrest'
-                        },
-                        {
-                            "data": 'l_nbJdispo'
-                        },
-                        {
-                            "data": null,
-                            render: function(item) {
-                                return item.l_statut === '1' ? '<span style="background-color: #bdffc0; padding: 1px 5px; border-radius: 5px">Validé</span>' : '<span style="background-color: #ffb2ba; padding: 1px 5px; border-radius: 5px">Refusé</span>';
-                            }
-                        },
-                        {
-                            "data": null,
-                            render: function(item) {
-                                return action_userad(item.id_user);
-                            }
-                        },
-                    ],
-                    "language": {
-                        "emptyTable": "Aucun Résultat",
-                        "infoEmpty": "Aucun enregistrement disponible",
-                        "zeroRecords": "Aucun Résultat",
-                        "infoFiltered": "",
-                        "lengthMenu": "Afficher : _MENU_",
-                        "info": "_END_ sur _MAX_ entrée(s)",
-                        'search': "Recherche : ",
-                        "paginate": {
-                            "first": "Premier",
-                            "last": "Dernier",
-                            "next": "Suivant",
-                            "previous": "Précedent"
-                        },
-                    },
-                    "dom": "<'d-flex by-center w-100 py-3'<i><'text-right'f>>t<'d-flex by-center w-100 py-3'<'col text-left'l><'col text-right'p>>",
-                    // "dom": 'dli',
-                    "bFilter": true,
-                    "lengthMenu": [
-                        [10, 25, 50, 100, -1],
-                        [10, 25, 50, 100, 'Tous']
-                    ],
-                });
-            }
-        })
+        table_leaves.ajax.reload()
+    })
+
+    $('#month').on('change', function(e) {
+        table_leaves.ajax.reload()
     })
 
     // list leave 
     let table_leaves = $('#leaves_data').DataTable({
-        "ajax": '<?= site_url('history') ?>',
+        "ajax": {
+            'url':'<?= site_url('history') ?>',
+            'type': 'POST',
+            'data':function(d){
+                d.user = $('#lv-selectuser').val()
+                d.date = $('#month').val()
+            }
+                
+        },
         "columns": [
             {
                 className: 'details-control',
@@ -302,7 +232,6 @@
             },
         },
         "dom": "<'d-flex by-center w-100 py-3'<i><'text-right'f>>t<'d-flex by-center w-100 py-3'<'col text-left'l><'col text-right'p>>",
-        // "dom": 'dli',
         "bFilter": true,
         "lengthMenu": [
             [10, 25, 50, 100, -1],
