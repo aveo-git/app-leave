@@ -105,24 +105,10 @@ $waiting = count($leaves);
                                 <input type="text" class="form-control" id="lv-dateFin" name="l_dateFin" disabled>
                             </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col">
-                            <div class="form-group">
-                                <label class="" for="lv-dispo">Disponible</label>
-                                <input type="text" class="form-control" id="lv-dispo" name="l_nbJdispo" disabled>
-                            </div>
-                        </div>
                         <div class="col">
                             <div class="form-group">
                                 <label class="" for="lv-pris">Jour(s) pris</label>
                                 <input type="text" class="form-control" id="lv-pris" name="l_nbJpris" disabled>
-                            </div>
-                        </div>
-                        <div class="col">
-                            <div class="form-group">
-                                <label class="" for="lv-rest">Jour(s) restant</label>
-                                <input type="text" class="form-control" id="lv-rest" name="l_nbJrest" disabled>
                             </div>
                         </div>
                     </div>
@@ -154,6 +140,7 @@ $waiting = count($leaves);
         $('.waiting-all').show();
 
         let data = $(this).data('value')
+        console.log(data)
         $('#waiting-form #id-user').val(data.l_idUser.id_user);
         $('#waiting-form #id-leave').val(data.id_leave)
         $('#waiting-form #lv-nom').val(data.l_idUser.u_nom)
@@ -170,9 +157,9 @@ $waiting = count($leaves);
             $('#waiting-form .dates-leave').hide();
         }
 
-        $('#waiting-form #lv-dispo').val(set_date(data.l_nbJdispo))
-        $('#waiting-form #lv-pris').val(set_date(data.l_nbJpris))
-        $('#waiting-form #lv-rest').val(set_date(data.l_nbJrest))
+        // $('#waiting-form #lv-dispo').val(set_date(data.l_nbJdispo))
+        $('#waiting-form #lv-pris').val(data.l_nbJpris)
+        // $('#waiting-form #lv-rest').val(set_date(data.l_nbJrest))
         $('.waiting-all img').attr('src', '<?= base_url() . '/assets/images/' ?>' + data.l_idUser.u_avatar)
     })
 
