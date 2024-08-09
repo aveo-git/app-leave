@@ -10,7 +10,7 @@ if ($user['u_email'] == null) {
    <div class="alert alert-danger">Assurez-vous que votre adresse email n'est pas vide. Si c'est le cas, modifiez-le <a href="<?= site_url() . '/profil' ?>">ici</a>.</div>
 <?php }
 
-$disabled_sell = ($user['u_dispo'] < $user['solde']);
+$disabled_sell = ($dispo < $user['solde']);
 
 ?>
 <div class="progress">
@@ -202,11 +202,11 @@ $disabled_sell = ($user['u_dispo'] < $user['solde']);
                <input type="hidden" value="sell" name="u_descr">
                <input type="hidden" value="Congé compensé" name="l_type">
                <input type="hidden" value="<?= $user['id_user'] ?>" name="id_user">
-               <input type="hidden" value="<?= $user['u_dispo'] ?>" name="u_dispo">
+               <input type="hidden" value="<?= $dispo ?>" name="u_dispo">
                <input type="hidden" value="<?= $resp->u_prenom . " " . $resp->u_nom ?>" name="u_responsable">
                <div class="form-group">
                   <label class="" for="lv-sell">Veuillez ajouter le nombre de congé :</label>
-                  <input type="number" class="form-control" id="lv-sell" name="nbJpris" step="0.5" min="<?= $user['solde'] ?>" value="<?= $user['u_dispo'] ?>" required <?= $disabled_sell ? 'disabled' : '' ?>>
+                  <input type="number" class="form-control" id="lv-sell" name="nbJpris" step="0.5" min="<?= $user['solde'] ?>" max="<?= $dispo ?>" value="<?= $dispo ?>" required <?= $disabled_sell ? 'disabled' : '' ?>>
                   <?php if ($disabled_sell) : ?>
                      <small style="color: #ffa929"><i class="fa fa-warning"></i> Votre solde est insuffisant. (<?= $user['solde'] ?> jours au minimum)</small>
                   <?php endif ?>

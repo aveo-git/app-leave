@@ -70,12 +70,9 @@ class Main extends MX_Controller
         );
 
         $this->main->insert_leave($data);
-        $user['u_dispo'] = $nbJrest;
-        $this->main->update_dispo($user['id_user'], $nbJrest);
-        $this->session->set_userdata('user', $user);
 
         $user['descr'] = $desc;
-        $this->mail->send_deposite($user);
+        // $this->mail->send_deposite($user);
 
         $this->session->set_flashdata('alert', "NOTE : Demande de congé envoyée, vous recevrez un mail lorsque le responsable aura fini d'examiner votre demande.");
     }
