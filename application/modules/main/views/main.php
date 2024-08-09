@@ -58,6 +58,7 @@ $disabled_sell = ($dispo < $user['solde']);
          <div class="col">
             <div class="form-group">
                <label class="" for="lv-responsable">Résponsable</label>
+               <input type="hidden" value="<?= $resp->u_prenom . " " . $resp->u_nom ?>" name="u_responsable" required readonly>
                <input type="text" class="form-control" id="lv-responsable" value="<?= $resp->u_prenom . " " . $resp->u_nom ?>" name="u_responsable" required disabled>
             </div>
          </div>
@@ -115,7 +116,7 @@ $disabled_sell = ($dispo < $user['solde']);
             </div>
          </div>
       </div><br>
-      <div class="row">
+      <div class="row" id="date_container">
          <div class="col">
             <div class="form-group">
                <label for="lv-responsable">Date du :</label>
@@ -243,10 +244,6 @@ $disabled_sell = ($dispo < $user['solde']);
          "date": new Date($('#lv-dateFin').val()),
          "option": $('#lv-dateFin-option').val()
       }
-      data.push({
-         name: 'nbJpris',
-         value: get_jourPris(d1, d2)
-      });
       // console.log(data)
       ajax_func_validate(data, 'main/add_leave');
    })
@@ -256,7 +253,9 @@ $disabled_sell = ($dispo < $user['solde']);
       $('#lv-dateFin').prop('disabled', $('#lv-dateDepart').val() === "");
    })
 
-   $('#lv-dateFin').on('change', function() {
+   $('#date_container input').on('change',updateView)
+   $('#date_container select').on('change',updateView)
+   function updateView() {
       let d1, d2 = null;
       if ($('#lv-dateDepart').val() != "" && $('#lv-dateFin').val() != "") {
          let d1 = {
@@ -284,7 +283,7 @@ $disabled_sell = ($dispo < $user['solde']);
             }
          }
       }
-   })
+   }
 
    $('.cancel_btn').on('click',function(){
       $('#lv-dateFin').val("")

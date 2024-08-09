@@ -50,26 +50,39 @@ class Main extends MX_Controller
 
     public function add_leave()
     {
-        // var_dump($this->getSunday(2022, 02));
         $user = $this->session->userdata('user');
         $desc = $this->input->post('u_descr');
         // Here -> atao date ajout ref congé compensé
-        $nbJrest = $this->input->post('l_type') === "Autorisation d'absence" ? $user['u_dispo'] : $user['u_dispo'] - $this->input->post('nbJpris');
+        $absence = $this->input->post('l_type') === "Autorisation d'absence" ? 1 : 0;
 
-        $data = array(
-            "l_type" => $this->input->post('l_type'),
-            "l_dateDepart" => $desc != null ? null : $this->input->post('l_dateDepart') . " " . $this->input->post('l_dateDepart-option'),
-            "l_dateFin" => $desc != null ? null : $this->input->post('l_dateFin') . " " . $this->input->post('l_dateFin-option'),
-            "l_responsable" => $this->input->post('u_responsable'),
-            "l_nbJpris" => $this->input->post('nbJpris'),
-            "l_nbJrest" => $nbJrest,
-            "l_nbJdispo" => $this->input->post('u_dispo'),
-            "l_statut" => 0,
-            "l_archived" => 0,
-            "l_idUser" => $this->input->post('id_user'),
-        );
+        $start = $this->input->post('l_dateDepart');
+        $back = $this->input->post('l_dateFin');
 
-        $this->main->insert_leave($data);
+        $dates = [];
+        $this->checkDate($start,$back,$dates);
+
+        foreach ($dates as $key => $value) {
+            $hstart = $key === 0 ? $this->input->post('l_dateDepart-option') : "08:00";
+            $hback = $key === count($dates) - 1 ? $this->input->post('l_dateFin-option') : '17:00';
+            $s = $value['start'];
+            $e = $value['back'];
+            $pris = $this->calcul_nbJour($s,$e) - $this->main->getDayOff($s,$e);
+            if($hstart === "12:00" && $hback === "12:00") {
+                $pris = $pris - 1;
+            } else if($hstart === "12:00" ||  $hback === "12:00") {$pris = $pris - 0.5;}
+            $data = array(
+                "l_type" => $this->input->post('l_type'),
+                "l_dateDepart" => $desc != null ? null : $s . " " . $hstart,
+                "l_dateFin" => $desc != null ? null : $e . " " . $hback,
+                "l_responsable" => $this->input->post('u_responsable'),
+                "l_nbJpris" => $pris,
+                "l_statut" => 0,
+                "l_archived" => 0,
+                "l_idUser" => $this->input->post('id_user'),
+                "l_absence" => $absence
+            );
+            $this->main->insert_leave($data);
+        }
 
         $user['descr'] = $desc;
         // $this->mail->send_deposite($user);
@@ -77,9 +90,33 @@ class Main extends MX_Controller
         $this->session->set_flashdata('alert', "NOTE : Demande de congé envoyée, vous recevrez un mail lorsque le responsable aura fini d'examiner votre demande.");
     }
 
-    private function calcul_nbJour($d2, $d1)
+    private function calcul_nbJour($d1,$d2)
     {
-        return round((strtotime($d2) - strtotime($d1)) / 60 / 60 / 24, 0);
+        $start = new DateTime($d1);
+        $end = new DateTime($d2);
+        $count = 0;
+        while ($start <= $end) {
+            if ($start->format('w') != 0) { 
+                $count++;
+            }
+            $start->modify('+1 day');
+        }
+
+        return $count;
+    }
+
+    private function checkDate($start,$back,&$result)
+    {
+        $d1 = new DateTime($start);
+        $d2 = new DateTime($back);
+        if ($d1->format('Y-m') === $d2->format('Y-m')) {
+            $result[] = ["start" => $d1->format('Y-m-d'), "back" => $d2->format('Y-m-d')];
+        } else {
+            $e1 = (clone $d1)->modify('last day of this month');
+            $s2 = (clone $d1)->modify('first day of next month');
+            $result[] = ["start" => $d1->format('Y-m-d'), "back" => $e1->format('Y-m-d')];
+            $this->checkDate($s2->format('Y-m-d'), $back, $result);
+        }
     }
 
     private function get_sunday($y, $m)
