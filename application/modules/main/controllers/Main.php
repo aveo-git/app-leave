@@ -12,6 +12,7 @@ class Main extends MX_Controller
         $this->load->module('admin/admin');
         $this->load->model('main_model', 'main');
         $this->load->model('params_model', 'params');
+        $this->load->model('history/history_model','history');
         $this->load->module('mail/mail');
         $this->load->library('email');
     }
@@ -23,6 +24,7 @@ class Main extends MX_Controller
             $title = "Dashboard";
             $data['resp'] = $this->main->get_user_by_email($this->params->get_one_by_code("email_destinataire")->param_value);
             $data['publicholiday'] = $this->main->get_all_calendar_date();
+            $data['dispo'] = $this->history->getDispo($user['id_user']);
             $content = $this->load->view('main', $data, TRUE);
             $this->display($content, TRUE, $title);
         } else {

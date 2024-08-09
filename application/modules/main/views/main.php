@@ -30,13 +30,13 @@ $disabled_sell = ($user['u_dispo'] < $user['solde']);
          <div class="col">
             <div class="form-group">
                <label class="" for="lv-nom">Nom</label>
-               <input type="text" class="form-control" id="lv-nom" value="<?= $user['u_nom'] ?>" name="u_nom" required>
+               <input type="text" class="form-control" id="lv-nom" value="<?= $user['u_nom'] ?>" name="u_nom" required disabled>
             </div>
          </div>
          <div class="col">
             <div class="form-group">
                <label class="" for="lv-prenom">Prénom</label>
-               <input type="text" class="form-control" id="lv-prenom" value="<?= $user['u_prenom'] ?>" name="u_prenom" required>
+               <input type="text" class="form-control" id="lv-prenom" value="<?= $user['u_prenom'] ?>" disabled name="u_prenom" required>
             </div>
          </div>
       </div>
@@ -50,7 +50,7 @@ $disabled_sell = ($user['u_dispo'] < $user['solde']);
          <div class="col">
             <div class="form-group">
                <label class="" for="lv-service">Service</label>
-               <input type="text" class="form-control" id="lv-service" value="<?= $user['u_service'] ?>" name="u_service" required>
+               <input type="text" class="form-control" id="lv-service" value="<?= $user['u_service'] ?>" name="u_service" required disabled>
             </div>
          </div>
       </div>
@@ -58,7 +58,7 @@ $disabled_sell = ($user['u_dispo'] < $user['solde']);
          <div class="col">
             <div class="form-group">
                <label class="" for="lv-responsable">Résponsable</label>
-               <input type="text" class="form-control" id="lv-responsable" value="<?= $resp->u_prenom . " " . $resp->u_nom ?>" name="u_responsable" required>
+               <input type="text" class="form-control" id="lv-responsable" value="<?= $resp->u_prenom . " " . $resp->u_nom ?>" name="u_responsable" required disabled>
             </div>
          </div>
          <div class="col">
@@ -158,7 +158,7 @@ $disabled_sell = ($user['u_dispo'] < $user['solde']);
          <div class="col-lg-12 lv-droits d-flex">
             <div>
                Droits disponibles
-               <div class="totals" style="background-color: #fff8ef"><?= $user['u_dispo'] ?></div>
+               <div class="totals" style="background-color: #fff8ef"><?= $dispo ?></div>
             </div>
             <div>
                Nombre de jours pris
@@ -167,12 +167,6 @@ $disabled_sell = ($user['u_dispo'] < $user['solde']);
             <div>
                Droits restants
                <div class="totals" id="nb_Jrestant">--</div>
-            </div>
-            <div>
-               Actualiser
-               <div class="" style="cursor: pointer;" id="refresh_nb">
-                  <ion-icon style="font-size: 35px;color: #ee5644;" name="refresh-circle-outline"></ion-icon>
-               </div>
             </div>
          </div>
       </div><br>
@@ -186,7 +180,7 @@ $disabled_sell = ($user['u_dispo'] < $user['solde']);
       </div>
 
       <br>
-      <button type="button" class="btn btn-secondary">Effacer</button>
+      <button type="button" class="btn btn-secondary cancel_btn">Effacer</button>
       <button type="submit" class="btn btn-primary send_leave" <?= $disabled ?>>Envoyer</button>
    </form>
    <br>
@@ -234,9 +228,9 @@ $disabled_sell = ($user['u_dispo'] < $user['solde']);
 
 <script>
    $('.alert_date_negative').hide();
-   if (<?= $user['u_dispo'] ?> == 0) {
-      $('.send_leave').prop('disabled', true);
-   }
+   $('.send_leave').prop('disabled', true);
+   $('#lv-dateFin').prop('disabled', true);
+   const dispo = <?= $dispo ?>
 
    $('#form-addleave').on('submit', function(e) {
       e.preventDefault();
@@ -257,7 +251,12 @@ $disabled_sell = ($user['u_dispo'] < $user['solde']);
       ajax_func_validate(data, 'main/add_leave');
    })
 
-   $('#refresh_nb').on('click', function() {
+   $('#lv-dateDepart').on('change', function() {
+      $('#lv-dateFin').attr({"min": $('#lv-dateDepart').val()})
+      $('#lv-dateFin').prop('disabled', $('#lv-dateDepart').val() === "");
+   })
+
+   $('#lv-dateFin').on('change', function() {
       let d1, d2 = null;
       if ($('#lv-dateDepart').val() != "" && $('#lv-dateFin').val() != "") {
          let d1 = {
@@ -269,7 +268,7 @@ $disabled_sell = ($user['u_dispo'] < $user['solde']);
             "option": $('#lv-dateFin-option').val()
          }
          let jPris = get_jourPris(d1, d2);
-         if (<?= $user['u_dispo'] ?> < jPris) {
+         if (dispo < jPris) {
             $('.send_leave').prop('disabled', true);
             $('.alert_date_negative .message').html("Vous n'avez plus assez de date disponible.");
             $('.alert_date_negative').show().fadeOut(7000);
@@ -281,10 +280,18 @@ $disabled_sell = ($user['u_dispo'] < $user['solde']);
             } else {
                $('.send_leave').prop('disabled', false);
                $('#nb_Jpris').html(add_zero(jPris));
-               $('#nb_Jrestant').html(add_zero($('#lv-autorisation').is(":checked") ? <?= $user['u_dispo'] ?> : <?= $user['u_dispo'] ?> - jPris));
+               $('#nb_Jrestant').html(add_zero($('#lv-autorisation').is(":checked") ? dispo : dispo - jPris));
             }
          }
       }
+   })
+
+   $('.cancel_btn').on('click',function(){
+      $('#lv-dateFin').val("")
+      $('#lv-dateDepart').val("")
+      $('#nb_Jpris').html("--");
+      $('#nb_Jrestant').html("--");
+      $('.send_leave').prop('disabled', true);
    })
 
    $('#sell_leave').on('submit', function(e) {

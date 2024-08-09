@@ -61,6 +61,22 @@ class History_model extends CI_Model
         return $query->result()[0]->p;
     }
 
+    public function getDispo($user)
+    {
+        $this->db->select("h.nb,h.date");
+        $this->db->from("l_history h");
+        $this->db->where("h.user", $user);
+        $this->db->order_by('h.date', "DESC");
+        $this->db->limit(1);
+        $query = $this->db->get();
+        $result = $query->result();
+        if (count($result) > 0) {
+            return floatval($result[0]->nb - $this->getNbPris($user,$result[0]->date));
+        } else {
+            return 0;
+        }
+    } 
+
     public function getLastExerciseDate($date)
     {
         $d = date_create($date);
