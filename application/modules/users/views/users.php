@@ -182,7 +182,9 @@
             'type': 'POST',
             'data':function(d){
                 d.user = $('#lv-selectuser').val()
-                d.date = $('#month').val()
+                const dt = new Date($('#month').val())
+                const date = new Date(dt.getFullYear(),dt.getMonth() - 1,1);
+                d.date = $('#month').val() === "" ? "" : date.getFullYear() + "-" + (date.getMonth() + 1)
             }
                 
         },
@@ -202,7 +204,8 @@
             {
                 "data": null,
                 render: function(item) {
-                    const date = new Date(item.date);
+                    const d = new Date(item.date)
+                    const date = new Date(d.getFullYear(),d.getMonth() + 1,1);
                     return  months[date.getMonth()] + ", "+ date.getFullYear();
                 }
             },

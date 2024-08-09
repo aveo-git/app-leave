@@ -38,28 +38,34 @@ class History_model extends CI_Model
 
     public function getLeave($user,$date)
     {
-        $month = date('m', strtotime($date));
-        $year = date('Y', strtotime($date));
+        $date1 = $this->getLastExerciseDate($date);
         $this->db->select("*");
         $this->db->from("l_leave l");
         $this->db->where('l.l_idUser', $user);
-        $this->db->where('MONTH(l.l_dateDepart)', $month);
-        $this->db->where('YEAR(l.l_dateDepart)', $year);
+        $this->db->where('l.l_dateDepart >=', $date);
+        $this->db->where('l.l_dateDepart <=', $date1);
         $query = $this->db->get();
         return $query->result();
     }
 
     public function getNbPris($user,$date)
     {
-        $month = date('m', strtotime($date));
-        $year = date('Y', strtotime($date));
+        $date1 = $this->getLastExerciseDate($date);
         $this->db->select("SUM(l.l_nbJpris) p");
         $this->db->from("l_leave l");
         $this->db->where('l.l_idUser', $user);
         $this->db->where('l.l_statut', 1);
-        $this->db->where('MONTH(l.l_dateDepart)', $month);
-        $this->db->where('YEAR(l.l_dateDepart)', $year);
+        $this->db->where('l.l_dateDepart >=', $date);
+        $this->db->where('l.l_dateDepart <=', $date1);
         $query = $this->db->get();
         return $query->result()[0]->p;
+    }
+
+    public function getLastExerciseDate($date)
+    {
+        $d = date_create($date);
+        $d = date_modify($d,'first day of next month');
+        $d = date_modify($d,'+23 days');
+        return date_format($d,'Y-m-d');
     }
 }
