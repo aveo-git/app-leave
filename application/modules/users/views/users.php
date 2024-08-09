@@ -200,7 +200,11 @@
                 defaultContent: '+'
             },
             {
-                "data": "date"
+                "data": null,
+                render: function(item) {
+                    const date = new Date(item.date);
+                    return  months[date.getMonth()] + ", "+ date.getFullYear();
+                }
             },
             {
                 "data": null,
