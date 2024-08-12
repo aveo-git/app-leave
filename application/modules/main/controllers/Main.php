@@ -57,33 +57,25 @@ class Main extends MX_Controller
 
         $start = $this->input->post('l_dateDepart');
         $back = $this->input->post('l_dateFin');
+        $hstart = $this->input->post('l_dateDepart-option');
+        $hback = $this->input->post('l_dateFin-option');
 
-        $dates = [];
-        $this->checkDate($start,$back,$dates);
-
-        foreach ($dates as $key => $value) {
-            $hstart = $key === 0 ? $this->input->post('l_dateDepart-option') : "08:00";
-            $hback = $key === count($dates) - 1 ? $this->input->post('l_dateFin-option') : '17:00';
-            $s = $value['start'];
-            $e = $value['back'];
-            $pris = $this->calcul_nbJour($s,$e) - $this->main->getDayOff($s,$e);
-            if($hstart === "12:00" && $hback === "12:00") {
-                $pris = $pris - 1;
-            } else if($hstart === "12:00" ||  $hback === "12:00") {$pris = $pris - 0.5;}
-            $data = array(
-                "l_type" => $this->input->post('l_type'),
-                "l_dateDepart" => $desc != null ? null : $s . " " . $hstart,
-                "l_dateFin" => $desc != null ? null : $e . " " . $hback,
-                "l_responsable" => $this->input->post('u_responsable'),
-                "l_nbJpris" => $pris,
-                "l_statut" => 0,
-                "l_archived" => 0,
-                "l_idUser" => $this->input->post('id_user'),
-                "l_absence" => $absence
-            );
-            $this->main->insert_leave($data);
-        }
-
+        $pris = $this->calcul_nbJour($start,$back) - $this->main->getDayOff($start,$back);
+        if($hstart === "12:00" && $hback === "12:00") {
+            $pris = $pris - 1;
+        } else if($hstart === "12:00" ||  $hback === "12:00") {$pris = $pris - 0.5;}
+        $data = array(
+            "l_type" => $this->input->post('l_type'),
+            "l_dateDepart" => $desc != null ? null : $start . " " . $hstart,
+            "l_dateFin" => $desc != null ? null : $back . " " . $hback,
+            "l_responsable" => $this->input->post('u_responsable'),
+            "l_nbJpris" => $pris,
+            "l_statut" => 0,
+            "l_archived" => 0,
+            "l_idUser" => $this->input->post('id_user'),
+            "l_absence" => $absence
+        );
+        $this->main->insert_leave($data);
         $user['descr'] = $desc;
         // $this->mail->send_deposite($user);
 
@@ -103,20 +95,6 @@ class Main extends MX_Controller
         }
 
         return $count;
-    }
-
-    private function checkDate($start,$back,&$result)
-    {
-        $d1 = new DateTime($start);
-        $d2 = new DateTime($back);
-        if ($d1->format('Y-m') === $d2->format('Y-m')) {
-            $result[] = ["start" => $d1->format('Y-m-d'), "back" => $d2->format('Y-m-d')];
-        } else {
-            $e1 = (clone $d1)->modify('last day of this month');
-            $s2 = (clone $d1)->modify('first day of next month');
-            $result[] = ["start" => $d1->format('Y-m-d'), "back" => $e1->format('Y-m-d')];
-            $this->checkDate($s2->format('Y-m-d'), $back, $result);
-        }
     }
 
     private function get_sunday($y, $m)
