@@ -47,6 +47,7 @@ class History_model extends CI_Model
         $this->db->where('l.l_idUser', $user);
         $this->db->where('l.l_dateDepart >=', $date);
         $this->db->where('l.l_dateDepart <=', $date1);
+        $this->db->where('l.l_statut !=',0);
         $query = $this->db->get();
         return $query->result();
     }
