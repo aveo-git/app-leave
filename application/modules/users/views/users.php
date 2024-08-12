@@ -280,7 +280,7 @@
                         </tr>`;
             }).join('');
             if(leaves.length > 0){
-                row.child(`<table cellpadding="5" cellspacing="0" border="0" style="width:100%;">
+                row.child(`<table cellpadding="5" cellspacing="0" border="0" style="width:100%;background-color:ghostwhite">
                         <tr>
                             <th></th>
                             <th>Type</th>
