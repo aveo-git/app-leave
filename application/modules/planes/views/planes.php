@@ -1,6 +1,6 @@
 <div class="segment leaves" style="height: 80vh">
     <div class="d-flex by-center" style="border-bottom: 1px solid rgba(0, 0, 0, 0.1)">
-        <h6 class="py-2">Liste des congés pris</h6>
+        <h6 class="py-2">Liste des congés planifiés</h6>
     </div>
     <br>
     <?php if (count($leaves) != 0) : ?>
