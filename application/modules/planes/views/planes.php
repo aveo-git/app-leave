@@ -1,15 +1,6 @@
-<?php
-$year_now = date('Y');
-$disabled = $year_now == $year ? " disabled-button" : "";
-?>
 <div class="segment leaves" style="height: 80vh">
     <div class="d-flex by-center" style="border-bottom: 1px solid rgba(0, 0, 0, 0.1)">
         <h6 class="py-2">Liste des congés pris</h6>
-        <h6 class="py-2 year">
-            <ion-icon class="button-date" data-action="prev" name="arrow-back-circle"></ion-icon>
-            <button class="btn btn-default"><?= $year ?></button>
-            <ion-icon class="button-date <?= $disabled ?>" data-action="next" name="arrow-forward-circle"></ion-icon>
-        </h6>
     </div>
     <br>
     <?php if (count($leaves) != 0) : ?>
@@ -18,7 +9,6 @@ $disabled = $year_now == $year ? " disabled-button" : "";
                 <div>
                     <span style="padding: 0 20px; width: 140px; display: inline-block">Mois</span>
                     <span style="padding: 0 20px; width: 160px; display: inline-block">Nb de jours pris</span>
-                    <span style="padding: 0 20px; width: 160px; display: inline-block">Solde</span>
                 </div>
             </div>
         </div>
@@ -68,12 +58,26 @@ $disabled = $year_now == $year ? " disabled-button" : "";
         return data;
     }
 
+    // Lister par mois les congés
+    let temp = [];
+
+    function tsy_haiko(l) {
+        if (l.length != 0) {
+            let l_temp = _.filter(l, function(d) {
+                return (new Date(d.l_dateDepart).getMonth() + 1) === new Date(l[0].l_dateDepart).getMonth() + 1;
+            });
+            temp.push(retrieve_leave(l_temp));
+            tsy_haiko(_.difference(l, l_temp))
+        }
+    }
+    tsy_haiko(leaves)
+
     // // Ajout des congés dans le dom
-    leaves.forEach((item, index) => {
+    // console.dir(leaves);
+    temp.forEach((item, index) => {
         let str = '';
-        let show = (item.leaves.length == (index + 1)) ? ' show' : '';
-        const d = new Date(item.date)
-        const date = new Date(d.getFullYear(),d.getMonth() + 1,1);
+        let show = (temp.length == (index + 1)) ? ' show' : '';
+
         item.leaves.forEach(l => {
             let icon = '';
             switch (l.statut) {
@@ -89,8 +93,8 @@ $disabled = $year_now == $year ? " disabled-button" : "";
             }
 
             str += `<li>
-                        ` + formDate(l.l_dateDepart) + ` - ` + formDate(l.l_dateFin) + ` : ` + l.l_type + ` | 
-                        Jour pris : <span style="color: #ee5644">` + l.l_nbJpris + `</span> | &nbsp;&nbsp;
+                        ` + l.debut + ` - ` + l.fin + ` : ` + l.type + ` | 
+                        Jour pris : <span style="color: #ee5644">` + l.pris + `</span> | &nbsp;&nbsp;
                         ` + icon + `
                     </li>`
         });
@@ -99,9 +103,8 @@ $disabled = $year_now == $year ? " disabled-button" : "";
                 <div class="card-header" id="heading` + index + `">
                     <div class="d-flex by-center">
                         <div>
-                            <span class="aitem">` + months[date.getMonth()] + `</span>
-                            <span class="aitem">` + item.pris + `</span>
-                            <span class="aitem">` + (item.nb - parseInt(item.pris)) + `</span>
+                            <span class="aitem">` + item.month + `</span>
+                            <span class="aitem">` + item.total + `</span>
                         </div>
                         <div class="">
                             <h5 class="mb-0">
