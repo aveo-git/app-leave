@@ -9,17 +9,20 @@ class History_model extends CI_Model
         $this->table = "l_history";
     }
 
-    public function getHistory($user,$date)
+    public function getHistory($user,$date,$year)
     {
         $this->db->select("u.id_user, u.u_nom, u.u_prenom, h.date, h.nb");
         $this->db->from($this->table . " h");
         if($user){
             $this->db->where("h.user",$user);
         }
-        if($date){
+        if($date !== null){
             $month = date('m', strtotime($date));
             $year = date('Y', strtotime($date));
             $this->db->where('MONTH(h.date)', $month);
+            $this->db->where('YEAR(h.date)', $year);
+        }
+        if($year){
             $this->db->where('YEAR(h.date)', $year);
         }
         $this->db->join('l_user u', 'u.id_user = h.user');
@@ -58,7 +61,11 @@ class History_model extends CI_Model
         $this->db->where('l.l_dateDepart >=', $date);
         $this->db->where('l.l_dateDepart <=', $date1);
         $query = $this->db->get();
-        return $query->result()[0]->p;
+        $n = 0;
+        if($query->result()[0]->p !== null){
+            $n = $query->result()[0]->p;
+        }
+        return  $n;
     }
 
     public function getDispo($user)

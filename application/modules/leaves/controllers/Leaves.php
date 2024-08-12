@@ -8,6 +8,7 @@ class Leaves extends MX_Controller {
         parent::__construct();
         $this->load->module('security/authenticate');
         $this->load->model('leaves_model', 'leave');
+        $this->load->model("history/history_model",'history');
         $this->year = date('Y');
     }
 
@@ -15,7 +16,7 @@ class Leaves extends MX_Controller {
         $year_sess = $this->session->userdata('year');
 		$y = $year_sess != NULL ? $year_sess['date'] : $this->year;
         $user = $this->session->userdata('user');
-        $data['leaves'] = $this->leave->get_all_leave_by_id($user['id_user'], strval($y));
+        $data['leaves'] = $this->history->getHistory($user['id_user'],null,strval($y));
         $data['year'] = $y;
         if($user['u_profilId'] != '3') {
             $title = "Liste de congés";

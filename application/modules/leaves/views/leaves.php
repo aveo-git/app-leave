@@ -18,6 +18,7 @@ $disabled = $year_now == $year ? " disabled-button" : "";
                 <div>
                     <span style="padding: 0 20px; width: 140px; display: inline-block">Mois</span>
                     <span style="padding: 0 20px; width: 160px; display: inline-block">Nb de jours pris</span>
+                    <span style="padding: 0 20px; width: 160px; display: inline-block">Solde</span>
                 </div>
             </div>
         </div>
@@ -35,6 +36,7 @@ $disabled = $year_now == $year ? " disabled-button" : "";
 
 <script>
     let leaves = <?= json_encode((array) $leaves) ?>;
+    console.log(leaves)
     let months = ['Janvier', 'Fevrier', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Decembre'];
     let formDate = function(date) {
         return with_zero(new Date(date).getDate()) + ' ' + months[new Date(date).getMonth()] + ' à ' + with_zero(new Date(date).getHours()) + ':' + with_zero(new Date(date).getMinutes());
@@ -67,26 +69,12 @@ $disabled = $year_now == $year ? " disabled-button" : "";
         return data;
     }
 
-    // Lister par mois les congés
-    let temp = [];
-
-    function tsy_haiko(l) {
-        if (l.length != 0) {
-            let l_temp = _.filter(l, function(d) {
-                return (new Date(d.l_dateDepart).getMonth() + 1) === new Date(l[0].l_dateDepart).getMonth() + 1;
-            });
-            temp.push(retrieve_leave(l_temp));
-            tsy_haiko(_.difference(l, l_temp))
-        }
-    }
-    tsy_haiko(leaves)
-
     // // Ajout des congés dans le dom
-    // console.dir(leaves);
-    temp.forEach((item, index) => {
+    leaves.forEach((item, index) => {
         let str = '';
-        let show = (temp.length == (index + 1)) ? ' show' : '';
-
+        let show = (item.leaves.length == (index + 1)) ? ' show' : '';
+        const d = new Date(item.date)
+        const date = new Date(d.getFullYear(),d.getMonth() + 1,1);
         item.leaves.forEach(l => {
             let icon = '';
             switch (l.statut) {
@@ -102,10 +90,8 @@ $disabled = $year_now == $year ? " disabled-button" : "";
             }
 
             str += `<li>
-                        ` + l.debut + ` - ` + l.fin + ` : ` + l.type + ` | 
-                        Droits disponibles : ` + l.dispo + ` | 
-                        Jour pris : <span style="color: #ee5644">` + l.pris + `</span> | 
-                        Droit restant : ` + l.rest + `&nbsp;&nbsp;
+                        ` + l.l_dateDepart + ` - ` + l.l_dateFin + ` : ` + l.l_type + ` | 
+                        Jour pris : <span style="color: #ee5644">` + l.l_nbJpris + `</span> | &nbsp;&nbsp;
                         ` + icon + `
                     </li>`
         });
@@ -114,8 +100,9 @@ $disabled = $year_now == $year ? " disabled-button" : "";
                 <div class="card-header" id="heading` + index + `">
                     <div class="d-flex by-center">
                         <div>
-                            <span class="mounth">` + item.month + `</span>
-                            <span class="value">` + item.total + `</span>
+                            <span class="aitem">` + months[date.getMonth()] + `</span>
+                            <span class="aitem">` + item.pris + `</span>
+                            <span class="aitem">` + (item.nb - parseInt(item.pris)) + `</span>
                         </div>
                         <div class="">
                             <h5 class="mb-0">

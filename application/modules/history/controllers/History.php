@@ -12,7 +12,7 @@ class History extends MX_Controller
     {
         $user = $this->input->post('user');
         $date = $this->input->post('date');
-        $data["data"] = $this->history->getHistory($user,$date);
+        $data["data"] = $this->history->getHistory($user,$date,null);
         $this->output
                 ->set_status_header(200)
                 ->set_content_type('application/json', 'utf-8')

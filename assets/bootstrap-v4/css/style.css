@@ -58,22 +58,12 @@ ion-icon.disabled {
   color: #e44c46;
 }
 
-#accordion .mounth {
+#accordion .aitem {
   color: #ee5644;
   font-weight: 700;
   text-transform: uppercase;
-  border-right: 1px solid #d1d1d1;
-  padding: 0 20px;
-  width: 140px;
-  display: inline-block;
-}
-
-#accordion .value {
-  color: #ee5644;
-  font-weight: 700;
-  text-transform: uppercase;
-  padding: 0 20px;
-  width: 140px;
+  width: 160px;
+  padding: 0px 14px;
   display: inline-block;
 }
 
