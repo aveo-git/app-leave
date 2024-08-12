@@ -28,16 +28,13 @@ class Users_model extends CI_Model
 
     public function get_user_disctinct()
     {
-        $this->db->select('l_idUser');
+        $this->db->select('*');
         $this->db->distinct();
-        $this->db->where('l_statut !=', 0);
-        $this->db->from($this->leave);
-    $this->db->join('l_user', 'l_user.id_user = l_leave.l_idUser');
+        $this->db->from($this->user);
         $query = $this->db->get();
         $temp = $query->result();
         foreach ($temp as $key => $value) {
-            $username = $this->get_username_by_id($value->l_idUser);
-            $temp[$key]->username = $username != null ? $username->u_prenom . " " . $username->u_nom : '';
+            $temp[$key]->username = $value->u_prenom . " " . $value->u_nom;
         }
         return $temp;
     }

@@ -4,7 +4,7 @@
         <select class="form-control col-md-6" id="lv-selectuser" name="id_user" aria-describedby="lv-selectuser" required="required">
             <option value="" selected>Tous...</option>
             <?php foreach ($users as $u) : ?>
-                <option value="<?= $u->l_idUser ?>"><?= $u->username ?></option>
+                <option value="<?= $u->id_user ?>"><?= $u->username ?></option>
             <?php endforeach ?>
         </select>
         <input class="form-control col-md-4" type="month" id="month">

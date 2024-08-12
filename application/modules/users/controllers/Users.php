@@ -14,7 +14,6 @@ class Users extends MX_Controller {
         $user = $this->session->userdata('user');
         if($user['u_profilId'] == '3') {
             $title = "Liste des utilisateurs";
-            $data['leaves'] = $this->users->get_all_leave();
             $data['users'] = $this->users->get_user_disctinct();
             $content = $this->load->view('users', $data, TRUE);
             $this->display($content, TRUE, $title);

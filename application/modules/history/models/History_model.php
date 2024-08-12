@@ -16,7 +16,7 @@ class History_model extends CI_Model
         if($user){
             $this->db->where("h.user",$user);
         }
-        if($date !== null){
+        if($date){
             $month = date('m', strtotime($date));
             $year = date('Y', strtotime($date));
             $this->db->where('MONTH(h.date)', $month);
