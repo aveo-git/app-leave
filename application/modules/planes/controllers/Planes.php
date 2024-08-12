@@ -15,7 +15,14 @@ class Planes extends MX_Controller {
         $year_sess = $this->session->userdata('year');
 		$y = $year_sess != NULL ? $year_sess['date'] : $this->year;
         $user = $this->session->userdata('user');
-        $data['leaves'] = $this->leave->get_all_planned_leave_by_id($user['id_user']);
+        if($user['u_profilId'] === '3'){
+            $data['leaves'] = $this->leave->get_all_planned_leave_by_id(null);
+            $data['isAdmin'] = true;
+        }else{
+            $data['leaves'] = $this->leave->get_all_planned_leave_by_id($user['id_user']);
+            $data['isAdmin'] = false;
+        }
+        
         $data['year'] = $y;
         $title = "Liste de congés";
         $content = $this->load->view('planes', $data, TRUE);

@@ -82,11 +82,6 @@
                     <ion-icon name="newspaper"></ion-icon>
                   </a>
                 </div>
-                <div class="item <?= basename($_SERVER['REQUEST_URI']) == 'planes' ? 'active' : '' ?>">
-                  <a href="<?= site_url('/planes') ?>">
-                  <ion-icon name="file-tray-full"></ion-icon>
-                  </a>
-                </div>
                 <!-- Sinon -->
               <?php else : ?>
                 <div class="item <?= basename($_SERVER['REQUEST_URI']) == 'list' ? 'active' : '' ?>">
@@ -108,6 +103,11 @@
                   </a>
                 </div>
               <?php endif ?>
+              <div class="item <?= basename($_SERVER['REQUEST_URI']) == 'planes' ? 'active' : '' ?>">
+                  <a href="<?= site_url('/planes') ?>">
+                  <ion-icon name="file-tray-full"></ion-icon>
+                  </a>
+                </div>
               <div class="item <?= basename($_SERVER['REQUEST_URI']) == 'calendar' ? 'active' : '' ?>">
                 <a href="<?= site_url('/calendar') ?>">
                   <ion-icon name="calendar"></ion-icon>

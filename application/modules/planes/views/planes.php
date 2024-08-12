@@ -26,6 +26,7 @@
 
 <script>
     let leaves = <?= json_encode((array) $leaves) ?>;
+    let isAdmin = <?= json_encode($isAdmin) ?>;
     let months = ['Janvier', 'Fevrier', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Decembre'];
     let formDate = function(date) {
         return with_zero(new Date(date).getDate()) + ' ' + months[new Date(date).getMonth()] + ' à ' + with_zero(new Date(date).getHours()) + ':' + with_zero(new Date(date).getMinutes());
@@ -49,7 +50,8 @@
                 dispo: element.l_nbJdispo,
                 pris: with_zero(element.l_nbJpris),
                 rest: element.l_nbJrest,
-                statut: element.l_statut
+                statut: element.l_statut,
+                user: element.u_prenom + " " + element.u_nom
             })
             if (element.l_statut != "2")
                 count += parseFloat(element.l_nbJpris, 10);
@@ -79,6 +81,7 @@
         let show = (temp.length == (index + 1)) ? ' show' : '';
 
         item.leaves.forEach(l => {
+            console.log(l);
             let icon = '';
             switch (l.statut) {
                 case '1':
@@ -93,7 +96,7 @@
             }
 
             str += `<li>
-                        ` + l.debut + ` - ` + l.fin + ` : ` + l.type + ` | 
+                        `+ (isAdmin ? l.user + " => " : "") +  l.debut + ` - ` + l.fin + ` : ` + l.type + ` | 
                         Jour pris : <span style="color: #ee5644">` + l.pris + `</span> | &nbsp;&nbsp;
                         ` + icon + `
                     </li>`
