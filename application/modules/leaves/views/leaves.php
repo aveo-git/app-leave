@@ -36,7 +36,6 @@ $disabled = $year_now == $year ? " disabled-button" : "";
 
 <script>
     let leaves = <?= json_encode((array) $leaves) ?>;
-    console.log(leaves)
     let months = ['Janvier', 'Fevrier', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Decembre'];
     let formDate = function(date) {
         return with_zero(new Date(date).getDate()) + ' ' + months[new Date(date).getMonth()] + ' à ' + with_zero(new Date(date).getHours()) + ':' + with_zero(new Date(date).getMinutes());
