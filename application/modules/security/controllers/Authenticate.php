@@ -40,7 +40,7 @@ class Authenticate extends MX_Controller
             "u_statut" => "1",
             "u_password" => $password
         );
-        $this->auth_model->insertUser($data);
+        $this->params->insert_user($data);
     }
 
     public function authenticate()

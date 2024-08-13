@@ -9,11 +9,6 @@ class Authenticate_model extends CI_Model {
         $this->calendar = "l_calendar";
     }
 
-    public function insertUser($data)
-    {
-        $this->db->insert('l_user',$data);
-    }
-
     public function get_user($pseudo) {
         $this->db->where('u_pseudo', $pseudo);
         $this->db->select('*');
