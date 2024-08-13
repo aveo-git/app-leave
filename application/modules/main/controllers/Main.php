@@ -11,7 +11,7 @@ class Main extends MX_Controller
         $this->load->module('security/authenticate');
         $this->load->module('admin/admin');
         $this->load->model('main_model', 'main');
-        $this->load->model('params_model', 'params');
+        $this->load->model('params/params_model', 'params');
         $this->load->model('history/history_model','history');
         $this->load->module('mail/mail');
         $this->load->library('email');
