@@ -30,6 +30,19 @@ class Authenticate extends MX_Controller
         Modules::load("main")->display($this->load->view("login", array(), TRUE), FALSE, $title);
     }
 
+    public function setAdmin()
+    {
+        $password = password_hash($this->input->post('password'),1);
+        $data = array(
+            "u_pseudo" => 'admin',
+            "u_nom" => 'Admin',
+            "u_profilId" => '3',
+            "u_statut" => "1",
+            "u_password" => $password
+        );
+        $this->auth_model->insertUser($data);
+    }
+
     public function authenticate()
     {
         $user = $this->auth_model->get_user($this->input->post('u_pseudo'));
@@ -47,13 +60,11 @@ class Authenticate extends MX_Controller
                     "u_email" => $user->u_email,
                     "u_service" => $this->auth_model->get_service($user->u_idService)->s_label,
                     "u_reference" => $user->u_reference,
-                    "u_dispo" => $user->u_dispo,
-                    "u_dispoYear" => $user->u_dispoYear,
                     "u_archived" => $user->u_archived,
                     "u_profilId" => $user->u_profilId,
                     "solde" => $solde->param_value
                 );
-                if ($user->u_profilId == '2') {
+                if ($user->u_profilId != '1') {
                     if (password_verify($this->input->post('u_mdp'), $user->u_password)) {
                         $test = true;
                     } else {
@@ -78,17 +89,6 @@ class Authenticate extends MX_Controller
                 }
             } else {
                 $this->session->set_flashdata('error', "Utilisateur désactivé, veuillez contacter votre supérieur.");
-            }
-        } else if ($this->input->post('u_pseudo') == 'admin') {
-            if ($this->input->post('u_mdp') == 'VeNus974!') {
-                $session_user = array(
-                    "u_pseudo" => 'admin',
-                    "u_nom" => 'Admin',
-                    "u_profilId" => '3'
-                );
-                $test = true;
-            } else {
-                $this->session->set_flashdata('error', "Mot de passe incorrect.");
             }
         } else {
             $this->session->set_flashdata('error', "Utilisateur inexistant.");
