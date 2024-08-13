@@ -37,7 +37,7 @@ class Authenticate extends MX_Controller
             "u_pseudo" => 'admin',
             "u_nom" => 'Admin',
             "u_profilId" => '3',
-            "u_statut" => "1",
+            "u_status" => "1",
             "u_password" => $password
         );
         $this->params->insert_user($data);
