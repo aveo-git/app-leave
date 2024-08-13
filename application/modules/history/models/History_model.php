@@ -16,14 +16,17 @@ class History_model extends CI_Model
         if($user){
             $this->db->where("h.user",$user);
         }
-        if($date){
+        if($date != null){
             $month = date('m', strtotime($date));
             $year = date('Y', strtotime($date));
             $this->db->where('MONTH(h.date)', $month);
             $this->db->where('YEAR(h.date)', $year);
         }
-        if($year){
-            $this->db->where('YEAR(h.date)', $year);
+        if($year != null){
+            $d = $year - 1 . "-12-25";
+            $d1 = $year. "-12-25";
+            $this->db->where('h.date >=', $d);
+            $this->db->where('h.date <', $d1);
         }
         $this->db->join('l_user u', 'u.id_user = h.user');
         $this->db->order_by('h.date',"DESC");
