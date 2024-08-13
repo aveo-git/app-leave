@@ -166,6 +166,13 @@
         `;
     }
 
+    let formDate = function(date) {
+        return with_zero(new Date(date).getDate()) + ' ' + months[new Date(date).getMonth()] + ' à ' + with_zero(new Date(date).getHours()) + ':' + with_zero(new Date(date).getMinutes());
+    }
+    let with_zero = (n) => {
+        return n < 10 && n >= 1 || n == 0 ? ("0" + n) : n;
+    }
+
     // reload on filter
     $('#lv-selectuser').on('change', function(e) {
         table_leaves.ajax.reload()
@@ -271,11 +278,11 @@
                 return `<tr>
                             <td class="select_leave">${'<input type="checkbox" name="' + leave.id_leave + '" id="' + leave.id_leave + '" />'}</td>
                             <td>${leave.l_type}</td>
-                            <td>${leave.l_dateAjout}</td>
-                            <td>${leave.l_dateDepart}</td>
-                            <td>${leave.l_dateFin}</td>
+                            <td>${formDate(leave.l_dateAjout)}</td>
+                            <td>${formDate(leave.l_dateDepart)}</td>
+                            <td>${formDate(leave.l_dateFin)}</td>
                             <td>${leave.l_responsable}</td>
-                            <td>${leave.l_nbJpris}</td>
+                            <td class="text-center">${leave.l_nbJpris}</td>
                             <td>${leave.l_statut === '1' ? '<span style="background-color: #bdffc0; padding: 1px 5px; border-radius: 5px">Validé</span>' : '<span style="background-color: #ffb2ba; padding: 1px 5px; border-radius: 5px">Refusé</span>'}</td>
                         </tr>`;
             }).join('');

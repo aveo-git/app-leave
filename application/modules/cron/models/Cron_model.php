@@ -26,7 +26,7 @@ class Cron_model extends CI_Model
             $data = [
                 "user"=> $item->id_user,
                 "nb" => floatval($this->history->getDispo($item->id_user) + 2.5),
-                "date" => "2024-01-25",
+                "date" => "2023-12-25",
             ];
             $this->db->insert("l_history",$data);
         }

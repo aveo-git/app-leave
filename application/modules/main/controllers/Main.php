@@ -73,7 +73,6 @@ class Main extends MX_Controller
             "l_statut" => 0,
             "l_archived" => 0,
             "l_idUser" => $this->input->post('id_user'),
-            "l_absence" => $absence
         );
         $this->main->insert_leave($data);
         $user['descr'] = $desc;

@@ -26,7 +26,6 @@ $disabled_sell = ($dispo < $user['solde']);
    <form id="form-addleave">
       <div class="row">
          <input type="hidden" value="<?= $user['id_user'] ?>" name="id_user">
-         <input type="hidden" value="<?= $user['u_dispo'] ?>" name="u_dispo">
          <div class="col">
             <div class="form-group">
                <label class="" for="lv-nom">Nom</label>
@@ -231,7 +230,7 @@ $disabled_sell = ($dispo < $user['solde']);
    $('.alert_date_negative').hide();
    $('.send_leave').prop('disabled', true);
    $('#lv-dateFin').prop('disabled', true);
-   const dispo = <?= $dispo ?>
+   const dispo = <?= json_encode($dispo) ?>
 
    $('#form-addleave').on('submit', function(e) {
       e.preventDefault();
@@ -295,7 +294,7 @@ $disabled_sell = ($dispo < $user['solde']);
 
    $('#sell_leave').on('submit', function(e) {
       e.preventDefault();
-      let solde = '<?= $user['u_dispo'] ?>';
+      let solde = '<?= json_encode($dispo) ?>';
       let data = $(this).serializeArray();
       if ($(this).serializeArray()[0].value >= '<?= $user['solde'] ?>') {
          ajax_func_validate(data, 'main/add_leave');
