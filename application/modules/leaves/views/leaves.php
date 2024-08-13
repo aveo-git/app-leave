@@ -76,7 +76,7 @@ $disabled = $year_now == $year ? " disabled-button" : "";
         const date = new Date(d.getFullYear(),d.getMonth() + 1,1);
         item.leaves.forEach(l => {
             let icon = '';
-            switch (l.statut) {
+            switch (l.l_statut) {
                 case '1':
                     icon = ' <span class="btn-valide">validé</span>';
                     break;
