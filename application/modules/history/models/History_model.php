@@ -62,6 +62,7 @@ class History_model extends CI_Model
         $this->db->from("l_leave l");
         $this->db->where('l.l_idUser', $user);
         $this->db->where('l.l_statut', 1);
+        $this->db->where('l.l_type !=', "Autorisation d'absence");
         $this->db->where('l.l_dateDepart >=', $date);
         $this->db->where('l.l_dateDepart <=', $date1);
         $query = $this->db->get();

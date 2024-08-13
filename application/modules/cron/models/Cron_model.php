@@ -15,6 +15,7 @@ class Cron_model extends CI_Model
         $this->db->select('*');
         $this->db->from($this->user);
         $this->db->where("u_status",1);
+        $this->db->where("u_profilId",1);
         $query = $this->db->get();
         return $query->result();
     }
@@ -26,7 +27,7 @@ class Cron_model extends CI_Model
             $data = [
                 "user"=> $item->id_user,
                 "nb" => floatval($this->history->getDispo($item->id_user) + 2.5),
-                "date" => "2023-12-25",
+                "date" => date('Y-m-d'),
             ];
             $this->db->insert("l_history",$data);
         }

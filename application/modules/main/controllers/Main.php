@@ -47,14 +47,11 @@ class Main extends MX_Controller
         }
         $this->load->view('index', $html);
     }
-
+ 
     public function add_leave()
     {
         $user = $this->session->userdata('user');
         $desc = $this->input->post('u_descr');
-        // Here -> atao date ajout ref congé compensé
-        $absence = $this->input->post('l_type') === "Autorisation d'absence" ? 1 : 0;
-
         $start = $this->input->post('l_dateDepart');
         $back = $this->input->post('l_dateFin');
         $hstart = $this->input->post('l_dateDepart-option');
@@ -66,7 +63,7 @@ class Main extends MX_Controller
         } else if($hstart === "12:00" ||  $hback === "12:00") {$pris = $pris - 0.5;}
         $data = array(
             "l_type" => $this->input->post('l_type'),
-            "l_dateDepart" => $desc != null ? null : $start . " " . $hstart,
+            "l_dateDepart" => $desc != null ? date("Y-m-d H:i:s") : $start . " " . $hstart,
             "l_dateFin" => $desc != null ? null : $back . " " . $hback,
             "l_responsable" => $this->input->post('u_responsable'),
             "l_nbJpris" => $pris,
@@ -76,7 +73,7 @@ class Main extends MX_Controller
         );
         $this->main->insert_leave($data);
         $user['descr'] = $desc;
-        // $this->mail->send_deposite($user);
+        $this->mail->send_deposite($user);
 
         $this->session->set_flashdata('alert', "NOTE : Demande de congé envoyée, vous recevrez un mail lorsque le responsable aura fini d'examiner votre demande.");
     }

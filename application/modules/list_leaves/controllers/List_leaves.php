@@ -62,7 +62,7 @@ class List_leaves extends MX_Controller
         $user->l_statut = $this->input->post('l_statut');
         $arr['user'] = $user;
         $arr['leave'] = $leave;
-        // $this->mail->send_status_leave($arr);
+        $this->mail->send_status_leave($arr);
 
         $session_notif = count($this->l_leaves->get_all_leave_waiting());
         $this->session->set_userdata("notif", $session_notif);
