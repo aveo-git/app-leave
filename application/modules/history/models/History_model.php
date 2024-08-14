@@ -55,16 +55,18 @@ class History_model extends CI_Model
         return $query->result();
     }
 
-    public function getNbPris($user,$date)
+    public function getNbPris($user,$date,$isBetween=true)
     {
-        $date1 = $this->getLastExerciseDate($date);
         $this->db->select("SUM(l.l_nbJpris) p");
         $this->db->from("l_leave l");
         $this->db->where('l.l_idUser', $user);
         $this->db->where('l.l_statut', 1);
         $this->db->where('l.l_type !=', "Autorisation d'absence");
         $this->db->where('l.l_dateDepart >=', $date);
-        $this->db->where('l.l_dateDepart <=', $date1);
+        if($isBetween){
+            $date1 = $this->getLastExerciseDate($date);
+            $this->db->where('l.l_dateDepart <=', $date1);
+        }
         $query = $this->db->get();
         $n = 0;
         if($query->result()[0]->p !== null){
@@ -83,7 +85,7 @@ class History_model extends CI_Model
         $query = $this->db->get();
         $result = $query->result();
         if (count($result) > 0) {
-            return floatval($result[0]->nb - $this->getNbPris($user,$result[0]->date));
+            return floatval($result[0]->nb - $this->getNbPris($user,$result[0]->date,false));
         } else {
             return 0;
         }
