@@ -24,6 +24,31 @@
     <?php endif; ?>
 </div>
 
+<!-- Modal pour Supprimer un congé -->
+<div class="modal fade" id="delete_planned_modal" tabindex="-1" role="dialog" data-backdrop="static" aria-labelledby="deleteUser" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteUser">Suppression</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <span id="alert-content">Vous-êtes sur de vouloir supprimer le congé?</span>
+                <form action="" id="delete_user_form">
+                    <input type="hidden" name="id_user" id="input_id_user" data-value="">
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Retour</button>
+                <button type="button" class="btn btn-primary" id="delete_leave_confirm">Valider</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 <script>
     let leaves = <?= json_encode((array) $leaves) ?>;
     let isAdmin = <?= json_encode($isAdmin) ?>;
@@ -44,6 +69,7 @@
         };
         l.forEach(element => {
             data.leaves.push({
+                id: element.id_leave,
                 debut: formDate(element.l_dateDepart),
                 fin: formDate(element.l_dateFin),
                 type: element.l_type,
@@ -81,7 +107,6 @@
         let show = (temp.length == (index + 1)) ? ' show' : '';
 
         item.leaves.forEach(l => {
-            console.log(l);
             let icon = '';
             switch (l.statut) {
                 case '1':
@@ -98,7 +123,7 @@
             str += `<li>
                         `+ (isAdmin ? l.user + " => " : "") +  l.debut + ` - ` + l.fin + ` : ` + l.type + ` | 
                         Jour pris : <span style="color: #ee5644">` + l.pris + `</span> | &nbsp;&nbsp;
-                        ` + icon + `
+                        ` + icon + ` ${isAdmin ? `<span style='float:right' class="btn-delete-planned" data-toggle='modal' data-target='#delete_planned_modal' data-value="`+l.id+`" title="Supprimer le congé"><ion-icon class="disabled" name="trash-outline"></ion-icon></span>` : ""}
                     </li>`
         });
         $('#accordion').append(`
@@ -129,6 +154,18 @@
             </div>
         `)
     });
+
+
+    $(".btn-delete-planned").on('click',function(){
+        const id = $(this).data().value
+        $('#input_id_user').val(id)
+    })
+
+    $('#delete_leave_confirm').on('click', function(e) {
+        e.preventDefault();
+        ajax_func($('#delete_user_form').serializeArray(), "users/delete_leaves");
+    })
+
 
     $('.button-date').on('click', function() {
         let date = '<?= $year ?>';
