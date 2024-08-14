@@ -274,9 +274,10 @@
         } else {
             tr[0].children[0].innerHTML = "-"
             var user = row.data();
+            const isAnterior = new Date(user.date).getMonth() < (new Date().getMonth() - 1);
             var leaves = user.leaves.map(function(leave) {
                 return `<tr>
-                            <td class="select_leave">${'<input type="checkbox" name="' + leave.id_leave + '" id="' + leave.id_leave + '" />'}</td>
+                            <td class="select_leave"><input type="checkbox" ${isAnterior ? "disabled":""} name="${ leave.id_leave}" id="${leave.id_leave}" /></td>
                             <td>${leave.l_type}</td>
                             <td>${formDate(leave.l_dateAjout)}</td>
                             <td>${formDate(leave.l_dateDepart)}</td>
