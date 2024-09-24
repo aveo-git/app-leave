@@ -2,13 +2,12 @@
 
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Leaves extends MX_Controller {
+class Planes extends MX_Controller {
 
     function __construct() {
         parent::__construct();
         $this->load->module('security/authenticate');
-        $this->load->model('leaves_model', 'leave');
-        $this->load->model("history/history_model",'history');
+        $this->load->model("leaves/leaves_model",'leave');
         $this->year = date('Y');
     }
 
@@ -16,15 +15,18 @@ class Leaves extends MX_Controller {
         $year_sess = $this->session->userdata('year');
 		$y = $year_sess != NULL ? $year_sess['date'] : $this->year;
         $user = $this->session->userdata('user');
-        $data['leaves'] = $this->history->getHistory($user['id_user'],null,intval($y));
-        $data['year'] = $y;
-        if($user['u_profilId'] != '3') {
-            $title = "Liste de congés";
-            $content = $this->load->view('leaves', $data, TRUE);
-            $this->display($content, TRUE, $title);
-        } else {
-            redirect('/list');
+        if($user['u_profilId'] === '3'){
+            $data['leaves'] = $this->leave->get_all_planned_leave_by_id(null);
+            $data['isAdmin'] = true;
+        }else{
+            $data['leaves'] = $this->leave->get_all_planned_leave_by_id($user['id_user']);
+            $data['isAdmin'] = false;
         }
+        
+        $data['year'] = $y;
+        $title = "Liste de congés";
+        $content = $this->load->view('planes', $data, TRUE);
+        $this->display($content, TRUE, $title);
     }
     
     // Top front

@@ -30,6 +30,17 @@ class Main_model extends CI_Model
         return $query->result();
     }
 
+    public function getDayOff($start,$back)
+    {
+        $this->db->select('COUNT(c_debut) c');
+        $this->db->where('c_flag', 0);
+        $this->db->where('c_debut >=', $start);
+        $this->db->where('c_debut <=', $back);
+        $this->db->from($this->calendar);
+        $query = $this->db->get();
+        return $query->row()->c;
+    }
+
     public function get_user_by_email($email)
     {
         $this->db->where('u_email', $email);

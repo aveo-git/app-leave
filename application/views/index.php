@@ -70,7 +70,7 @@
         <div class="col">
           <div class="segment" style="display: flex; justify-content: space-between; padding: 0px 40px">
             <div style="display: flex">
-              <!-- If admin -->
+              <!-- If user -->
               <?php if ($user['u_profilId'] != '3') : ?>
                 <div class="item <?= basename($_SERVER['REQUEST_URI']) == 'main' ? 'active' : '' ?>">
                   <a href="<?= site_url('/main') ?>">
@@ -103,6 +103,11 @@
                   </a>
                 </div>
               <?php endif ?>
+              <div class="item <?= basename($_SERVER['REQUEST_URI']) == 'planes' ? 'active' : '' ?>">
+                  <a href="<?= site_url('/planes') ?>">
+                  <ion-icon name="file-tray-full"></ion-icon>
+                  </a>
+                </div>
               <div class="item <?= basename($_SERVER['REQUEST_URI']) == 'calendar' ? 'active' : '' ?>">
                 <a href="<?= site_url('/calendar') ?>">
                   <ion-icon name="calendar"></ion-icon>

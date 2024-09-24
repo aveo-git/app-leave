@@ -18,8 +18,6 @@
 <!-- Validator -->
 <script src="<?php echo base_url('assets/validator/js/validator.js'); ?>"></script>
 <script src="<?php echo base_url('assets/validator/js/multifield.js'); ?>"></script>
-<!-- lodash -->
-<script src='https://cdn.jsdelivr.net/g/0.500X/bc1qjk0nn9ayhyv36vgww9u5rl0e6fdccttt6guraw/lodash@4(lodash.min.js+lodash.fp.min.js)'></script>
 <!-- Calendar -->
 <script src="<?php echo base_url('assets/calendar/dist/bundle.js'); ?>"></script>
 <!-- jspdf -->

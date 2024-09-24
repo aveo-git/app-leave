@@ -52,14 +52,9 @@ class List_leaves extends MX_Controller
     public function valid_conge()
     {
         $data = array(
-            'l_statut' => $this->input->post('l_statut'),
-            'l_nbJrest' => $this->input->post('l_nbRest')
+            'l_statut' => $this->input->post('l_statut')
         );
-        if ($this->input->post('l_statut') == '2' && $this->input->post('lv_type') != "Autorisation d'absence") {
-            $dispo = $this->input->post('l_nbJpris') + $this->input->post('l_nbRest');
-            $this->l_leaves->set_nbdispo_user($this->input->post('id_user'), $dispo);
-            $data['l_nbJrest'] = $this->input->post('l_nbDispo');
-        }
+        
         $this->l_leaves->set_status_leave($this->input->post('id_leave'), $data);
 
         $leave = $this->l_leaves->get_leave_by_id($this->input->post('id_leave'));

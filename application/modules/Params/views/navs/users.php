@@ -18,7 +18,6 @@
                         <th>Pseudo</th>
                         <th>Nom et Prénom</th>
                         <th>Service</th>
-                        <th>Dispo</th>
                         <th class="text-center">Statut</th>
                         <th class="text-center">Action</th>
                     </tr>
@@ -86,16 +85,6 @@
                         <div class="form-group col">
                             <label for="lv-reference">Référence (facultatif)</label>
                             <input type="text" class="form-control" id="lv-reference" value="" name="u_reference" aria-describedby="lv-reference">
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="form-group col">
-                            <label for="lv-dispo">Droit de départ (Droit disponible)</label>
-                            <input type="number" step="0.5" class="form-control" id="lv-dispo" value="" name="u_dispo" aria-describedby="lv-dispo" required="required">
-                        </div>
-                        <div class="form-group col">
-                            <label for="lv-dispoYear">Droit fin d'année</label>
-                            <input type="number" step="0.5" class="form-control" id="lv-dispoYear" value="" name="u_dispoYear" aria-describedby="lv-dispoYear">
                         </div>
                     </div>
                 </div>
@@ -172,7 +161,6 @@
                 } 
             },
             {"data": 'u_idService'},
-            {"data": 'u_dispo'},
             {"data": null,
                 render: function(item) {
                     return active_user(item.u_status);

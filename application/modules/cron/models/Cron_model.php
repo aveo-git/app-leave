@@ -7,12 +7,15 @@ class Cron_model extends CI_Model
         parent::__construct();
         $this->user = 'l_user';
         $this->calendar = "l_calendar";
+        $this->load->model('history/history_model','history');
     }
 
     public function get_all_user()
     {
         $this->db->select('*');
         $this->db->from($this->user);
+        $this->db->where("u_status",1);
+        $this->db->where("u_profilId",1);
         $query = $this->db->get();
         return $query->result();
     }
@@ -21,8 +24,12 @@ class Cron_model extends CI_Model
     {
         $users = $this->get_all_user();
         foreach ($users as $item) {
-            $this->db->where('id_user', $item->id_user);
-            $this->db->update($this->user, array('u_dispo' => floatval($item->u_dispo) + 2.5));
+            $data = [
+                "user"=> $item->id_user,
+                "nb" => floatval($this->history->getDispo($item->id_user) + 2.5),
+                "date" => date('Y-m-d'),
+            ];
+            $this->db->insert("l_history",$data);
         }
     }
 

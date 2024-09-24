@@ -11,7 +11,8 @@ class Main extends MX_Controller
         $this->load->module('security/authenticate');
         $this->load->module('admin/admin');
         $this->load->model('main_model', 'main');
-        $this->load->model('params_model', 'params');
+        $this->load->model('params/params_model', 'params');
+        $this->load->model('history/history_model','history');
         $this->load->module('mail/mail');
         $this->load->library('email');
     }
@@ -23,6 +24,7 @@ class Main extends MX_Controller
             $title = "Dashboard";
             $data['resp'] = $this->main->get_user_by_email($this->params->get_one_by_code("email_destinataire")->param_value);
             $data['publicholiday'] = $this->main->get_all_calendar_date();
+            $data['dispo'] = $this->history->getDispo($user['id_user']);
             $content = $this->load->view('main', $data, TRUE);
             $this->display($content, TRUE, $title);
         } else {
@@ -45,42 +47,50 @@ class Main extends MX_Controller
         }
         $this->load->view('index', $html);
     }
-
+ 
     public function add_leave()
     {
-        // var_dump($this->getSunday(2022, 02));
         $user = $this->session->userdata('user');
         $desc = $this->input->post('u_descr');
-        // Here -> atao date ajout ref congé compensé
-        $nbJrest = $this->input->post('l_type') === "Autorisation d'absence" ? $user['u_dispo'] : $user['u_dispo'] - $this->input->post('nbJpris');
+        $start = $this->input->post('l_dateDepart');
+        $back = $this->input->post('l_dateFin');
+        $hstart = $this->input->post('l_dateDepart-option');
+        $hback = $this->input->post('l_dateFin-option');
 
+        $pris = $this->calcul_nbJour($start,$back) - $this->main->getDayOff($start,$back);
+        if($hstart === "12:00" && $hback === "12:00") {
+            $pris = $pris - 1;
+        } else if($hstart === "12:00" ||  $hback === "12:00") {$pris = $pris - 0.5;}
         $data = array(
             "l_type" => $this->input->post('l_type'),
-            "l_dateDepart" => $desc != null ? null : $this->input->post('l_dateDepart') . " " . $this->input->post('l_dateDepart-option'),
-            "l_dateFin" => $desc != null ? null : $this->input->post('l_dateFin') . " " . $this->input->post('l_dateFin-option'),
+            "l_dateDepart" => $desc != null ? date("Y-m-d H:i:s") : $start . " " . $hstart,
+            "l_dateFin" => $desc != null ? null : $back . " " . $hback,
             "l_responsable" => $this->input->post('u_responsable'),
-            "l_nbJpris" => $this->input->post('nbJpris'),
-            "l_nbJrest" => $nbJrest,
-            "l_nbJdispo" => $this->input->post('u_dispo'),
+            "l_nbJpris" => $pris,
             "l_statut" => 0,
             "l_archived" => 0,
             "l_idUser" => $this->input->post('id_user'),
         );
-
         $this->main->insert_leave($data);
-        $user['u_dispo'] = $nbJrest;
-        $this->main->update_dispo($user['id_user'], $nbJrest);
-        $this->session->set_userdata('user', $user);
-
         $user['descr'] = $desc;
         $this->mail->send_deposite($user);
 
         $this->session->set_flashdata('alert', "NOTE : Demande de congé envoyée, vous recevrez un mail lorsque le responsable aura fini d'examiner votre demande.");
     }
 
-    private function calcul_nbJour($d2, $d1)
+    private function calcul_nbJour($d1,$d2)
     {
-        return round((strtotime($d2) - strtotime($d1)) / 60 / 60 / 24, 0);
+        $start = new DateTime($d1);
+        $end = new DateTime($d2);
+        $count = 0;
+        while ($start <= $end) {
+            if ($start->format('w') != 0) { 
+                $count++;
+            }
+            $start->modify('+1 day');
+        }
+
+        return $count;
     }
 
     private function get_sunday($y, $m)
