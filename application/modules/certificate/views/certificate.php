@@ -8,11 +8,12 @@
     </div>
     <?php } ?>
     <form class="bg-white p-4" action="certificate/setkey" method='POST'>
-        <p>ajouter une nouvelle clé</p>
+        <p>Ajouter une nouvelle clé</p>
         <div class="mb-3">
-        <input type="text" placeholder="nouveau clé" name="key" class="form-control">
+        <input type="text" placeholder="nouvelle clé" name="key" class="form-control">
         </div>
-        <div class="text-end">
+        <div class="text-right">
+        <a href="/" class="btn btn-secondary">accueil</a>
         <button class="btn btn-primary">enregistrer</button>
         </div>
     </form>
