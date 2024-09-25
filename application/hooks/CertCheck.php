@@ -6,6 +6,13 @@ class CertCheck{
     public function check_certificate(){
         $CI =& get_instance();
         $class = $CI->router->fetch_class();
+        $method = $CI->router->fetch_method();
+
+        if($method ==="expire" && $CI->session->userdata('certified') !== NULL){
+            redirect('/');
+            return;
+        }
+        
         if ($class !== "certificate") {
             if($CI->session->userdata('certified') === NULL){
                 $CI->load->model('certificate/Certificate_model','crtmodel');
