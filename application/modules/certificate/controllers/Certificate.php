@@ -15,6 +15,14 @@ class Certificate extends MX_Controller {
 
     }
 
+
+    function expire(){
+        $content =  $this->load->view('expire');
+        $this->display($content,FALSE,'certificate expiré');
+
+    }
+
+
     function setkey(){
         $key = $this->input->post('key');
         $this->crtmodel->setkey($key);
