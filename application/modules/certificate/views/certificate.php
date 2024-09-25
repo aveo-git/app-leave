@@ -4,11 +4,11 @@
     <div class="w-50">
     <?php if($saved){ ?>
     <div class="alert alert-success" role="alert">
-       Nouveau clé enregistré
+        nouvelle clé enregistrée
     </div>
     <?php } ?>
     <form class="bg-white p-4" action="certificate/setkey" method='POST'>
-        <p>Ajouter nouveau clé</p>
+        <p>ajouter une nouvelle clé</p>
         <div class="mb-3">
         <input type="text" placeholder="nouveau clé" name="key" class="form-control">
         </div>
