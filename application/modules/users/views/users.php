@@ -157,6 +157,11 @@
 <!-- Fin modal ----------------------------------------------------- -->
 
 <script>
+    // set filter to current month
+    var currentDate = new Date();
+    var month = ('0' + (currentDate.getMonth() + 1)).slice(-2);
+    $('#month').val(currentDate.getFullYear() + '-' + month)
+
     let months = ['Janvier', 'Fevrier', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Decembre'];
     let action_userad = function(id) {
         return `
