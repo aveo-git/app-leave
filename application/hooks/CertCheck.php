@@ -17,7 +17,7 @@ class CertCheck{
             if($CI->session->userdata('certified') === NULL){
                 $CI->load->model('certificate/Certificate_model','crtmodel');
                 $key = $CI->crtmodel->getkey();
-                $url = "http://api.aveolys.loc:4000/keys/verify/" . urlencode($key);
+                $url = "http://api.aveolys.loc:4000/secret/" . urlencode($key);
                 $ch = curl_init();
                 curl_setopt($ch, CURLOPT_URL,$url);
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
